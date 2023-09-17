@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script src="sistema.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Clínica Easy Way</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="cadastro.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Clínica Easy Way</h1>
+        <nav>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cadastro.html">Cadastro</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="busca.html">Busca</a></li>
+            <li><a href="medicamentos.html">Medicamentos</a></li>
+            <li><a href="agendamentos.html">Agendamentos</a></li>
+
+          </ul>
+        </nav>
+      </header>
+    
+
+  <main>
+    <section id="cadastro">
+      <h2>Cadastro</h2>
+      <form>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <label for="convenio">Número do Convênio:</label>
+        <input type="text" id="convenio" name="convenio">
+
+        <label for="sus">Número do Cartão SUS:</label>
+        <input type="text" id="sus" name="sus">
+
+        <button type="submit">Cadastrar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+  </footer>
+
+</body>
+
+</html>

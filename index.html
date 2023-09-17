@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clínica Easy Way</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Clínica Easy Way</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="busca.html">Busca</a></li>
+        <li><a href="medicamentos.html">Medicamentos</a></li>
+        <li><a href="agendamentos.html">Agendamentos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home">
+      <h2>Bem-vindo à Clínica Médica</h2>
+      <p>Esta é a página inicial da clínica. Aqui você pode encontrar informações sobre nossos serviços e realizar ações como
+        cadastro, login e busca.</p>
+    </section>
+
+    <section id="login">
+      <h2>Login</h2>
+      <form id="login-form">
+        <label for="email-login">Email:</label>
+        <input type="email" id="email-login" name="email-login">
+
+        <label for="senha-login">Senha:</label>
+        <input type="password" id="senha-login" name="senha-login">
+
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-error" style="color: red; display: none;">Login falhou. Verifique suas credenciais.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+
+</html>
