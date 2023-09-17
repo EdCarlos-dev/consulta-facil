@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clínica Easy Way</title>
+  <title>Clínica Easy Way - Recuperar Senha</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   <header>
     <h1>Clínica Easy Way</h1>
@@ -22,21 +20,25 @@
       </ul>
     </nav>
   </header>
-
   <main>
-    <section id="home">
-      <h2>Bem-vindo à Clínica Médica</h2>
-      <p>Esta é a página inicial da clínica. Aqui você pode encontrar informações sobre nossos serviços e realizar ações como
-        cadastro, login e busca.</p>
+    <section id="recuperar-senha">
+      <h2>Recuperar Senha</h2>
+      <form id="recuperar-senha-form">
+        <label for="email-recuperar-senha">Email:</label>
+        <input type="email" id="email-recuperar-senha" name="email-recuperar-senha" required>
+
+        <button type="submit">Enviar Link de Recuperação</button>
+      </form>
+
+      <div id="recuperar-senha-message"></div>
+      
+      <a href="login.html">Voltar para o Login</a>
     </section>
-
   </main>
-
   <footer>
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
 
-  <script src="index.js"></script>
+  <!-- Inclua seu arquivo JavaScript relevante aqui, se necessário -->
 </body>
-
 </html>
