@@ -4,7 +4,7 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = 3001;
+const port = 3306;
 
 // Middleware para processar dados de formulário
 app.use(bodyParser.urlencoded({ extended: false }));
