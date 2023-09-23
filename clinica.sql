@@ -1,8 +1,5 @@
--- Crie um banco de dados se necessário
-CREATE DATABASE clinica;
-
--- Use o banco de dados
-USE clinica;
+use clinica;
+create database clinica;
 
 -- Crie uma tabela para armazenar informações de pacientes
 CREATE TABLE pacientes (
@@ -36,3 +33,15 @@ CREATE TABLE medicamentos_receitas (
   FOREIGN KEY (receita_id) REFERENCES receitas(id),
   FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id)
 );
+
+CREATE TABLE medico (
+id int auto_increment primary key,
+nome varchar (250) not null,
+email varchar (250) not null,
+senha varchar (250) not null,
+crm varchar (13) not null,
+especialidade varchar (50) not null
+);
+
+select * from pacientes; 
+

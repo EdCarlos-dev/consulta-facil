@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro - Clínica Easy Way</title>
   <link rel="stylesheet" href="style.css">
-  <script src="cadastro.js"></script>
+  <script src="especialidade.js"></script>
 </head>
 
 <body>
@@ -28,29 +28,23 @@
     
 
   <main>
-    <section id="agendamento">
-      <h2>Agendamentos</h2>
-        <form>
-               
-        <label for="convenio">Número do Convênio:</label>
-        <input type="text" id="convenio" name="convenio">
+    <h2>Marcar nova consulta</h2>
+      <form>
+        <label for="especialidade">Escolha a especialidade desejada:</label>
 
-        <label for="sus">Número do Cartão SUS:</label>
-        <input type="text" id="sus" name="sus"> <br> </br>
+        <section class="especialidade" id="especialidade">
+          <button id="scrollToEspecialidade">Ir para a escolha de especialidade</button> </section> </form>
 
-        <button type="submit">Acessar consultas</button>
+        <script src="/especialidade.js" type="scroll/javascript"></script>
+        <button type="submit">Marcar consulta</button>
+      </form>
+    </section> <br> </br>
 
-        </form>
-    </section>
-
-    </section>
-
-  </main> 
-
-  <footer>
-    <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
-  </footer>
-
-</body>
-
-</html>
+    <footer>
+        <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+      </footer>
+    
+    </body>
+    
+    </html>
+    

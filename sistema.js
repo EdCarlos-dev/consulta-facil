@@ -1,25 +1,25 @@
 class Sistema {
     constructor() {
-      this.usuarios = [];
+      this.pacientes = [];
     }
   
-    adicionarUsuario(usuario) {
-      this.usuarios.push(usuario);
+    adicionarPacientes(pacientes) {
+      this.pacientes.push(pacientes);
     }
   
-    buscarUsuarioPorNome(nome) {
-      return this.usuarios.find(usuario => usuario.nome === nome);
-    }
+    buscarPacientesPorNome(nome) {
+      return this.pacientes.find(this.pacientes = pacietes.nome === nome);
+    } 
   
-    removerUsuario(usuario) {
-      const index = this.usuarios.indexOf(usuario);
+    removerPacientes(pacientes) {
+      const index = this.pacientes.indexOf(pacientes);
       if (index !== -1) {
-        this.usuarios.splice(index, 1);
+        this.pacientes.splice(index, 1);
       }
     }
   
     login(email, senha) {
-      return this.usuarios.find(usuario => usuario.email === email && usuario.senha === senha);
+      return this.pacientes.find(pacientes => pacientes.nome === nome && pacientes.email === email && pacientes.senha === senha);
     }
   }
   
