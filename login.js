@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const loginForm = document.querySelector('#login-form');
+  const loginMessage = document.querySelector('#login-message');
 
   loginForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -25,11 +26,13 @@ document.addEventListener('DOMContentLoaded', function () {
       .then((data) => {
         if (data.success) {
           // Autenticação bem-sucedida, redirecione o usuário ou execute ações necessárias
-          alert('Autenticação bem-sucedida. Você será redirecionado para a página de perfil.');
-          window.location.href = '/perfil.html'; // Redirecionar para a página de perfil
+          loginMessage.textContent = 'Autenticação bem-sucedida. Redirecionando para a página de perfil...';
+          setTimeout(function () {
+            window.location.href = '/perfil.html'; // Redirecionar para a página de perfil
+          }, 2000); // Redirecionar após 2 segundos
         } else {
           // Exiba uma mensagem de erro para o usuário
-          alert('Credenciais inválidas. Tente novamente.');
+          loginMessage.textContent = 'Credenciais inválidas. Tente novamente.';
         }
       })
       .catch((error) => {

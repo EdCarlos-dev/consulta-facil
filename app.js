@@ -6,7 +6,7 @@ const path = require('path');
 
 // Rota para abrir o arquivo login.js
 app.get('/login.js', (req, res) => {
-  // Caminho relativo para o arquivo login.js a partir do diretório atual (onde app.js está localizado)
+  // Caminho para o arquivo login.js no seu diretório de projeto
   const loginJSPath = path.join(__dirname, 'login.js');
 
   // Envie o arquivo login.js como resposta
