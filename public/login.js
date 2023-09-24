@@ -25,14 +25,15 @@ document.addEventListener('DOMContentLoaded', function () {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          // Autenticação bem-sucedida, redirecione o usuário ou execute ações necessárias
-          loginMessage.textContent = 'Autenticação bem-sucedida. Redirecionando para a página de perfil...';
+          // Autenticação bem-sucedida, mostrar mensagem de sucesso
+          loginMessage.textContent = 'Autenticação bem-sucedida.';
           setTimeout(function () {
-            window.location.href = '/perfil.html'; // Redirecionar para a página de perfil
+            window.location.href = '/'; // Redirecionar para a página de inicio
           }, 2000); // Redirecionar após 2 segundos
         } else {
-          // Exiba uma mensagem de erro para o usuário
+          // Credenciais inválidas, mostrar mensagem de erro
           loginMessage.textContent = 'Credenciais inválidas. Tente novamente.';
+          alert('Credenciais inválidas. Tente novamente.'); // Exibir alerta
         }
       })
       .catch((error) => {

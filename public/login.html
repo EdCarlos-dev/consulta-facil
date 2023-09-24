@@ -4,21 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clínica Easy Way - Login</title>
-  <link rel="stylesheet" href="/public/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <h1>Clínica Easy Way</h1>
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="busca.html">Busca</a></li>
-        <li><a href="medicamentos.html">Medicamentos</a></li>
-        <li><a href="agendamentos.html">Agendamentos</a></li>
-        <li><a href="marcarconsulta.html">Marcar consulta</a></li>
-      </ul>
+      
     </nav>
   </header>
   <main>
@@ -31,17 +23,19 @@
         <label for="senha">Senha:</label>
         <input type="password" id="senha" name="senha" required>
 
-        <button type="submit">Entrar</button>
+        <button id="botao-login" type="submit">Entrar</button>
       </form>
 
       <div id="login-message"></div>
       
-      <a href="recuperar-senha.html">Esqueci a senha</a>
+      <a href="/recuperar-senha">Esqueci a senha</a>
     </section>
   </main>
   <footer>
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
+
+  <script src="menu_generate.js"></script>
 
   <script src="login.js"></script>
 </body>
