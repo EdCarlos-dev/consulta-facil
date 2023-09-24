@@ -1,57 +1,39 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require('bcrypt');
+document.addEventListener('DOMContentLoaded', function () {
+  const loginForm = document.querySelector('#login-form');
 
-const app = express();
-const port = 3306;
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-// Middleware para processar dados de formulário
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+    const email = document.querySelector('#email').value;
+    const senha = document.querySelector('#senha').value;
 
-// Conexão com o banco de dados SQLite (clinica.sql)
-const db = new sqlite3.Database('clinica.sql', sqlite3.OPEN_READWRITE, (err) => {
-  if (err) {
-    console.error(err.message);
-  } else {
-    console.log('Conectado ao banco de dados SQLite');
-  }
-});
+    // Crie um objeto com os dados do formulário
+    const formData = {
+      email: email,
+      senha: senha,
+    };
 
-// Rota de autenticação de login
-app.post('/api/login', (req, res) => {
-  const { email, senha } = req.body;
-
-  // Consulta o banco de dados para encontrar o paciente pelo email
-  const sql = 'SELECT * FROM pacientes WHERE email = ?';
-
-  db.get(sql, [email], (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-
-    if (!row) {
-      return res.status(401).json({ error: 'Credenciais inválidas' });
-    }
-
-    // Compara a senha fornecida com a senha armazenada no banco de dados
-    bcrypt.compare(senha, row.senha, (bcryptErr, result) => {
-      if (bcryptErr) {
-        return res.status(500).json({ error: 'Erro interno do servidor' });
-      }
-
-      if (result) {
-        // Autenticação bem-sucedida, pode gerar um token de autenticação aqui, por exemplo
-        res.status(200).json({ success: true, message: 'Autenticação bem-sucedida' });
-      } else {
-        res.status(401).json({ error: 'Credenciais inválidas' });
-      }
-    });
+    // Faça uma solicitação POST para a rota /api/login no servidor
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          // Autenticação bem-sucedida, redirecione o usuário ou execute ações necessárias
+          alert('Autenticação bem-sucedida. Você será redirecionado para a página de perfil.');
+          window.location.href = '/perfil.html'; // Redirecionar para a página de perfil
+        } else {
+          // Exiba uma mensagem de erro para o usuário
+          alert('Credenciais inválidas. Tente novamente.');
+        }
+      })
+      .catch((error) => {
+        console.error('Erro na solicitação:', error);
+      });
   });
-});
-
-// Iniciar o servidor
-app.listen(port, () => {
-  console.log(`Servidor em execução na porta ${port}`);
 });

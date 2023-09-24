@@ -36,4 +36,4 @@ class Database {
   }
 }
 
-module.exports = new Database(); // Exporte uma instância única do Database
+module.exports = Database; // Exporte a classe Database diretamente

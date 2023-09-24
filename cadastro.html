@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script src="sistema.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro - Clínica Easy Way</title>
   <link rel="stylesheet" href="style.css">
-  // <script src="cadastro.js"></script> 
-  
 </head>
 
 <body>
-    <header>
-        <h1>Clínica Easy Way</h1>
-        <nav>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="cadastro.html">Cadastro</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="busca.html">Busca</a></li>
-            <li><a href="medicamentos.html">Medicamentos</a></li>
-            <li><a href="agendamentos.html">Agendamentos</a></li>
-            <li><a href="marcarconsulta.html">Marcar consulta</a></li>
-
-          </ul>
-        </nav>
-      </header>
-    
+  <header>
+    <h1>Clínica Easy Way</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="busca.html">Busca</a></li>
+        <li><a href="medicamentos.html">Medicamentos</a></li>
+        <li><a href="agendamentos.html">Agendamentos</a></li>
+        <li><a href="marcarconsulta.html">Marcar consulta</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main>
     <section id="cadastro">
@@ -47,36 +42,16 @@
         <label for="sus">Número do Cartão SUS:</label>
         <input type="text" id="sus" name="sus">
 
-        <button type="submit" id="cadastro-paciente" onclick="cadastrarPaciente()">Cadastrar</button>
-        
-
-
-
-        
+        <button type="submit" id="cadastro-paciente">Cadastrar</button>
       </form>
     </section>
   </main>
-  <button  id="testefatec2023">Teste</button>
+  
   <footer>
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
-
+  <!-- Inclua os scripts JavaScript necessários no final do arquivo -->
+  <script src="banco.js"></script>
+  <script src="cadastro.js"></script>
 </body>
-
-<script src="banco.js">
-  
-  const button=document.getElementById("testefatec2023");
-  button.addEventListener("click", function()  {
-    // Exemplo de uso da classe
-    const db = new Database();
-        db.connect();
-        db.insertPaciente('Pedro', 'pedro@clinica.com.br', 'apolo');
-        db.closeConnection();
-
-        alert("Paciente cadastrado com sucesso!");
-
-  })
-  
-</script>
-
 </html>
