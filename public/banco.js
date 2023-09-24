@@ -1,7 +1,8 @@
 const mysql = require('mysql');
 const dbConfig = require('./dbconfig'); // Importe as configurações do banco de dados
 
-class Database {
+class Banco {
+  
   constructor() {
     this.connection = mysql.createConnection(dbConfig);
   }
@@ -34,6 +35,7 @@ class Database {
       console.log('Connection closed.');
     });
   }
+  var connection;
 }
 
-module.exports = new Database(); // Exporte uma instância única do Database
+module.exports = new Banco(); // Exporte uma instância única do Banco

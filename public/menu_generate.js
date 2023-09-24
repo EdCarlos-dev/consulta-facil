@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       { text: 'Agendamentos', link: 'public/agendamentos.html' },
 
-      { text: 'Marcar consulta', link: 'public/marcarconsulta.html' }
+      { text: 'Marcar consulta', link: '/marcar-consulta' }
 
     ];
 

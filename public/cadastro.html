@@ -44,7 +44,24 @@
         <label for="sus">Número do Cartão SUS:</label>
         <input type="text" id="sus" name="sus">
 
-        <button type="submit" id="cadastro-paciente">Cadastrar</button>
+        <button onclick="fazCadastro()" >Cadastrar</button>
+
+        <script src="/cadastro.js">function fazCadastro(){
+          alert('Testa função')
+        }</script>
+
+        <!-- <script src="banco.js">
+          function fazCadastro(){
+            // Crie uma instância da classe Banco
+            const db = new Banco();
+            db.connect();
+            db.insertPaciente (
+              'Pedro', 'pedro@empresa.com.br', '6666', '9989898989', '2020202020', null
+            );
+            db.closeConnection();
+          }
+        </script> --> 
+
       </form>
     </section>
   </main>
@@ -53,7 +70,8 @@
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
   <!-- Inclua os scripts JavaScript necessários no final do arquivo -->
-  <script src="banco.js"></script>
-  <script src="cadastro.js"></script>
+  
+  
 </body>
+
 </html>
