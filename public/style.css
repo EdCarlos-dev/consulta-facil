@@ -129,6 +129,28 @@ body {
   footer p {
     margin: 0;
   }
+
+  /* Seletor de elemento ao qual você deseja aplicar o background */
+  .background_to_forms {
+    background-image: url('public\img\bg.png');
+    /* Outras propriedades de background, como repetição, tamanho e posição */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
   
+ .background_to_forms_cadastro {
+  background-image: url('public\img\bg.png');
+  /* Outras propriedades de background, como repetição, tamanho e posição */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: chocolate;
+  /* width: 300px;
+  height: 200px; Outras propriedades de estilo para a sua div, se necessário */
+  
+}
+
   
   

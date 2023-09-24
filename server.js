@@ -26,16 +26,6 @@ app.get('/', function(req, res) {
 
 });
 
-// Rota para a página login
-
-app.get('/login', function(req, res) {
-
-  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
-
-  res.sendFile(__dirname + "/public/login.html");
-
-});
-
 // Rota para a página cadastro
 
 app.get('/cadastro', function(req, res) {
@@ -46,6 +36,32 @@ app.get('/cadastro', function(req, res) {
 
 });
 
+
+
+// Rota para a página cadastro
+
+app.get('/cadastro-medico', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/cadastromedico.html");
+
+});
+
+
+// Rota para a página login
+
+app.get('/login', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/login.html");
+
+});
+
+
+
+
 // Rota para a página esqueci senha
 
 app.get('/recuperar-senha', function(req, res) {
@@ -53,6 +69,36 @@ app.get('/recuperar-senha', function(req, res) {
   // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
 
   res.sendFile(__dirname + "/public/recuperar-senha.html");
+
+});
+
+// Rota para a página busca
+
+app.get('/busca', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/busca.html");
+
+});
+
+// Rota para a página busca
+
+app.get('/medicamentos', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/medicamentos.html");
+
+});
+
+// Rota para a página busca
+
+app.get('/agendamentos', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/agendamentos.html");
 
 });
 
@@ -66,15 +112,9 @@ app.get('/marcar-consulta', function(req, res) {
 
 });
 
-// Rota para a página busca
 
-app.get('/busca', function(req, res) {
 
-  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
 
-  res.sendFile(__dirname + "/public/busca.html");
-
-});
 
 // Rota para receber solicitações de login
 app.post('/api/login', async (req, res) => {

@@ -13,26 +13,22 @@
     <header>
         <h1>Clínica Easy Way</h1>
         <nav>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="cadastroMedico.html">Cadastro</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="busca.html">Busca</a></li>
-            <li><a href="medicamentos.html">Medicamentos</a></li>
-            <li><a href="agendamentos.html">Agendamentos</a></li>
-            <li><a href="marcarconsulta.html">Marcar consulta</a></li>
 
-          </ul>
         </nav>
       </header>
     
+<div >
 
   <main>
-    <section id="cadastro">
-      <h2>Cadastro</h2>
-      <form>
+    <section class="background_to_forms_cadastro" id="cadastro">
+
+      <h2>Cadastro Médico</h2>
+      <form  >
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
+
+        <label for="crm">CRM:</label>
+        <input type="text" id="crm" name="crm" required>
 
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
@@ -40,21 +36,20 @@
         <label for="senha">Senha:</label>
         <input type="password" id="senha" name="senha" required>
 
-        <label for="CRM">CRM:</label>
-        <input type="text" id="convenio" name="convenio">
-
-        <label for="">:</label>
-        <input type="text" id="sus" name="sus">
+        <label for="confirmar-senha">Confirmar-Senha:</label>
+        <input type="password" id="confirmar-senha" name="confirmar-senha" required>
 
         <button type="submit">Cadastrar</button>
       </form>
     </section>
   </main>
+</div>
+
 
   <footer>
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
-
+  <script src="menu_generate.js"></script>
 </body>
 
 </html>

@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       { text: 'Busca', link: '/busca' },
 
-      { text: 'Medicamentos', link: 'public/medicamentos.html' },
+      { text: 'Medicamentos', link: '/medicamentos' },
 
-      { text: 'Agendamentos', link: 'public/agendamentos.html' },
+      { text: 'Agendamentos', link: '/agendamentos' },
 
       { text: 'Marcar consulta', link: '/marcar-consulta' }
 
