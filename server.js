@@ -8,11 +8,22 @@ const port = 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Rota para a página inicial
-app.get('/login.js', (req, res) => {
+// Rota para a página login
+app.get('/login.js', function(req, res) {
   // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
-  res.send('<h1>Bem-vindo à Clínica Easy Way</h1>');
-  res.send ('<header><h1>Clínica Easy Way</h1>')
+  res.sendFile(__dirname + "/public/login.html");
+});
+
+// Rota para a página inicial
+app.get('/index.js', function(req, res) {
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+  res.sendFile(__dirname + "/public/index.html");
+});
+
+// Rota para a página cadastro
+app.get('/cadastro.js', function(req, res) {
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+  res.sendFile(__dirname + "/public/cadastro.html");
 });
 
 // Rota para receber solicitações de login
