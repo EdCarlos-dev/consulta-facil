@@ -1,5 +1,20 @@
+require('dotenv').config({path:'variaveis.env'});
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
+
+const routes = require('./routes');
+
+const server = express();
+server.use(cors());
+server.use(bodyParser.urlencoded({extended: false}));
+
+server.use('/api', routes);
+
+server.listen(process.env.PORT, ()=>{
+  console.log('Servidor rodando em: http://localhost:${process.env.PORT}');
+})
+
 const bcrypt = require('bcrypt');
 const path = require('path'); // Importe o módulo 'path' para manipular caminhos de arquivos
 const app = express();
@@ -116,25 +131,3 @@ app.get('/marcar-consulta', function(req, res) {
 
 
 
-// Rota para receber solicitações de login
-app.post('/api/login', async (req, res) => {
-  const { email, senha } = req.body;
-
-  // Valide as credenciais usando a função validarCredenciais.
-  const pacienteAutenticado = await validarCredenciais(email, senha);
-
-  if (pacienteAutenticado) {
-    // Credenciais válidas: autenticação bem-sucedida.
-    res.json({ success: true, paciente: pacienteAutenticado });
-  } else {
-    // Credenciais inválidas: autenticação falhou.
-    res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
-  }
-});
-
-// Outras rotas e configurações...
-
-// Inicie o servidor
-app.listen(port, () => {
-  console.log(`Servidor em execução na porta ${port}`);
-});
