@@ -1,13 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
+// const bodyParser = require('body-parser');
+// const bcrypt = require('bcrypt');
 const path = require('path'); // Importe o módulo 'path' para manipular caminhos de arquivos
 const app = express();
 const port = 3000;
 
 // Middleware para processar dados de formulário
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
 
 // Middleware para servir arquivos estáticos, incluindo o CSS
 app.use(express.static(path.join(__dirname, '/public/style.css')));
