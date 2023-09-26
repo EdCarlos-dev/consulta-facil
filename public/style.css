@@ -1,146 +1,155 @@
 /* Estilo global */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #F2F5F9;
-  }
-  
-  h1, h2, h3 {
-    color: #2D3E50;
-  }
-  
-  p {
-    color: #000000;
-  }
-  
-  a {
-    color: #2D3E50;
-    text-decoration: none;
-  }
-  
-  header {
-    background-color: #006C6E;
-    padding: 20px;
-    color: #FFFFFF;
-  }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F2F5F9;
+}
 
-  main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h1, h2 {
-    color: #2e856e;
-  }
-  
-  
-  nav ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  nav ul li {
-    display: inline;
-    margin-right: 10px;
-  }
-  
-  nav ul li a {
-    color: #FFFFFF;
-  }
-  
-  section {
-    padding: 20px;
-  }
-  
-  form {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  button[type="submit"] {
-    background-color: #2e856e;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #266e5c;
-  }
+h1, h2, h3 {
+  color: #2D3E50;
+}
 
-  #map {
-    width: 100%;
-    height: 400px;
-    background-color: #FFFFFF;
-  }
-  
-  footer {
-    background-color: #2e856e;
-    padding: 10px;
-    color: #fff;
-    text-align: center;
-  }
+p {
+  color: #000000;
+}
 
-  
-  /* Estilos específicos */
-  
-  #home {
-    background-image: url('images/home-background.jpg');
-    background-size: cover;
-    color: #FFFFFF;
-    text-align: center;
-    padding: 100px;
-  }
-  
-  #cadastro, #login, #busca {
-    background-color: #E6F5F6;
-    border-radius: 5px;
-  }
-  
-  #cadastro form label, #login form label, #busca form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  #cadastro button, #login button, #busca button {
-    width: auto;
-    margin-top: 10px;
-  }
-  
-  footer p {
-    margin: 0;
-  }
+a {
+  color: #2D3E50;
+  text-decoration: none;
+}
 
-  /* Seletor de elemento ao qual você deseja aplicar o background */
-  .background_to_forms {
-    background-image: url('public\img\bg.png');
-    /* Outras propriedades de background, como repetição, tamanho e posição */
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
+header {
+  background-color: #006C6E;
+  padding: 20px;
+  color: #FFFFFF;
+}
 
-  
- .background_to_forms_cadastro {
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #2e856e;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #FFFFFF;
+}
+
+section {
+  padding: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button[type="submit"],
+button.btn-atualizar { /* Estilo para o botão "Atualizar" no perfil do paciente */
+  background-color: #2e856e;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px; /* Aumente o raio para torná-lo mais arredondado */
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Alinhe o ícone verticalmente */
+  font-weight: bold;
+  text-decoration: none; /* Remova a decoração de texto */
+}
+
+button[type="submit"]:hover,
+button.btn-atualizar:hover { /* Estilo para o botão "Atualizar" no perfil do paciente quando passa o mouse */
+  background-color: #266e5c; /* Cor mais escura ao passar o mouse */
+}
+
+#map {
+  width: 100%;
+  height: 400px;
+  background-color: #FFFFFF;
+}
+
+footer {
+  background-color: #2e856e;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Estilos específicos */
+
+#home {
+  background-image: url('images/home-background.jpg');
+  background-size: cover;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 100px;
+}
+
+#cadastro,
+#login,
+#busca {
+  background-color: #E6F5F6;
+  border-radius: 5px;
+}
+
+#cadastro form label,
+#login form label,
+#busca form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#cadastro button,
+#login button,
+#busca button {
+  width: auto;
+  margin-top: 10px;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Seletor de elemento ao qual você deseja aplicar o background */
+.background_to_forms {
+  background-image: url('public\img\bg.png');
+  /* Outras propriedades de background, como repetição, tamanho e posição */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.background_to_forms_cadastro {
   background-image: url('public\img\bg.png');
   /* Outras propriedades de background, como repetição, tamanho e posição */
   background-repeat: no-repeat;
@@ -149,7 +158,6 @@ body {
   background-color: chocolate;
   /* width: 300px;
   height: 200px; Outras propriedades de estilo para a sua div, se necessário */
-  
 }
 
 /* Estilos específicos para os botões de login */
@@ -160,7 +168,8 @@ body {
 }
 
 /* Botão do Google */
-.btn-google {
+.btn-google,
+button.btn-atualizar { /* Estilo para o botão "Atualizar" no perfil do paciente */
   background: white;
   color: black;
   text-decoration: none;
@@ -173,7 +182,8 @@ body {
   border: none; /* Remova a borda externa */
 }
 
-.btn-google:hover {
+.btn-google:hover,
+button.btn-atualizar:hover { /* Estilo para o botão "Atualizar" no perfil do paciente quando passa o mouse */
   background: #f2f2f2; /* Cor de fundo ao passar o mouse */
 }
 
@@ -247,5 +257,3 @@ a:hover {
   border-bottom: none; /* Remove a linha pontilhada ao passar o mouse */
   text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
 }
-
-

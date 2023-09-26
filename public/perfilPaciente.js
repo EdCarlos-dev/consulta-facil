@@ -1,35 +1,25 @@
-var mysql = require('mysql')
-var dbConfig = require('dbconfig.js')
+// Função para atualizar o perfil do paciente com as informações fornecidas
+function atualizarPerfil() {
+  // Obtenha os valores dos campos
+  const nome = document.getElementById('nome').value;
+  const endereco = document.getElementById('endereco').value;
+  const pais = document.getElementById('pais').value;
+  const cep = document.getElementById('cep').value;
+  const rua = document.getElementById('rua').value;
+  const numero = document.getElementById('numero').value;
+  const complemento = document.getElementById('complemento').value;
+  const rg = document.getElementById('rg').value;
+  const cpf = document.getElementById('cpf').value;
 
-// Simule dados de entrada (substitua por seus próprios dados)
-const nome = 'Paulo';
-const email = 'paulo@email.com';
-const senha = '4321';
-const convenio = '12345'; // Número do convênio
-const sus = '9876543210'; // Número do cartão SUS
+  // Atualize o perfil com as informações
+  const perfilNome = document.getElementById('perfilNome');
+  perfilNome.innerHTML = `<b>Olá, ${nome}</b>`;
 
+  // Exiba uma mensagem de sucesso
+  alert('Perfil atualizado com sucesso!');
+}
 
-
-// Conecte-se ao banco de dados
-var con = mysql.createConnection(dbConfig);
-
-// Chame o método insertPaciente para inserir o paciente no banco de dados
-con.connect(function(error) {
-  if(error) throw error;
-  var sql = "insert into pacientes(nome, email senha, convenio, sus) values (?, ?, ?, ?, ?)";
-  var values = [nome, email, senha, convenio, sus];
-  
-  con.query(sql, values, function(error,result){
-
-  if (error) {
-    console.error('Erro ao cadastrar paciente:', error);
-  } else {
-    console.log('Paciente cadastrado com sucesso!',result);
-  }});
-} );
-
-  // Feche a conexão com o banco de dados, independentemente de haver erro ou sucesso
-  con.end(function(error){
-    if(error)throw error;
-  });
+// Adicione um ouvinte de evento para o botão "Atualizar"
+const atualizarButton = document.getElementById('atualizarButton');
+atualizarButton.addEventListener('click', atualizarPerfil);
 
