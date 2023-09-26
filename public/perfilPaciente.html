@@ -16,35 +16,11 @@
   </header>
 
   <main>
-    <section id="cadastro">
+    <section id="perfilPaciente">
+      <h2>Meu Perfil</h2>
+      <p><b>Olá ....</b></p>
 
-      <h2>Cadastro</h2>
-      <p><b>Crie sua conta agora com o Google, Facebook ou com seu e-mail.</b></p>
-
-
-      <!-- Botões de Login -->
-    <div class="btn-container">
-
-      <!-- Botão do Google -->
-      <div id="Googlebtn" class="btn-google">
-        <a href="#" class="btn-google">
-          <span class="icon-google"></span>
-          Login com Google
-        </a>
-      </div>
-
-      <!-- Botão do Facebook -->
-      <div id="Facebtn" class="btn-facebook">
-        <a href="#" class="btn-facebook">
-          <span class="icon-facebook"></span>
-          Login com Facebook
-        </a>
-      </div>
-    </div>
-
-
-    </section>
-<!-- Resto do formulário e outros elementos do HTML -->
+      <p><b>Atualize seu cadastro aqui</b></p>
       <form>
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" placeholder="Nome" required >
@@ -62,21 +38,13 @@
         <input type="text" id="convenio" name="convenio" placeholder="Digite o número do convênio">
 
         <label for="sus">Número do Cartão SUS:</label>
-        <input type="text" id="sus" name="sus" placeholder="Digite o número do cartão SUS">
-
-        <!-- Campo de concordância com os termos de uso -->
-        <div class="checkbox-container">
-          <input type="checkbox" id="concordoCheckbox" required>
-          <label for="concordoCheckbox">Concordo com os <a href="#">termos de uso</a></label>
-        </div>
-
-        <button type="submit" onclick="fazCadastro()" >Cadastrar</button>
+        <input type="text" id="sus" name="sus" placeholder="Digite o número do cartão SUS"> <br></br>
+        
+        <button type="submit" onclick="fazCadastro()" >Atualizar</button>
 
         <script src="/cadastro.js">function fazCadastro(){
           alert('Testa função')
         }</script>
-
-        <a color ="#2e856e" href="login.html"><p><b>Já tem uma conta? Faça o seu login aqui</b></p></a>
 
         <!-- <script src="banco.js">
           function fazCadastro(){

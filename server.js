@@ -112,6 +112,15 @@ app.get('/marcar-consulta', function(req, res) {
 
 });
 
+// Rota para a Perfil Paciente
+
+app.get('/perfilPaciente', function(req, res) {
+
+  // Você pode enviar um arquivo HTML como resposta ou renderizar uma página, dependendo da estrutura do seu projeto
+
+  res.sendFile(__dirname + "/public/perfilPaciente.html");
+
+});
 
 
 

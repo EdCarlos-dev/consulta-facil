@@ -11,7 +11,7 @@ body {
   }
   
   p {
-    color: #555555;
+    color: #000000;
   }
   
   a {
@@ -152,5 +152,100 @@ body {
   
 }
 
-  
-  
+/* Estilos específicos para os botões de login */
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Botão do Google */
+.btn-google {
+  background: white;
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px; /* Aumente o raio para torná-lo mais arredondado */
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Alinhe o ícone verticalmente */
+  font-weight: bold;
+  border: none; /* Remova a borda externa */
+}
+
+.btn-google:hover {
+  background: #f2f2f2; /* Cor de fundo ao passar o mouse */
+}
+
+/* Botão do Facebook */
+.btn-facebook {
+  background: white;
+  color: black;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px; /* Aumente o raio para torná-lo mais arredondado */
+  cursor: pointer;
+  display: flex;
+  align-items: center; /* Alinhe o ícone verticalmente */
+  font-weight: bold;
+  transition: background-color 0.3s; /* Transição suave de cor de fundo */
+  border: none; /* Remova a borda externa */
+}
+
+.btn-facebook:hover {
+  background: #f2f2f2; /* Cor de fundo ao passar o mouse */
+  color: #1877F2; /* Cor do texto ao passar o mouse */
+}
+
+/* Ícones */
+.icon-google,
+.icon-facebook {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40px; /* Ajuste o tamanho do ícone conforme necessário */
+  height: 40px; /* Ajuste o tamanho do ícone conforme necessário */
+  margin-right: 8px; /* Espaço entre o ícone e o texto */
+}
+
+.icon-google {
+  background-image: url('https://logospng.org/download/google/logo-google-4096.png'); /* Substitua com a URL correta do ícone do Google */
+}
+
+.icon-facebook {
+  background-image: url('https://cdn-icons-png.flaticon.com/256/124/124010.png'); /* Substitua com a URL correta do ícone do Facebook */
+}
+
+/* Estilo para o campo de concordância */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin: 20px auto; /* Centraliza vertical e horizontalmente */
+}
+
+input[type="checkbox"] {
+  margin-right: 10px; /* Espaço entre a caixa de seleção e o texto */
+}
+
+label {
+  font-weight: normal; /* Remove negrito do texto */
+}
+
+a {
+  color: #2e856e;
+  text-decoration: none;
+  border-bottom: 1px dashed #2e856e; /* Adiciona linha pontilhada sob o link */
+}
+
+input[type="checkbox"]:required:invalid + label::before {
+  content: "*"; /* Adiciona asterisco antes do texto quando não está marcado */
+  color: #FF0000; /* Cor vermelha para o asterisco */
+  margin-right: 5px; /* Espaço entre o asterisco e o texto */
+}
+
+/* Estilo para o link quando hover */
+a:hover {
+  border-bottom: none; /* Remove a linha pontilhada ao passar o mouse */
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+

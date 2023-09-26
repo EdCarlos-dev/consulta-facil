@@ -16,13 +16,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       { text: 'Login', link: '/login' },
 
+      { text: 'Meu Perfil', link: '/perfilPaciente' },
+
       { text: 'Busca', link: '/busca' },
 
       { text: 'Medicamentos', link: '/medicamentos' },
 
-      { text: 'Agendamentos', link: '/agendamentos' },
+      { text: 'Marcar consulta', link: '/marcar-consulta' },
+      
+      { text: 'Agendamentos', link: '/agendamentos' }
 
-      { text: 'Marcar consulta', link: '/marcar-consulta' }
+      
+
+      
 
     ];
 
