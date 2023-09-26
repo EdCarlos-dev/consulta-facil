@@ -19,8 +19,10 @@
   <main>
     <section id="perfilPaciente">
       <h2>Meu Perfil</h2>
-      <div id="perfilFoto">
-        <img src="avatar.jpg" alt="Foto de Perfil"> <!-- Adicione a URL da foto de perfil aqui -->
+      <div id="perfilFoto" class="perfil-foto-wrapper">
+        <img id="fotoPerfil" src="avatar.jpg" alt="Foto de Perfil"> <!-- Adicione a URL da foto de perfil aqui -->
+        <button id="trocarImagemButton">Trocar Imagem</button> <!-- Botão para trocar a imagem -->
+        <input type="file" id="inputImagem" accept="image/*" style="display: none;"> <!-- Input para seleção de imagem -->
       </div>
       <p id="perfilNome"><b>Olá, [Nome do Paciente]</b></p>
 

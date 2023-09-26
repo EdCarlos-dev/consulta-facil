@@ -212,8 +212,8 @@ button.btn-atualizar:hover { /* Estilo para o botão "Atualizar" no perfil do pa
 .icon-facebook {
   background-size: contain;
   background-repeat: no-repeat;
-  width: 40px; /* Ajuste o tamanho do ícone conforme necessário */
-  height: 40px; /* Ajuste o tamanho do ícone conforme necessário */
+  width:  35px; /* Ajuste o tamanho do ícone conforme necessário */
+  height: 35px; /* Ajuste o tamanho do ícone conforme necessário */
   margin-right: 8px; /* Espaço entre o ícone e o texto */
 }
 
@@ -256,4 +256,27 @@ input[type="checkbox"]:required:invalid + label::before {
 a:hover {
   border-bottom: none; /* Remove a linha pontilhada ao passar o mouse */
   text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+* Estilo para o contêiner do cabeçalho do perfil */
+.perfil-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; /* Espaçamento entre o cabeçalho e o resto do conteúdo */
+}
+
+/* Estilo para a imagem de perfil */
+.perfil-foto-wrapper {
+  width: 100px; /* Defina o tamanho desejado para a imagem */
+  height: 100px; /* Defina o tamanho desejado para a imagem */
+  border: 2px solid #ccc; /* Borda cinza */
+  border-radius: 50%; /* Borda circular */
+  overflow: hidden; /* Recorta a imagem para ficar dentro do círculo */
+}
+
+#fotoPerfil {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Mantém a proporção da imagem e preenche o círculo */
 }

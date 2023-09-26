@@ -23,3 +23,25 @@ function atualizarPerfil() {
 const atualizarButton = document.getElementById('atualizarButton');
 atualizarButton.addEventListener('click', atualizarPerfil);
 
+// Adicione um ouvinte de evento para o botão "Trocar Imagem"
+const trocarImagemButton = document.getElementById('trocarImagemButton');
+const inputImagem = document.getElementById('inputImagem');
+const fotoPerfil = document.getElementById('fotoPerfil');
+
+trocarImagemButton.addEventListener('click', () => {
+  inputImagem.click();
+});
+
+inputImagem.addEventListener('change', (event) => {
+  const imagemSelecionada = event.target.files[0];
+
+  if (imagemSelecionada) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      fotoPerfil.src = e.target.result;
+    };
+
+    reader.readAsDataURL(imagemSelecionada);
+  }
+});
