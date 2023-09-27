@@ -48,7 +48,6 @@ sequelize.sync({ alter: true })
   });
 
 // Middleware para processar dados de formulário
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Middleware para servir arquivos estáticos, incluindo o CSS
@@ -120,23 +119,25 @@ app.get('/perfilPaciente', function(req, res) {
 
 // Rota para requisição de novo login
 app.post("/login", async (req, res) => {
+
+  console.log(req.body);
+
+  await User.create(req.body)
+  .then(() => {
+    return res.json({
+      erro: false,
+      mensagem: "Login efetuado com sucesso"
+    })
+
+  }).catch(() => {
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Login inválido. Verifique os dados e tente novamente."
+    });
+  });
+
   const { email, senha } = req.body;
 
-  // Valide as credenciais de login usando o Sequelize
-  try {
-    const usuario = await User.findOne({ where: { email } });
-
-    if (usuario) {
-      // Verifique a senha aqui e lide com a autenticação
-      // ...
-      res.json({ success: true, message: 'Autenticado com sucesso' });
-    } else {
-      res.status(401).json({ success: false, message: 'Credenciais inválidas.' });
-    }
-  } catch (error) {
-    console.error('Erro ao buscar usuário:', error);
-    res.status(500).json({ success: false, message: 'Erro interno do servidor' });
-  }
 });
 
 // Outras rotas e configurações...
