@@ -2,11 +2,14 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+
 // Outras configurações do Express...
 
-// Rota para abrir o arquivo login.js
-app.get('/login.js', (req, res) => {
-  // Caminho para o arquivo login.js no seu diretório de projeto
+// Rota para abrir o arquivo
+app.get('/', async (req, res) => {
+
+  res.send("Página inicial");
+  
   const loginJSPath = path.join(__dirname, 'login.js');
 
   // Envie o arquivo login.js como resposta
@@ -15,7 +18,7 @@ app.get('/login.js', (req, res) => {
 
 // Outras rotas e configurações...
 
-// Inicie o servidor Express...
+// Executar o projeto
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Servidor Express em execução na porta ${port}`);

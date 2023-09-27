@@ -16,22 +16,18 @@
   <main>
     <section id="login">
       <h2>Login</h2>
-      <form id="login-form">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+      <form id="login-form" action="/login" method="POST"> <!-- Defina a ação como a rota de login e o método como POST -->
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required>
+          <label for="senha">Senha:</label>
+          <input type="password" id="senha" name="senha" required>
 
-        <button id="botao-login" type="submit">Entrar</button>
+          <button id="botao-login" type="submit">Entrar</button> <!-- Use type="submit" para enviar o formulário -->
       </form>
 
       <div id="login-message"></div>
-      
-      <a color ="#2e856e" href="/recuperar-senha"><p><b>Esqueci a senha</b></p></a>
-      <a color ="#2e856e" href="cadastro.html"><p><b>Não possui conta conosco? Faça sua conta agora</b></p></a>
-      
-    </section>
+  </section>
   </main>
   <footer>
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>

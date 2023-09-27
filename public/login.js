@@ -52,8 +52,8 @@ async function consultarPacientePorEmail(email) {
 }
 
 // Função para validar as credenciais do paciente
-async function validarCredenciais(email, senha) {
-  const paciente = await consultarPacientePorEmail(email);
+async function pacienteAutenticado(email, senha) {
+  const paciente = await pacienteAutenticado(email);
   if (!paciente) {
     return null; // Email não encontrado no banco de dados.
   }
