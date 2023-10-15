@@ -45,52 +45,36 @@
 
     </section>
 <!-- Resto do formulário e outros elementos do HTML -->
-      <form>
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" placeholder="Nome" required >
+<form id="formularioCadastro" action="/cadastrar" method="post">
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" name="nome" placeholder="Nome" required >
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="E-mail" required >
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" placeholder="E-mail" required >
 
-        <label for="senha">Crie uma senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="Crie sua senha" required>
+  <label for="senha">Crie uma senha:</label>
+  <input type="password" id="senha" name="senha" placeholder="Crie sua senha" required>
 
-        <label for="confirmarSenha">Confirme a senha:</label>
-        <input type="password" id="senha" name="senha" placeholder="Confirme sua senha" required>
+  <label for="confirmarSenha">Confirme a senha:</label>
+  <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha" required>
 
-        <label for="convenio">Número do Convênio:</label>
-        <input type="text" id="convenio" name="convenio" placeholder="Digite o número do convênio">
+  <label for="convenio">Número do Convênio:</label>
+  <input type="text" id="convenio" name="convenio" placeholder="Digite o número do convênio">
 
-        <label for="sus">Número do Cartão SUS:</label>
-        <input type="text" id="sus" name="sus" placeholder="Digite o número do cartão SUS">
+  <label for="sus">Número do Cartão SUS:</label>
+  <input type="text" id="sus" name="sus" placeholder="Digite o número do cartão SUS">
 
-        <!-- Campo de concordância com os termos de uso -->
-        <div class="checkbox-container">
-          <input type="checkbox" id="concordoCheckbox" required>
-          <label for="concordoCheckbox">Concordo com os <a href="#">termos de uso</a></label>
-        </div>
+  <!-- Campo de concordância com os termos de uso -->
+  <div class="checkbox-container">
+    <input type="checkbox" id="concordoCheckbox" name="concordoCheckbox" required>
+    <label for="concordoCheckbox">Concordo com os <a href="#">termos de uso</a></label>
+  </div>
 
-        <button type="submit" onclick="fazCadastro()" >Cadastrar</button>
+  <button type="submit">Cadastrar</button>
 
-        <script src="/cadastro.js">function fazCadastro(){
-          alert('Testa função')
-        }</script>
+  <a href="login.html"><p><b>Já tem uma conta? Faça o seu login aqui</b></p></a>
+</form>
 
-        <a color ="#2e856e" href="login.html"><p><b>Já tem uma conta? Faça o seu login aqui</b></p></a>
-
-        <!-- <script src="banco.js">
-          function fazCadastro(){
-            // Crie uma instância da classe Banco
-            const db = new Banco();
-            db.connect();
-            db.insertPaciente (
-              'Pedro', 'pedro@empresa.com.br', '6666', '9989898989', '2020202020', null
-            );
-            db.closeConnection();
-          }
-        </script> --> 
-
-      </form>
     </section>
   </main>
   
