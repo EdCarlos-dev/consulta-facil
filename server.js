@@ -10,12 +10,12 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
   host: 'localhost',
   username: 'root',
-  password: '23581321',
+  password: '123456',
   database: 'clinica',
 });
 
-// Defina o modelo de usuário usando o Sequelize
-const User = sequelize.define('User', {
+// Defina o modelo de paciente usando o Sequelize
+const Paciente = sequelize.define('Paciente', {
   nome: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -39,7 +39,35 @@ const User = sequelize.define('User', {
   },
 
 },{
-  tableName: 'users',
+  tableName: 'pacientes',
+});
+
+// Defina o modelo de médico usando o Sequelize
+const Medico = sequelize.define('Medico', {
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  convenio: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  sus: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+},{
+  tableName: 'medico',
 });
 
 // Sincronize o modelo com o banco de dados e aplique quaisquer alterações necessárias
@@ -108,15 +136,15 @@ app.get('/perfilPaciente', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
 });
 
-// Rota para a requisição de novo cadastro
-app.post("/cadastrar", async (req, res) => {
+// Rota para a requisição de novo cadastro de paciente
+app.post("/cadastrar-paciente", async (req, res) => {
   try {
     const { nome, email, senha, convenio, sus, concordouCheckbox } = req.body;
 
-    // Faça as validações necessárias antes de criar o usuário
+    // Faça as validações necessárias antes de criar o paciente
 
-    // Crie o usuário com os dados extraídos
-    const novoUsuario = await User.create({
+    // Crie o paciente com os dados extraídos
+    const novoPaciente = await Paciente.create({
       nome,
       email,
       senha,
@@ -128,18 +156,52 @@ app.post("/cadastrar", async (req, res) => {
     return res.json({
       erro: false,
       mensagem: "Cadastro efetuado com sucesso",
-      usuario: novoUsuario,
+      usuario: novoPaciente,
     });
   } catch (error) {
-    console.error("Erro ao cadastrar usuário:", error);
+    console.error("Erro ao cadastrar paciente:", error);
 
     // Mantenha mensagens de erro consistentes
     return res.status(400).json({
       erro: true,
-      mensagem: "Erro ao cadastrar usuário. Verifique os dados e tente novamente.",
+      mensagem: "Erro ao cadastrar paciente. Verifique os dados e tente novamente.",
     });
   }
 });
+
+// Rota para a requisição de novo cadastro de medico
+app.post("/cadastrar", async (req, res) => {
+  try {
+    const { nome, email, senha, convenio, sus, concordouCheckbox } = req.body;
+
+    // Faça as validações necessárias antes de criar o paciente
+
+    // Crie o paciente com os dados extraídos
+    const novoMedico = await Medico.create({
+      nome,
+      email,
+      senha,
+      convenio,
+      sus,
+      concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
+    });
+
+    return res.json({
+      erro: false,
+      mensagem: "Cadastro efetuado com sucesso",
+      usuario: novoMedico,
+    });
+  } catch (error) {
+    console.error("Erro ao cadastrar médico:", error);
+
+    // Mantenha mensagens de erro consistentes
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro ao cadastrar médico. Verifique os dados e tente novamente.",
+    });
+  }
+});
+
 
 // Rota para a requisição de novo login
 app.post("/login", async (req, res) => {
