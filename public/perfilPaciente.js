@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Função para obter os dados do paciente do servidor
   function obterDadosPaciente() {
+    
     fetch('/api/paciente') // Substitua pela rota correta para obter dados do paciente
       .then(response => response.json())
       .then(data => {
@@ -121,3 +122,53 @@ document.addEventListener('DOMContentLoaded', function () {
   const atualizarButton = document.querySelector('.btn-atualizar');
   atualizarButton.addEventListener('click', atualizarPerfil);
 });
+
+// Função para obter os dados do paciente do servidor
+function obterDadosPaciente() {
+  // Salve o token no armazenamento local após o login
+  const token = localStorage.getItem('token');
+
+  fetch('/api/paciente', {
+    headers: {
+      Authorization: `Bearer ${token}`, // Envie o token no cabeçalho da solicitação
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      // ...
+    })
+    .catch(error => {
+      console.error('Erro na solicitação:', error);
+    });
+}
+
+// ...
+
+// Função para lidar com a atualização do perfil
+function atualizarPerfil(event) {
+  event.preventDefault();
+
+  // Use o token salvo no armazenamento local
+  const token = localStorage.getItem('token');
+
+  // ...
+
+  fetch('/api/atualizar-paciente', {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Authorization: `Bearer ${token}`, // Envie o token no cabeçalho da solicitação
+    },
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // ...
+      } else {
+        alert('Erro ao atualizar perfil: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Erro na solicitação de atualização:', error);
+    });
+}

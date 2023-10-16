@@ -1,47 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-    <script src="sistema.js"></script>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro - Clínica Easy Way</title>
+  <title>Marcar Consulta - Clínica Easy Way</title>
   <link rel="stylesheet" href="style.css">
-  <script src="especialidade.js"></script>
+  <script src="marcarconsulta.js"></script>
 </head>
-
 <body>
-    <header>
-        <h1>Clínica Easy Way</h1>
-        <nav>
-          
-          
+  <header>
+    <h1>Clínica Easy Way</h1>
+    <nav>
 
-        </nav>
-      </header>
-    
+    </nav>
+  </header>
 
   <main>
     <h2>Marcar nova consulta</h2>
-      <form>
-        <label for="especialidade">Escolha a especialidade desejada:</label>
+    <form id="consulta-form">
+      <label for="especialidade">Escolha a especialidade desejada:</label>
+      <select id="especialidade" name="especialidade">
+        <option value="especialidade">Escolha uma especialidade</option>
+        <option value="Cardiologia">Cardiologia</option>
+        <option value="Dermatologia">Dermatologia</option>
+        <option value="Ortopedia">Ortopedia</option>
+        <option value="Ginecologia">Ginecologia</option>
+        <option value="Neurologia">Neurologia</option>
+        
+        <!-- Adicione outras especialidades aqui -->
+        
+      </select>
 
-      <select id="especialidade" name="Escolha a especialidade desejada">
+      <label for="data">Escolha a data da consulta:</label>
+      <input type="date" id="data" name="data">
 
-      <option value="especialidade" >Escolha uma especialidade</option>
-      <option value="Cardiologia">Cardiologia</option>
-      <option value="Dermatologia">Dermatologia</option>
-      <option value="Ortopedia">Ortopedia</option>
-      <option value="Pediatria">Pediatria</option>
-      <option value="Ginecologia">Ginecologia</option>
-      <option value="Neurologia">Neurologia</option>
+      <label for="hora">Escolha a hora da consulta:</label>
+      <input type="time" id="hora" name="hora"> <br></br>
 
       <button type="submit">Marcar consulta</button>
-        
-      </form></main><br></br>
+    </form>
+  </main>
 
-      footer>
-      <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
-    </footer>
+  <footer>
+        <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+  </footer>
     <!-- Inclua os scripts JavaScript necessários no final do arquivo -->
     <script src="menu_generate.js"></script>
     

@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
 
@@ -68,6 +69,29 @@ const Medico = sequelize.define('Medico', {
 
 },{
   tableName: 'medico',
+});
+
+// Defina o modelo de agendamentos usando o Sequelize
+const Agendamento = sequelize.define('Agendamento', {
+  paciente_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  data_consulta: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  especialidade: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.ENUM('agendada', 'realizada', 'cancelada'),
+    defaultValue: 'agendada',
+    allowNull: false,
+  },
+}, {
+  tableName: 'agendamentos',
 });
 
 // Sincronize o modelo com o banco de dados e aplique quaisquer alterações necessárias
@@ -204,7 +228,7 @@ app.post("/cadastrar-medico", async (req, res) => {
 
 
 // Rota para a requisição de login
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
     const { email, senha } = req.body;
 
@@ -229,11 +253,15 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    // Se chegou até aqui, o login é bem-sucedido
+    // Gere um token de autenticação
+    const token = jwt.sign({ pacienteId: paciente.id }, 'chave-secreta-do-servidor');
+
+    // Envie o token no corpo da resposta
     return res.json({
       erro: false,
       mensagem: "Login efetuado com sucesso",
       paciente,
+      token, // Envie o token
     });
   } catch (error) {
     console.error("Erro no login:", error);
@@ -242,27 +270,6 @@ app.post("/login", async (req, res) => {
     return res.status(400).json({
       erro: true,
       mensagem: "Erro no login. Verifique os dados e tente novamente.",
-    });
-  }
-});
-
-// Rota para autenticação do paciente
-app.post('/login', async (req, res) => {
-  const { email, senha } = req.body;
-
-  // Faça a autenticação do paciente aqui
-  // Se a autenticação for bem-sucedida, envie os dados do paciente
-  const paciente = await autenticarPaciente(email, senha);
-
-  if (paciente) {
-    res.json({
-      success: true,
-      paciente: paciente, // Envie os dados do paciente
-    });
-  } else {
-    res.json({
-      success: false,
-      mensagem: 'Credenciais inválidas',
     });
   }
 });
@@ -293,6 +300,48 @@ app.post('/atualizar-paciente', async (req, res) => {
   } catch (error) {
     console.error('Erro ao atualizar perfil do paciente:', error);
     return res.status(500).json({ success: false, message: 'Erro ao atualizar perfil' });
+  }
+});
+
+// Rota para marcar uma nova consulta
+app.post('/marcar-consulta', async (req, res) => {
+  try {
+    const { pacienteId, dataConsulta, especialidade } = req.body;
+
+    // Crie o agendamento com os dados fornecidos
+    const novoAgendamento = await Agendamento.create({
+      paciente_id: pacienteId,
+      data_consulta: dataConsulta,
+      especialidade,
+    });
+
+    return res.json({
+      erro: false,
+      mensagem: 'Consulta marcada com sucesso',
+      agendamento: novoAgendamento,
+    });
+  } catch (error) {
+    console.error('Erro ao marcar consulta:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao marcar consulta. Verifique os dados e tente novamente.',
+    });
+  }
+});
+
+// Rota para listar todas as consultas agendadas
+app.get('/consultas-agendadas', async (req, res) => {
+  try {
+    // Consulte o banco de dados para obter todas as consultas agendadas
+    const consultasAgendadas = await Agendamento.findAll();
+
+    return res.json(consultasAgendadas);
+  } catch (error) {
+    console.error('Erro ao listar consultas agendadas:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao listar consultas agendadas.',
+    });
   }
 });
 
