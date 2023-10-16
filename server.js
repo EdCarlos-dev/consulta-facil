@@ -246,6 +246,55 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Rota para autenticação do paciente
+app.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  // Faça a autenticação do paciente aqui
+  // Se a autenticação for bem-sucedida, envie os dados do paciente
+  const paciente = await autenticarPaciente(email, senha);
+
+  if (paciente) {
+    res.json({
+      success: true,
+      paciente: paciente, // Envie os dados do paciente
+    });
+  } else {
+    res.json({
+      success: false,
+      mensagem: 'Credenciais inválidas',
+    });
+  }
+});
+
+app.post('/atualizar-paciente', async (req, res) => {
+  try {
+    const { id, nome, email, rua, numero, cep, cidade, estado, rg, cpf, ...outrasInformacoes } = req.body;
+
+    // Valide os dados, se necessário
+
+    // Atualize o perfil do paciente no banco de dados
+    const paciente = await Paciente.findByPk(id);
+    if (paciente) {
+      paciente.nome = nome;
+      paciente.email = email;
+      paciente.rua = rua;
+      paciente.numero = numero;
+      paciente.cep = cep;
+      paciente.cidade = cidade;
+      paciente.estado = estado; 
+      // Atualize outras informações conforme necessário
+      await paciente.save();
+
+      return res.json({ success: true, message: 'Perfil atualizado com sucesso', paciente });
+    } else {
+      return res.status(404).json({ success: false, message: 'Paciente não encontrado' });
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar perfil do paciente:', error);
+    return res.status(500).json({ success: false, message: 'Erro ao atualizar perfil' });
+  }
+});
 
 // Inicie o servidor
 app.listen(port, () => {
