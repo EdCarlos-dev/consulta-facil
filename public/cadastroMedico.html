@@ -23,7 +23,7 @@
     <section class="background_to_forms_cadastro" id="cadastro">
 
       <h2>Cadastro Médico</h2>
-      <form  >
+      <form id="formularioCadastro" action="/cadastrar-medico" method="post">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required>
 
@@ -36,8 +36,14 @@
         <label for="senha">Senha:</label>
         <input type="password" id="senha" name="senha" required>
 
-        <label for="confirmar-senha">Confirmar-Senha:</label>
+        <label for="confirmar-senha">Confirmar senha:</label>
         <input type="password" id="confirmar-senha" name="confirmar-senha" required>
+
+        <!-- Campo de concordância com os termos de uso -->
+      <div class="checkbox-container">
+      <input type="checkbox" id="concordoCheckbox" name="concordoCheckbox" required>
+      <label for="concordoCheckbox">Concordo com os <a href="#">termos de uso</a></label>
+      </div>
 
         <button type="submit">Cadastrar</button>
       </form>

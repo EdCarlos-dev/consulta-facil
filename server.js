@@ -170,7 +170,7 @@ app.post("/cadastrar-paciente", async (req, res) => {
 });
 
 // Rota para a requisição de novo cadastro de medico
-app.post("/cadastrar", async (req, res) => {
+app.post("/cadastrar-medico", async (req, res) => {
   try {
     const { nome, email, senha, convenio, sus, concordouCheckbox } = req.body;
 
