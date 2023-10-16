@@ -15,8 +15,17 @@ function atualizarPerfil() {
   const perfilNome = document.getElementById('perfilNome');
   perfilNome.innerHTML = `<b>Olá, ${nome}</b>`;
 
-  // Exiba uma mensagem de sucesso
-  alert('Perfil atualizado com sucesso!');
+   // Realize a validação dos campos
+   if (nome.trim() === '' || email.trim() === '' || endereco.trim() === '') {
+    alert('Preencha todos os campos obrigatórios.');
+  } else {
+    // Se os campos obrigatórios estiverem preenchidos, atualize o perfil
+    const perfilNome = document.getElementById('perfilNome');
+    perfilNome.innerHTML = `<b>Olá, ${nome}</b>`;
+
+    // Exiba uma mensagem de sucesso
+    alert('Perfil atualizado com sucesso!');
+  }
 }
 
 // Adicione um ouvinte de evento para o botão "Atualizar"
