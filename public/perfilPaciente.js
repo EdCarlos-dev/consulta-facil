@@ -16,7 +16,7 @@ function atualizarPerfil() {
   perfilNome.innerHTML = `<b>Olá, ${nome}</b>`;
 
    // Realize a validação dos campos
-   if (nome.trim() === '' || email.trim() === '' || endereco.trim() === '') {
+   if (nome.trim() === '' || email.trim() === '' || rua.trim() === '' || numero.trim() === '' || cep.trim() === '' || rg.trim() === '' || cpf.trim() === '')  {
     alert('Preencha todos os campos obrigatórios.');
   } else {
     // Se os campos obrigatórios estiverem preenchidos, atualize o perfil

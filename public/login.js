@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
       senha: senha,
     };
 
-    // Faça uma solicitação POST para a rota /api/login no servidor
-    fetch('/api/login', {
+    // Faça uma solicitação POST para a rota /login no servidor
+    fetch('/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -24,16 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.success) {
+        if (data.erro) {
+          // Se houver um erro, exiba a mensagem de erro
+          loginMessage.textContent = data.mensagem;
+        } else {
           // Autenticação bem-sucedida, mostrar mensagem de sucesso
           loginMessage.textContent = 'Autenticação bem-sucedida.';
           setTimeout(function () {
-            window.location.href = '/'; // Redirecionar para a página de inicio
+            window.location.href = '/'; // Redirecionar para a página de início
           }, 2000); // Redirecionar após 2 segundos
-        } else {
-          // Credenciais inválidas, mostrar mensagem de erro
-          loginMessage.textContent = 'Credenciais inválidas. Tente novamente.';
-          alert('Credenciais inválidas. Tente novamente.'); // Exibir alerta
         }
       })
       .catch((error) => {

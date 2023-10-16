@@ -203,24 +203,49 @@ app.post("/cadastrar-medico", async (req, res) => {
 });
 
 
-// Rota para a requisição de novo login
+// Rota para a requisição de login
 app.post("/login", async (req, res) => {
-  console.log(req.body);
-
   try {
-    await User.create(req.body);
+    const { email, senha } = req.body;
+
+    // Procurar o paciente no banco de dados pelo email
+    const paciente = await Paciente.findOne({
+      where: { email },
+    });
+
+    // Se o paciente não for encontrado, retorne um erro
+    if (!paciente) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Email não encontrado. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Verifique se a senha corresponde à senha no banco de dados
+    if (paciente.senha !== senha) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Senha incorreta. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Se chegou até aqui, o login é bem-sucedido
     return res.json({
       erro: false,
-      mensagem: "Login efetuado com sucesso"
+      mensagem: "Login efetuado com sucesso",
+      paciente,
     });
   } catch (error) {
-    console.error("Erro ao criar usuário:", error);
+    console.error("Erro no login:", error);
+
+    // Mantenha mensagens de erro consistentes
     return res.status(400).json({
       erro: true,
-      mensagem: "Login inválido. Verifique os dados e tente novamente."
+      mensagem: "Erro no login. Verifique os dados e tente novamente.",
     });
   }
 });
+
 
 // Inicie o servidor
 app.listen(port, () => {
