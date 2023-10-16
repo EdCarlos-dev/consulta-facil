@@ -97,13 +97,6 @@ button.btn-atualizar:hover { /* Estilo para o botão "Atualizar" no perfil do pa
   background-color: #FFFFFF;
 }
 
-footer {
-  background-color: #2e856e;
-  padding: 10px;
-  color: #fff;
-  text-align: center;
-}
-
 /* Estilos específicos */
 
 #home {
@@ -279,4 +272,16 @@ a:hover {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Mantém a proporção da imagem e preenche o círculo */
+}
+
+/* Estilos para o footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color:#2e856e; /* Cor do fundo */
+  color: #000; /* Cor do texto em preto */
+  padding: 10px 0;
+  margin-top: 20px; /* Adicione um espaçamento curto acima do footer */
 }
