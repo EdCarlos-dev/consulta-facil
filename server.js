@@ -110,6 +110,28 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware para servir arquivos estáticos, incluindo o CSS
 app.use(express.static(path.join(__dirname, '/public')));
 
+// Rota para obter as informações do paciente
+app.get('/api/paciente', (req, res) => {
+  const pacienteId = req.query.pacienteId; // Você precisa obter o ID do paciente aqui
+
+  const sql = "SELECT * FROM informacoes_paciente WHERE paciente_id = ?";
+
+  con.query(sql, [pacienteId], (error, results) => {
+    if (error) {
+      console.error('Erro ao obter informações do paciente:', error);
+      return res.status(500).json({ success: false, message: 'Erro ao obter informações do paciente.' });
+    }
+
+    if (results.length > 0) {
+      const informacoesPaciente = results[0];
+      return res.status(200).json({ success: true, informacoesPaciente });
+    } else {
+      return res.status(404).json({ success: false, message: 'Informações do paciente não encontradas.' });
+    }
+  });
+});
+
+
 // Rota para a página inicial
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'));
@@ -200,30 +222,47 @@ app.post("/cadastrar-medico", async (req, res) => {
 
     // Faça as validações necessárias antes de criar o paciente
 
-    // Crie o paciente com os dados extraídos
-    const novoMedico = await Medico.create({
-      nome,
-      email,
-      senha,
-      convenio,
-      sus,
-      concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
-    });
+   // Crie o paciente com os dados extraídos
+   const novoPaciente = await Paciente.create({
+    nome,
+    email,
+    senha,
+    convenio,
+    sus,
+    concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
+  });
 
-    return res.json({
-      erro: false,
-      mensagem: "Cadastro efetuado com sucesso",
-      usuario: novoMedico,
-    });
-  } catch (error) {
-    console.error("Erro ao cadastrar médico:", error);
+  // Após o cadastro bem-sucedido, redirecione para a página de login
+  res.redirect('/login');
+} catch (error) {
+  console.error("Erro ao cadastrar paciente:", error);
 
-    // Mantenha mensagens de erro consistentes
-    return res.status(400).json({
-      erro: true,
-      mensagem: "Erro ao cadastrar médico. Verifique os dados e tente novamente.",
-    });
-  }
+  // Mantenha mensagens de erro consistentes
+  return res.status(400).json({
+    erro: true,
+    mensagem: "Erro ao cadastrar paciente. Verifique os dados e tente novamente.",
+  });
+}
+});
+
+
+// Rota para atualizar as informações do paciente
+app.post('/api/atualizar-paciente', (req, res) => {
+  const pacienteId = req.query.pacienteId; // Você precisa obter o ID do paciente aqui
+  const { rua, numero, cep, cidade, estado } = req.body;
+
+  // Valide os dados, se necessário
+
+  const sql = "INSERT INTO informacoes_paciente (paciente_id, rua, numero, cep, cidade, estado) VALUES (?, ?, ?, ?, ?, ?)";
+
+  con.query(sql, [pacienteId, rua, numero, cep, cidade, estado], (error, result) => {
+    if (error) {
+      console.error('Erro ao atualizar informações do paciente:', error);
+      return res.status(500).json({ success: false, message: 'Erro ao atualizar informações do paciente.' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
+  });
 });
 
 

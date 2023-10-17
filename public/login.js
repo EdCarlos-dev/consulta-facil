@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
           // Autenticação bem-sucedida, mostrar mensagem de sucesso
           loginMessage.textContent = 'Autenticação bem-sucedida.';
           setTimeout(function () {
-            window.location.href = '/'; // Redirecionar para a página de início
+            window.location.href = 'perfilPaciente'; // Redirecionar para a página de perfilPaciente.html
           }, 2000); // Redirecionar após 2 segundos
         }
       })
