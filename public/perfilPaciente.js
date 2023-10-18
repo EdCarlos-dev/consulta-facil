@@ -10,29 +10,45 @@ document.addEventListener('DOMContentLoaded', function () {
   const inputImagem = document.getElementById('inputImagem');
   const trocarImagemButton = document.getElementById('trocarImagemButton');
 
+  // Na página perfilPaciente
+document.addEventListener('DOMContentLoaded', function () {
+  const nomePacienteElement = document.getElementById('nomePaciente');
+  const emailPacienteElement = document.getElementById('emailPaciente');
+
+  // Recupere as informações do paciente do localStorage
+  const nomePaciente = localStorage.getItem('nomePaciente');
+  const emailPaciente = localStorage.getItem('emailPaciente');
+
+  // Preencha os campos na página com as informações recuperadas
+  if (nomePaciente) {
+    nomePacienteElement.textContent = nomePaciente;
+  }
+
+  if (emailPaciente) {
+    emailPacienteElement.textContent = emailPaciente;
+  }
+
+  // ... Restante do seu código
+});
+
   // Função para obter os dados do paciente do servidor
   function obterDadosPaciente() {
-    
-    fetch('/api/paciente') // Substitua pela rota correta para obter dados do paciente
+    const pacienteId = obterIDDoPaciente(); // Implemente uma função para obter o ID do paciente, talvez armazenado em um cookie ou local storage.
+  
+    if (!pacienteId) {
+      // Lógica de tratamento se o ID do paciente não estiver disponível
+      return;
+    }
+  
+    fetch(`/api/informacoes-paciente/${pacienteId}`)
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          const paciente = data.paciente;
-          // Atualize os campos na página com os dados do paciente
-          nomePaciente.textContent = paciente.nome;
-          emailPaciente.textContent = paciente.email;
-          ruaPaciente.textContent = paciente.rua;
-          numeroPaciente.textContent = paciente.numero;
-          cepPaciente.textContent = paciente.cep;
-          cidadePaciente.textContent = paciente.cidade;
-          estadoPaciente.textContent = paciente.estado;
-
-          // Atualize a imagem de perfil
-          if (paciente.fotoPerfil) {
-            fotoPerfil.src = paciente.fotoPerfil;
-          }
+          const informacoesPaciente = data.informacoesPaciente;
+          // Atualize os campos na página com as informações do paciente
+          // Exemplo: ruaPaciente.textContent = informacoesPaciente.rua;
         } else {
-          console.error('Erro ao obter os dados do paciente');
+          console.error('Erro ao obter informações do paciente:', data.message);
         }
       })
       .catch(error => {
@@ -41,6 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Execute a função para obter os dados do paciente ao carregar a página
+  
   obterDadosPaciente();
 
   // Função para lidar com a troca de imagem de perfil
@@ -70,51 +87,50 @@ document.addEventListener('DOMContentLoaded', function () {
   // Função para lidar com a atualização do perfil
   function atualizarPerfil(event) {
     event.preventDefault();
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const ruaPaciente = document.getElementById('ruaPaciente').value;
-  const numeroPaciente = document.getElementById('numeroPaciente').value;
-  const cepPaciente = document.getElementById('cepPaciente').value;
-  const cidadePaciente = document.getElementById('cidadePaciente').value;
-  const estadoPaciente = document.getElementById('estadoPaciente').value;
-
+  
+    // Pegue os valores dos campos do formulário
+    const rua = document.getElementById('rua').value;
+    const numero = document.getElementById('numero').value;
+    const cep = document.getElementById('cep').value;
+    const cidade = document.getElementById('cidade').value;
+    const estado = document.getElementById('estado').value;
+  
     // Realize a validação dos campos, se necessário
-
-    // Realize uma solicitação para atualizar os dados do paciente, incluindo a imagem
-    const formData = new FormData();
-    formData.append('nome', nome);
-    formData.append('email', email);
-    formData.append('rua', rua);
-    formData.append('numero', numero);
-    formData.append('cep', cep);
-    formData.append('cidade', cidade);
-    formData.append('estado', estado);
-
-    // Adicione a imagem selecionada ao FormData, se houver uma
-
+  
+    // Crie um objeto para enviar ao servidor
+    const dadosPaciente = {
+      rua,
+      numero,
+      cep,
+      cidade,
+      estado,
+    };
+  
+    // Envie os dados para o servidor usando uma solicitação POST
     fetch('/api/atualizar-paciente', {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(dadosPaciente),
+      headers: {
+        'Content-Type': 'application/json', // Informe que os dados são JSON
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.success) {
           // Atualize os campos na página com os novos dados do paciente
-          nomePaciente.textContent = nome;
-          emailPaciente.textContent = email;
-          ruaPaciente.textContent = rua;
-          numeroPaciente.textContent = numero;
-          cepPaciente.textContent = cep;
-          cidadePaciente.textContent = cidade;
-          estadoPaciente.textContent = estado;
-
+          document.getElementById('ruaPaciente').textContent = rua;
+          document.getElementById('numeroPaciente').textContent = numero;
+          document.getElementById('cepPaciente').textContent = cep;
+          document.getElementById('cidadePaciente').textContent = cidade;
+          document.getElementById('estadoPaciente').textContent = estado;
+  
           // Exiba uma mensagem de sucesso
           alert('Perfil atualizado com sucesso!');
         } else {
           alert('Erro ao atualizar perfil: ' + data.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Erro na solicitação de atualização:', error);
       });
   }

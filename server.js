@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
 
+
 const app = express();
 const port = 3000;
 
@@ -43,6 +44,46 @@ const Paciente = sequelize.define('Paciente', {
   tableName: 'pacientes',
 });
 
+// Defina o modelo de informações_pacientes usando o Sequelize
+const Informacoes = require('./models/informacoes', {
+  rua: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  numero: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  cep: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  cidade: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  estado: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  rg: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  cpf: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  id_paciente: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+},{
+  tableName: 'informacoes_pacientes',
+});
+
 // Defina o modelo de médico usando o Sequelize
 const Medico = sequelize.define('Medico', {
   nome: {
@@ -58,17 +99,41 @@ const Medico = sequelize.define('Medico', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  convenio: {
+  crm: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  sus: {
+  especialidade: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
 
 },{
   tableName: 'medico',
+});
+
+// Defina o modelo de enfermeiro usando o Sequelize
+const Enfermeiro = sequelize.define('Enfermeiro', {
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  coren: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
+},{
+  tableName: 'enfermeiro',
 });
 
 // Defina o modelo de agendamentos usando o Sequelize
@@ -110,27 +175,24 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware para servir arquivos estáticos, incluindo o CSS
 app.use(express.static(path.join(__dirname, '/public')));
 
-// Rota para obter as informações do paciente
-app.get('/api/paciente', (req, res) => {
-  const pacienteId = req.query.pacienteId; // Você precisa obter o ID do paciente aqui
+// Middleware de verificação de token (jwt.verify)
+function verificarToken(req, res, next) {
+  const token = req.headers.authorization; // Recupere o token do cabeçalho
 
-  const sql = "SELECT * FROM informacoes_paciente WHERE paciente_id = ?";
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Token não fornecido' });
+  }
 
-  con.query(sql, [pacienteId], (error, results) => {
-    if (error) {
-      console.error('Erro ao obter informações do paciente:', error);
-      return res.status(500).json({ success: false, message: 'Erro ao obter informações do paciente.' });
+  jwt.verify(token, 'chave-secreta-do-servidor', (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ mensagem: 'Token inválido' });
     }
 
-    if (results.length > 0) {
-      const informacoesPaciente = results[0];
-      return res.status(200).json({ success: true, informacoesPaciente });
-    } else {
-      return res.status(404).json({ success: false, message: 'Informações do paciente não encontradas.' });
-    }
+    // Token válido, o paciente está autenticado
+    req.pacienteId = decoded.pacienteId;
+    next();
   });
-});
-
+}
 
 // Rota para a página inicial
 app.get('/', (req, res) => {
@@ -182,6 +244,13 @@ app.get('/perfilPaciente', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
 });
 
+// Rota de exemplo que requer autenticação
+app.get('/rota-protegida', verificarToken, (req, res) => {
+  // Esta rota requer autenticação; o paciente está autenticado
+  res.json({ mensagem: 'Rota protegida acessada com sucesso' });
+});
+
+
 // Rota para a requisição de novo cadastro de paciente
 app.post("/cadastrar-paciente", async (req, res) => {
   try {
@@ -223,50 +292,61 @@ app.post("/cadastrar-medico", async (req, res) => {
     // Faça as validações necessárias antes de criar o paciente
 
    // Crie o paciente com os dados extraídos
-   const novoPaciente = await Paciente.create({
+   const novoMedico = await Medico.create({
     nome,
     email,
     senha,
-    convenio,
-    sus,
+    crm,
+    especialidade,
     concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
   });
 
   // Após o cadastro bem-sucedido, redirecione para a página de login
   res.redirect('/login');
 } catch (error) {
-  console.error("Erro ao cadastrar paciente:", error);
+  console.error("Erro ao cadastrar médico:", error);
 
   // Mantenha mensagens de erro consistentes
   return res.status(400).json({
     erro: true,
-    mensagem: "Erro ao cadastrar paciente. Verifique os dados e tente novamente.",
+    mensagem: "Erro ao cadastrar médico. Verifique os dados e tente novamente.",
   });
 }
 });
 
+// Rota para a requisição do perfil Paciente 
+app.post("/informacoes-pacientes", async (req, res) => {
+  try {
+    const { rua, numero, cep, cidade, estado } = req.body;
 
-// Rota para atualizar as informações do paciente
-app.post('/api/atualizar-paciente', (req, res) => {
-  const pacienteId = req.query.pacienteId; // Você precisa obter o ID do paciente aqui
-  const { rua, numero, cep, cidade, estado } = req.body;
+    // Faça as validações necessárias antes de criar atualizar perfil paciente
 
-  // Valide os dados, se necessário
+    // Crie o perfil com os dados extraídos
+    const novoInformacoes = await Informacoes.create({
+      rua,
+      numero,
+      cep,
+      cidade,
+      estado,
+    });
 
-  const sql = "INSERT INTO informacoes_paciente (paciente_id, rua, numero, cep, cidade, estado) VALUES (?, ?, ?, ?, ?, ?)";
+    return res.json({
+      erro: false,
+      mensagem: "Perfil atualizado com sucesso",
+      usuario: novoInformacoes,
+    });
+  } catch (error) {
+    console.error("Erro ao atualizar cadastro:", error);
 
-  con.query(sql, [pacienteId, rua, numero, cep, cidade, estado], (error, result) => {
-    if (error) {
-      console.error('Erro ao atualizar informações do paciente:', error);
-      return res.status(500).json({ success: false, message: 'Erro ao atualizar informações do paciente.' });
-    }
-
-    return res.status(200).json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
-  });
+    // Mantenha mensagens de erro consistentes
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro ao atualizar paciente. Verifique os dados e tente novamente.",
+    });
+  }
 });
 
-
-// Rota para a requisição de login
+// Rota de login
 app.post('/login', async (req, res) => {
   try {
     const { email, senha } = req.body;
@@ -309,38 +389,89 @@ app.post('/login', async (req, res) => {
     return res.status(400).json({
       erro: true,
       mensagem: "Erro no login. Verifique os dados e tente novamente.",
+    
+
+      
     });
   }
 });
 
-app.post('/atualizar-paciente', async (req, res) => {
+
+
+app.post('/api/atualizar-paciente', async (req, res) => {
+  // Recupere os dados do paciente do corpo da solicitação
+  const { rua, numero, cep, cidade, estado } = req.body;
+
+  // Execute a lógica para atualizar as informações do paciente no banco de dados
+  // Certifique-se de identificar o paciente apropriado, talvez com um ID de sessão ou token
+
+  // Envie uma resposta de sucesso ou erro ao cliente
+  res.json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
+});
+
+
+// Função para obter informações do paciente com base no ID
+async function obterInformacoesPacientePorId(idPaciente) {
   try {
-    const { id, nome, email, rua, numero, cep, cidade, estado, rg, cpf, ...outrasInformacoes } = req.body;
-
-    // Valide os dados, se necessário
-
-    // Atualize o perfil do paciente no banco de dados
-    const paciente = await Paciente.findByPk(id);
-    if (paciente) {
-      paciente.nome = nome;
-      paciente.email = email;
-      paciente.rua = rua;
-      paciente.numero = numero;
-      paciente.cep = cep;
-      paciente.cidade = cidade;
-      paciente.estado = estado; 
-      // Atualize outras informações conforme necessário
-      await paciente.save();
-
-      return res.json({ success: true, message: 'Perfil atualizado com sucesso', paciente });
-    } else {
-      return res.status(404).json({ success: false, message: 'Paciente não encontrado' });
+    // Consultar o paciente com base no ID
+    const paciente = await Paciente.findByPk(idPaciente);
+    
+    if (!paciente) {
+      // Paciente não encontrado, retorne null ou lide com o erro apropriadamente
+      return null;
     }
+
+    return paciente;
   } catch (error) {
-    console.error('Erro ao atualizar perfil do paciente:', error);
-    return res.status(500).json({ success: false, message: 'Erro ao atualizar perfil' });
+    // Lide com erros de consulta de banco de dados
+    console.error("Erro ao obter informações do paciente por ID:", error);
+    throw error;
+  }
+}
+
+// Rota para enviar dados para a tabela informacoes_pacientes
+app.post('/atualizar-informacoes-paciente', async (req, res) => {
+  try {
+    const { rua, numero, cep, cidade, estado, rg, cpf, idPaciente } = req.body;
+
+    // Verifique se o paciente existe antes de criar informações
+    const paciente = await obterInformacoesPacientePorId(idPaciente);
+
+    if (!paciente) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Paciente não encontrado. Verifique o ID do paciente e tente novamente.",
+      });
+    }
+
+    // Crie o registro na tabela informacoes_pacientes
+    const novoRegistroInformacoes = await Informacoes.create({
+      rua,
+      numero,
+      cep,
+      cidade,
+      estado,
+      rg,
+      cpf,
+      id_paciente: idPaciente,
+    });
+
+    return res.json({
+      erro: false,
+      mensagem: "Informações do paciente atualizadas com sucesso",
+      registroInformacoes: novoRegistroInformacoes,
+    });
+  } catch (error) {
+    console.error("Erro ao atualizar informações do paciente:", error);
+
+    // Mantenha mensagens de erro consistentes
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro ao atualizar informações do paciente. Verifique os dados e tente novamente.",
+    });
   }
 });
+
 
 // Rota para marcar uma nova consulta
 app.post('/marcar-consulta', async (req, res) => {
