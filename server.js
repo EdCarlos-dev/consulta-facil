@@ -501,7 +501,7 @@ app.post('/marcar-consulta', async (req, res) => {
   try {
     const { pacienteId, dataConsulta, especialidade } = req.body;
 
-    // Crie o agendamento com os dados fornecidos
+    // Inserir os dados da consulta na tabela "agendamentos"
     const novoAgendamento = await Agendamento.create({
       paciente_id: pacienteId,
       data_consulta: dataConsulta,
