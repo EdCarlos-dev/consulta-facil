@@ -24,8 +24,5 @@ setTimeout(function () {
   });
 });
 
-// Feche a conexão com o banco de dados, independentemente de haver erro ou sucesso
-con.end(function (error) {
-  if (error) throw error;
-});
+
 

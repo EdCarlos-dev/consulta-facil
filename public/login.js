@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           // Autenticação bem-sucedida, mostrar mensagem de sucesso
           loginMessage.textContent = 'Autenticação bem-sucedida.';
+
+              // Salve o token, email e nome do paciente no Local Storage
+            localStorage.setItem('token', data.token); // Salve o token
+            localStorage.setItem('emailPaciente', email); // Salve o email do paciente
+            localStorage.setItem('nomePaciente', data.paciente.nome); // Salve o nome do paciente          
+
           setTimeout(function () {
             window.location.href = 'perfilPaciente'; // Redirecionar para a página de perfilPaciente.html
           }, 2000); // Redirecionar após 2 segundos
@@ -40,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   });
 });
-
 
 // Função para consultar um paciente no banco de dados por email (simulada)
 async function consultarPacientePorEmail(email) {

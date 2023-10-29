@@ -44,8 +44,8 @@ const Paciente = sequelize.define('Paciente', {
   tableName: 'pacientes',
 });
 
-// Defina o modelo de informações_pacientes usando o Sequelize
-const Informacoes = require('./models/informacoes', {
+// Importe o modelo de Informacoes do paciente no início do arquivo
+const Informacoes = sequelize.define('Informacoes', {
   rua: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -79,7 +79,6 @@ const Informacoes = require('./models/informacoes', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-
 },{
   tableName: 'informacoes_pacientes',
 });
@@ -396,19 +395,43 @@ app.post('/login', async (req, res) => {
   }
 });
 
-
-
-app.post('/api/atualizar-paciente', async (req, res) => {
-  // Recupere os dados do paciente do corpo da solicitação
+// Rota para atualizar informações do paciente
+app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
   const { rua, numero, cep, cidade, estado } = req.body;
 
-  // Execute a lógica para atualizar as informações do paciente no banco de dados
-  // Certifique-se de identificar o paciente apropriado, talvez com um ID de sessão ou token
+  // Recupere o ID do paciente do token
+  const pacienteId = req.pacienteId;
 
-  // Envie uma resposta de sucesso ou erro ao cliente
-  res.json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
+  try {
+    // Verifique se as informações do paciente já existem no banco de dados
+    let informacoes = await Informacoes.findOne({ where: { id_paciente: pacienteId } });
+
+    // Se as informações não existem, crie um novo registro
+    if (!informacoes) {
+      informacoes = await Informacoes.create({
+        rua,
+        numero,
+        cep,
+        cidade,
+        estado,
+        id_paciente: pacienteId,
+      });
+    } else {
+      // As informações já existem, atualize-as
+      informacoes.rua = rua;
+      informacoes.numero = numero;
+      informacoes.cep = cep;
+      informacoes.cidade = cidade;
+      informacoes.estado = estado;
+      await informacoes.save();
+    }
+
+    res.json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao atualizar informações do paciente:', error);
+    res.status(500).json({ success: false, message: 'Erro ao atualizar informações do paciente.' });
+  }
 });
-
 
 // Função para obter informações do paciente com base no ID
 async function obterInformacoesPacientePorId(idPaciente) {
