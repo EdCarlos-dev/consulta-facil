@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const nome = document.getElementById('nome').value;
       const email = document.getElementById('email').value;
       const senha = document.getElementById('senha').value;
-      const CRM = document.getElementById('CRM').value;
-      const especialidade = document.getElementById('especialidade').value;
+      const coren = document.getElementById('CRM').value;
+      
      
   
       // Faça o tratamento dos dados e envio do formulário para o servidor

@@ -103,7 +103,7 @@ const Medico = sequelize.define('Medico', {
     allowNull: false,
   },
   especialidade: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 
@@ -208,6 +208,11 @@ app.get('/cadastro-medico', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/cadastromedico.html'));
 });
 
+// Rota para a página de castro Enfermeiro
+app.get('/cadastro-enfermeiro', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/cadastroenfermeiro.html'));
+});
+
 // Rota para a página de login
 app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/login.html'));
@@ -267,26 +272,22 @@ app.post("/cadastrar-paciente", async (req, res) => {
       concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
     });
 
-    return res.json({
-      erro: false,
-      mensagem: "Cadastro efetuado com sucesso",
-      usuario: novoPaciente,
-    });
-  } catch (error) {
-    console.error("Erro ao cadastrar paciente:", error);
+     // Após o cadastro bem-sucedido, redirecione para a página de login
+  res.redirect('/login');
+} catch (error) {
+  console.error("Erro ao cadastrar paciente:", error);
 
-    // Mantenha mensagens de erro consistentes
-    return res.status(400).json({
-      erro: true,
-      mensagem: "Erro ao cadastrar paciente. Verifique os dados e tente novamente.",
-    });
-  }
+  // Mantenha mensagens de erro consistentes
+  return res.status(400).json({
+    erro: true,
+    mensagem: "Erro ao cadastrar paciente. Verifique os dados e tente novamente.",
+  });
+}
 });
-
 // Rota para a requisição de novo cadastro de medico
 app.post("/cadastrar-medico", async (req, res) => {
   try {
-    const { nome, email, senha, convenio, sus, concordouCheckbox } = req.body;
+    const { nome, email, senha, crm, especialidade, concordouCheckbox } = req.body;
 
     // Faça as validações necessárias antes de criar o paciente
 
@@ -309,6 +310,35 @@ app.post("/cadastrar-medico", async (req, res) => {
   return res.status(400).json({
     erro: true,
     mensagem: "Erro ao cadastrar médico. Verifique os dados e tente novamente.",
+  });
+}
+});
+
+// Rota para a requisição de novo cadastro de Enfermeiro
+app.post("/cadastrar-enfermeiro", async (req, res) => {
+  try {
+    const { nome, email, senha, coren, concordouCheckbox } = req.body;
+
+    // Faça as validações necessárias antes de criar o paciente
+
+   // Crie o paciente com os dados extraídos
+   const novoMedico = await Medico.create({
+    nome,
+    email,
+    senha,
+    coren,
+    concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
+  });
+
+  // Após o cadastro bem-sucedido, redirecione para a página de login
+  res.redirect('/login');
+} catch (error) {
+  console.error("Erro ao cadastrar enfermeiro:", error);
+
+  // Mantenha mensagens de erro consistentes
+  return res.status(400).json({
+    erro: true,
+    mensagem: "Erro ao cadastrar enfermeiro. Verifique os dados e tente novamente.",
   });
 }
 });

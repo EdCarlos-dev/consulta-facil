@@ -21,17 +21,17 @@ const Medico = db.define('medico', {
     type: DataTypes.STRING, // Correção: use DataTypes.STRING para texto
     allowNull: false,
   },
-  convenio: {
+  CRM: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  sus: {
-    type: DataTypes.INTEGER,
+  especialidade: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });
 
 // Sincronize a tabela com o banco de dados e aplique quaisquer alterações necessárias.
-Paciente.sync({ alter: true });
+Medico.sync({ alter: true });
 
 module.exports = Medico;
