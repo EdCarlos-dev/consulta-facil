@@ -5,9 +5,9 @@ CREATE DATABASE IF NOT EXISTS clinica;
 CREATE TABLE IF NOT EXISTS pacientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    convenio VARCHAR(255) NOT NULL, -- Alterado para VARCHAR(255)
+    convenio INT(255) NOT NULL, 
     sus INT NOT NULL
 );
 
@@ -26,7 +26,10 @@ CREATE TABLE IF NOT EXISTS informacoes_pacientes (
 );
 
 SELECT * FROM pacientes;
+DROP TABLE IF EXISTS pacientes;
+
 SELECT * FROM informacoes_pacientes;
+DROP TABLE IF EXISTS informacoes_pacientes;
 
 CREATE TABLE IF NOT EXISTS medico (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,10 +37,12 @@ CREATE TABLE IF NOT EXISTS medico (
     email VARCHAR(250) NOT NULL,
     senha VARCHAR(250) NOT NULL,
     crm VARCHAR(13) NOT NULL,
-    especialidade VARCHAR(50) NOT NULL
+    especialidade VARCHAR (50) NOT NULL
 );
 
 SELECT * FROM medico;
+DROP TABLE IF EXISTS medico;
+
 
 CREATE TABLE IF NOT EXISTS enfermeiro (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,6 +53,7 @@ CREATE TABLE IF NOT EXISTS enfermeiro (
 );
 
 SELECT * FROM enfermeiro;
+DROP TABLE IF EXISTS enfermeiro;
 
 -- Crie uma tabela para armazenar informações de agendamentos de consultas
 CREATE TABLE IF NOT EXISTS agendamentos (
@@ -83,9 +89,8 @@ CREATE TABLE IF NOT EXISTS receitas (
 -- Crie uma tabela de relacionamento para associar medicamentos a receitas
 CREATE TABLE IF NOT EXISTS medicamentos_receitas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    receita_id INT NOT NULL,
+    receita_id INT NOT NULL,medico
     medicamento_id INT NOT NULL,
     FOREIGN KEY (receita_id) REFERENCES receitas(id),
     FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id)
 );
-

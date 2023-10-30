@@ -322,7 +322,7 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
     // Faça as validações necessárias antes de criar o paciente
 
    // Crie o paciente com os dados extraídos
-   const novoMedico = await Medico.create({
+   const novoEnfermeiro = await Enfermeiro.create({
     nome,
     email,
     senha,
