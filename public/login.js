@@ -2,6 +2,25 @@ document.addEventListener('DOMContentLoaded', function () {
   const loginForm = document.querySelector('#login-form');
   const loginMessage = document.querySelector('#login-message');
 
+
+  // Função para carregar os dados do paciente do localStorage
+  function loadPatientData() {
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('emailPaciente');
+    const nome = localStorage.getItem('nomePaciente');
+
+    if (token && email && nome) {
+      // Os dados do paciente estão armazenados no localStorage
+      // Você pode fazer o que quiser com esses dados, como exibi-los na página
+      console.log('Token:', token);
+      console.log('Email do Paciente:', email);
+      console.log('Nome do Paciente:', nome);
+    }
+  }
+
+  loadPatientData(); // Chame a função para carregar os dados do paciente quando a página for carregada
+
+
   loginForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
