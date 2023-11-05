@@ -343,35 +343,45 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
 }
 });
 
-// Rota para a requisição do perfil Paciente 
-app.post("/informacoes-pacientes", async (req, res) => {
+// Rota para a requisição de atualização do perfil do paciente
+app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
+  const { rua, numero, cep, cidade, estado, rg, cpf } = req.body;
+
+  // Recupere o ID do paciente do token
+  const pacienteId = req.pacienteId;
+
   try {
-    const { rua, numero, cep, cidade, estado } = req.body;
+    // Verifique se as informações do paciente já existem no banco de dados
+    let informacoes = await Informacoes.findOne({ where: { id_paciente: pacienteId } });
 
-    // Faça as validações necessárias antes de criar atualizar perfil paciente
+    // Se as informações não existem, crie um novo registro
+    if (!informacoes) {
+      informacoes = await Informacoes.create({
+        rua,
+        numero,
+        cep,
+        cidade,
+        estado,
+        rg,
+        cpf,
+        id_paciente: pacienteId,
+      });
+    } else {
+      // As informações já existem, atualize-as
+      informacoes.rua = rua;
+      informacoes.numero = numero;
+      informacoes.cep = cep;
+      informacoes.cidade = cidade;
+      informacoes.estado = estado;
+      informacoes.rg = rg;
+      informacoes.cpf = cpf;
+      await informacoes.save();
+    }
 
-    // Crie o perfil com os dados extraídos
-    const novoInformacoes = await Informacoes.create({
-      rua,
-      numero,
-      cep,
-      cidade,
-      estado,
-    });
-
-    return res.json({
-      erro: false,
-      mensagem: "Perfil atualizado com sucesso",
-      usuario: novoInformacoes,
-    });
+    res.json({ success: true, message: 'Perfil atualizado com sucesso!' });
   } catch (error) {
-    console.error("Erro ao atualizar cadastro:", error);
-
-    // Mantenha mensagens de erro consistentes
-    return res.status(400).json({
-      erro: true,
-      mensagem: "Erro ao atualizar paciente. Verifique os dados e tente novamente.",
-    });
+    console.error('Erro ao atualizar perfil do paciente:', error);
+    res.status(500).json({ success: false, message: 'Erro ao atualizar perfil do paciente.' });
   }
 });
 
@@ -427,60 +437,27 @@ app.post('/login', async (req, res) => {
 
 // Rota para atualizar informações do paciente
 app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
-  const { rua, numero, cep, cidade, estado } = req.body;
+  const { rua, numero, cep, cidade, estado, rg, cpf } = req.body;
 
   // Recupere o ID do paciente do token
   const pacienteId = req.pacienteId;
 
   try {
-    // Verifique se as informações do paciente já existem no banco de dados
-    let informacoes = await Informacoes.findOne({ where: { id_paciente: pacienteId } });
+    const query = `
+      UPDATE informacoes_pacientes
+      SET rua = ?, numero = ?, cep = ?, cidade = ?, estado = ?, rg = ?, cpf = ?
+      WHERE paciente_id = ?
+    `;
 
-    // Se as informações não existem, crie um novo registro
-    if (!informacoes) {
-      informacoes = await Informacoes.create({
-        rua,
-        numero,
-        cep,
-        cidade,
-        estado,
-        id_paciente: pacienteId,
-      });
-    } else {
-      // As informações já existem, atualize-as
-      informacoes.rua = rua;
-      informacoes.numero = numero;
-      informacoes.cep = cep;
-      informacoes.cidade = cidade;
-      informacoes.estado = estado;
-      await informacoes.save();
-    }
+    await db.query(query, [rua, numero, cep, cidade, estado, rg, cpf, pacienteId]);
 
-    res.json({ success: true, message: 'Informações do paciente atualizadas com sucesso.' });
+    res.json({ success: true });
   } catch (error) {
-    console.error('Erro ao atualizar informações do paciente:', error);
-    res.status(500).json({ success: false, message: 'Erro ao atualizar informações do paciente.' });
+    console.error('Erro ao atualizar o perfil do paciente:', error);
+    res.status(500).json({ success: false, message: 'Erro ao atualizar o perfil do paciente.' });
   }
 });
 
-// Função para obter informações do paciente com base no ID
-async function obterInformacoesPacientePorId(idPaciente) {
-  try {
-    // Consultar o paciente com base no ID
-    const paciente = await Paciente.findByPk(idPaciente);
-    
-    if (!paciente) {
-      // Paciente não encontrado, retorne null ou lide com o erro apropriadamente
-      return null;
-    }
-
-    return paciente;
-  } catch (error) {
-    // Lide com erros de consulta de banco de dados
-    console.error("Erro ao obter informações do paciente por ID:", error);
-    throw error;
-  }
-}
 
 // Rota para enviar dados para a tabela informacoes_pacientes
 app.post('/atualizar-informacoes-paciente', async (req, res) => {
@@ -493,7 +470,7 @@ app.post('/atualizar-informacoes-paciente', async (req, res) => {
     if (!paciente) {
       return res.status(400).json({
         erro: true,
-        mensagem: "Paciente não encontrado. Verifique o ID do paciente e tente novamente.",
+        mensagem: 'Paciente não encontrado. Verifique o ID do paciente e tente novamente.',
       });
     }
 
@@ -511,20 +488,17 @@ app.post('/atualizar-informacoes-paciente', async (req, res) => {
 
     return res.json({
       erro: false,
-      mensagem: "Informações do paciente atualizadas com sucesso",
+      mensagem: 'Informações do paciente atualizadas com sucesso',
       registroInformacoes: novoRegistroInformacoes,
     });
   } catch (error) {
-    console.error("Erro ao atualizar informações do paciente:", error);
-
-    // Mantenha mensagens de erro consistentes
+    console.error('Erro ao atualizar informações do paciente:', error);
     return res.status(400).json({
       erro: true,
-      mensagem: "Erro ao atualizar informações do paciente. Verifique os dados e tente novamente.",
+      mensagem: 'Erro ao atualizar informações do paciente. Verifique os dados e tente novamente.',
     });
   }
 });
-
 
 // Rota para marcar uma nova consulta
 app.post('/marcar-consulta', async (req, res) => {

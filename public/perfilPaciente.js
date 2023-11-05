@@ -61,8 +61,14 @@ loadPatientData();
     const cep = document.getElementById('cep').value;
     const cidade = document.getElementById('cidade').value;
     const estado = document.getElementById('estado').value;
+    const rg = document.getElementById('rg').value;
+    const cpf = document.getElementById('cpf').value;
 
-    // Realize a validação dos campos, se necessário
+    // Realize a validação dos campos RG e CPF
+    if (!/^\d{9}$/.test(rg) || !/^\d{11}$/.test(cpf)) {
+      alert('RG deve ter 9 dígitos e CPF deve ter 11 dígitos.');
+      return;
+    }
 
     // Crie um objeto para enviar ao servidor
     const dadosPaciente = {
@@ -71,6 +77,8 @@ loadPatientData();
       cep,
       cidade,
       estado,
+      rg,
+      cpf,
     };
 
     // Envie os dados para o servidor usando uma solicitação POST
@@ -78,10 +86,15 @@ loadPatientData();
       method: 'POST',
       body: JSON.stringify(dadosPaciente),
       headers: {
-        'Content-Type': 'application/json', // Informe que os dados são JSON
+        'Content-Type': 'application/json',
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro na solicitação');
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.success) {
           // Atualize os campos na página com os novos dados do paciente
@@ -90,73 +103,20 @@ loadPatientData();
           document.getElementById('cep').value = cep;
           document.getElementById('cidade').value = cidade;
           document.getElementById('estado').value = estado;
+          document.getElementById('rg').value = rg;
+          document.getElementById('cpf').value = cpf;
 
-          // Exiba uma mensagem de sucesso
           alert('Perfil atualizado com sucesso!');
         } else {
-          alert('Erro ao atualizar perfil: ' + data.message);
+          alert('Erro ao atualizar perfil: ' + data.message || 'Erro desconhecido');
         }
       })
       .catch((error) => {
         console.error('Erro na solicitação de atualização:', error);
+        alert('Erro ao atualizar perfil: ' + error.message || 'Erro desconhecido');
       });
   }
 
   const atualizarButton = document.getElementById('atualizarButton');
   atualizarButton.addEventListener('click', atualizarPerfil);
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-  const atualizarButton = document.getElementById('atualizarButton');
-  atualizarButton.addEventListener('click', atualizarPerfil);
-
-  function atualizarPerfil(event) {
-    event.preventDefault();
-
-    // Obtenha os valores dos campos do formulário
-    const rua = document.getElementById('rua').value;
-    const numero = document.getElementById('numero').value;
-    const cep = document.getElementById('cep').value;
-    const cidade = document.getElementById('cidade').value;
-    const estado = document.getElementById('estado').value;
-
-    // Realize a validação dos campos, se necessário
-
-    // Crie um objeto para enviar ao servidor
-    const dadosPaciente = {
-      rua,
-      numero,
-      cep,
-      cidade,
-      estado,
-    };
-
-    // Envie os dados para o servidor usando uma solicitação POST
-    fetch('/api/atualizar-paciente', {
-      method: 'POST',
-      body: JSON.stringify(dadosPaciente),
-      headers: {
-        'Content-Type': 'application/json', // Informe que os dados são JSON
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          // Atualize os campos na página com os novos dados do paciente
-          document.getElementById('ruaPaciente').textContent = rua;
-          document.getElementById('numeroPaciente').textContent = numero;
-          document.getElementById('cepPaciente').textContent = cep;
-          document.getElementById('cidadePaciente').textContent = cidade;
-          document.getElementById('estadoPaciente').textContent = estado;
-
-          // Exiba uma mensagem de sucesso
-          alert('Perfil atualizado com sucesso!');
-        } else {
-          alert('Erro ao atualizar perfil: ' + data.message);
-        }
-      })
-      .catch((error) => {
-        console.error('Erro na solicitação de atualização:', error);
-      });
-  }
 });
