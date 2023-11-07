@@ -16,34 +16,6 @@ const sequelize = new Sequelize({
   database: 'clinica',
 });
 
-// Defina o modelo de paciente usando o Sequelize
-const Paciente = sequelize.define('Paciente', {
-  nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  convenio: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  sus: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-
-},{
-  tableName: 'pacientes',
-});
-
 // Importe o modelo de Informacoes do paciente no início do arquivo
 const Informacoes = sequelize.define('Informacoes', {
   rua: {
@@ -79,9 +51,39 @@ const Informacoes = sequelize.define('Informacoes', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-},{
+}, {
   tableName: 'informacoes_pacientes',
 });
+
+// Defina o modelo de paciente usando o Sequelize
+const Paciente = sequelize.define('Paciente', {
+  nome: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  senha: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  convenio: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  sus: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+}, {
+  tableName: 'pacientes',
+});
+
+// Adicione o relacionamento com Informacoes
+Paciente.hasOne(Informacoes, { foreignKey: 'id_paciente' });
 
 // Defina o modelo de médico usando o Sequelize
 const Medico = sequelize.define('Medico', {
@@ -344,7 +346,7 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
 });
 
 // Rota para a requisição de atualização do perfil do paciente
-app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
+app.post('/atualizar-paciente', verificarToken, async (req, res) => {
   const { rua, numero, cep, cidade, estado, rg, cpf } = req.body;
 
   // Recupere o ID do paciente do token
@@ -354,8 +356,8 @@ app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
     // Verifique se as informações do paciente já existem no banco de dados
     let informacoes = await Informacoes.findOne({ where: { id_paciente: pacienteId } });
 
-    // Se as informações não existem, crie um novo registro
     if (!informacoes) {
+      // Se as informações não existem, crie um novo registro
       informacoes = await Informacoes.create({
         rua,
         numero,
@@ -431,71 +433,6 @@ app.post('/login', async (req, res) => {
     
 
       
-    });
-  }
-});
-
-// Rota para atualizar informações do paciente
-app.post('/api/atualizar-paciente', verificarToken, async (req, res) => {
-  const { rua, numero, cep, cidade, estado, rg, cpf } = req.body;
-
-  // Recupere o ID do paciente do token
-  const pacienteId = req.pacienteId;
-
-  try {
-    const query = `
-      UPDATE informacoes_pacientes
-      SET rua = ?, numero = ?, cep = ?, cidade = ?, estado = ?, rg = ?, cpf = ?
-      WHERE paciente_id = ?
-    `;
-
-    await db.query(query, [rua, numero, cep, cidade, estado, rg, cpf, pacienteId]);
-
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Erro ao atualizar o perfil do paciente:', error);
-    res.status(500).json({ success: false, message: 'Erro ao atualizar o perfil do paciente.' });
-  }
-});
-
-
-// Rota para enviar dados para a tabela informacoes_pacientes
-app.post('/atualizar-informacoes-paciente', async (req, res) => {
-  try {
-    const { rua, numero, cep, cidade, estado, rg, cpf, idPaciente } = req.body;
-
-    // Verifique se o paciente existe antes de criar informações
-    const paciente = await obterInformacoesPacientePorId(idPaciente);
-
-    if (!paciente) {
-      return res.status(400).json({
-        erro: true,
-        mensagem: 'Paciente não encontrado. Verifique o ID do paciente e tente novamente.',
-      });
-    }
-
-    // Crie o registro na tabela informacoes_pacientes
-    const novoRegistroInformacoes = await Informacoes.create({
-      rua,
-      numero,
-      cep,
-      cidade,
-      estado,
-      rg,
-      cpf,
-      id_paciente: idPaciente,
-    });
-
-    return res.json({
-      erro: false,
-      mensagem: 'Informações do paciente atualizadas com sucesso',
-      registroInformacoes: novoRegistroInformacoes,
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar informações do paciente:', error);
-    return res.status(400).json({
-      erro: true,
-      mensagem: 'Erro ao atualizar informações do paciente. Verifique os dados e tente novamente.',
     });
   }
 });

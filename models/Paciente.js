@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('./db');
 
-const Paciente = db.define('pacientes', {
+const Paciente = db.define('Paciente', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -9,16 +9,16 @@ const Paciente = db.define('pacientes', {
     primaryKey: true,
   },
   nome: {
-    type: DataTypes.STRING, // Correção: use DataTypes.STRING para texto
+    type: DataTypes.STRING,
     allowNull: false,
   },
   email: {
-    type: DataTypes.STRING, // Correção: use DataTypes.STRING para texto
+    type: DataTypes.STRING,
     allowNull: false,
-    unique: true, // Correção: unique, não VARCHARUNIQUE
+    unique: true,
   },
   senha: {
-    type: DataTypes.STRING, // Correção: use DataTypes.STRING para texto
+    type: DataTypes.STRING,
     allowNull: false,
   },
   convenio: {

@@ -2,26 +2,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Função para carregar os dados do paciente do localStorage
   function loadPatientData() {
+    const nomePaciente = document.getElementById('nomePaciente');
+    const fotoPerfil = document.getElementById('fotoPerfil');
 
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('emailPaciente');
+    const nome = localStorage.getItem('nomePaciente');
 
-  const nomePaciente = document.getElementById('nomePaciente');
-  const fotoPerfil = document.getElementById('fotoPerfil');
-
-  const token = localStorage.getItem('token');
-  const email = localStorage.getItem('emailPaciente');
-  const nome = localStorage.getItem('nomePaciente');
-
-
-  if (token && email && nome) {
-    // Os dados do paciente estão armazenados no localStorage
-    // Atualize os campos na página de perfil com os dados do paciente
-    nomePaciente.textContent = nome;
-    // Você pode fazer o mesmo com a imagem de perfil (fotoPerfil) se estiver armazenando a imagem no localStorage.
+    if (token && email && nome) {
+      // Os dados do paciente estão armazenados no localStorage
+      // Atualize os campos na página de perfil com os dados do paciente
+      nomePaciente.textContent = nome;
+      // Você pode fazer o mesmo com a imagem de perfil (fotoPerfil) se estiver armazenando a imagem no localStorage.
+    }
   }
-}
 
-// Chame a função para carregar os dados do paciente quando a página for carregada
-loadPatientData();
+  // Chame a função para carregar os dados do paciente quando a página for carregada
+  loadPatientData();
 
   const fotoPerfil = document.getElementById('fotoPerfil');
   const inputImagem = document.getElementById('inputImagem');
@@ -82,7 +79,7 @@ loadPatientData();
     };
 
     // Envie os dados para o servidor usando uma solicitação POST
-    fetch('/api/atualizar-paciente', {
+    fetch('/atualizar-paciente', {
       method: 'POST',
       body: JSON.stringify(dadosPaciente),
       headers: {
