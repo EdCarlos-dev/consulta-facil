@@ -94,15 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .then((data) => {
         if (data.success) {
-          // Atualize os campos na página com os novos dados do paciente
-          document.getElementById('rua').value = rua;
-          document.getElementById('numero').value = numero;
-          document.getElementById('cep').value = cep;
-          document.getElementById('cidade').value = cidade;
-          document.getElementById('estado').value = estado;
-          document.getElementById('rg').value = rg;
-          document.getElementById('cpf').value = cpf;
-
+          
           alert('Perfil atualizado com sucesso!');
         } else {
           alert('Erro ao atualizar perfil: ' + data.message || 'Erro desconhecido');

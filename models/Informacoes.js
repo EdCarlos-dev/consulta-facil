@@ -40,4 +40,7 @@ const Informacoes = sequelize.define('Informacoes', {
   tableName: 'informacoes_pacientes',
 });
 
+// Sincronize a tabela com o banco de dados e aplique quaisquer alterações necessárias.
+Informacoes.sync({ alter: true });
+
 module.exports = Informacoes;
