@@ -1,7 +1,9 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const SECRET = 'secret';
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
+
 
 
 const app = express();
@@ -175,25 +177,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware para servir arquivos estáticos, incluindo o CSS
 app.use(express.static(path.join(__dirname, '/public')));
-
-// Middleware de verificação de token (jwt.verify)
-function verificarToken(req, res, next) {
-  const token = req.headers.authorization; // Recupere o token do cabeçalho
-
-  if (!token) {
-    return res.status(401).json({ mensagem: 'Token não fornecido' });
-  }
-
-  jwt.verify(token, 'chave-secreta-do-servidor', (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ mensagem: 'Token inválido' });
-    }
-
-    // Token válido, o paciente está autenticado
-    req.pacienteId = decoded.pacienteId;
-    next();
-  });
-}
 
 // Rota para a página inicial
 app.get('/', (req, res) => {
@@ -414,7 +397,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Gere um token de autenticação
-    const token = jwt.sign({ pacienteId: paciente.id }, 'chave-secreta-do-servidor');
+    const token = jwt.sign({ pacienteId: paciente.id }, SECRET); // Use o segredo definido
 
     // Envie o token no corpo da resposta
     return res.json({
@@ -437,13 +420,38 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Rota para marcar uma nova consulta
-app.post('/marcar-consulta', async (req, res) => {
-  try {
-    const { pacienteId, dataConsulta, especialidade } = req.body;
+// Middleware de verificação de token (jwt.verify)
+function verificarToken(req, res, next) {
+  const token = req.headers.authorization; // Recupere o token do cabeçalho
 
-    // Inserir os dados da consulta na tabela "agendamentos"
-    const novoAgendamento = await Agendamento.create({
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Token não fornecido' });
+  }
+
+  jwt.verify(token, SECRET, (err, decoded) => { // Use o mesmo segredo aqui
+    if (err) {
+      return res.status(401).json({ mensagem: 'Token inválido' });
+    }
+
+    // Token válido, o paciente está autenticado
+    req.pacienteId = decoded.pacienteId;
+    next();
+  });
+}
+
+// Rota para marcar uma nova consulta
+app.post('/marcar-consulta', verificarToken, async (req, res) => {
+  try {
+    const { data, hora, especialidade } = req.body;
+
+    // Recupere o ID do paciente do token
+    const pacienteId = req.pacienteId;
+
+    // Combine a data e a hora em um formato de data e hora
+    const dataConsulta = new Date(data + ' ' + hora);
+
+    // Inserir os dados da consulta na tabela "Agendamentos"
+    const novoAgendamento = await Agendamentos.create({
       paciente_id: pacienteId,
       data_consulta: dataConsulta,
       especialidade,
@@ -464,10 +472,13 @@ app.post('/marcar-consulta', async (req, res) => {
 });
 
 // Rota para listar todas as consultas agendadas
-app.get('/consultas-agendadas', async (req, res) => {
+app.get('/consultas-agendadas', verificarToken, async (req, res) => {
   try {
-    // Consulte o banco de dados para obter todas as consultas agendadas
-    const consultasAgendadas = await Agendamento.findAll();
+    // Consulte o banco de dados para obter todas as consultas agendadas para o paciente autenticado
+    const pacienteId = req.pacienteId;
+    const consultasAgendadas = await Agendamento.findAll({
+      where: { paciente_id: pacienteId },
+    });
 
     return res.json(consultasAgendadas);
   } catch (error) {
@@ -478,7 +489,6 @@ app.get('/consultas-agendadas', async (req, res) => {
     });
   }
 });
-
 // Inicie o servidor
 app.listen(port, () => {
   console.log(`Servidor em execução na porta ${port}`);
