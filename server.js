@@ -3,20 +3,17 @@ const jwt = require('jsonwebtoken');
 const SECRET = 'secret';
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
-
+const sequelize = require('./config/config');
+// const Sequelize  = require('./models/Informacoes');
 
 
 const app = express();
 const port = 3000;
 
 // Configure a conexão com o banco de dados
-const sequelize = new Sequelize({
-  dialect: 'mysql',
-  host: 'localhost',
-  username: 'root',
-  password: '123456',
-  database: 'clinica',
-});
+// Configure a conexão com o banco de dados usando o sequelize importado
+
+
 
 // Importe o modelo de Informacoes do paciente no início do arquivo
 const Informacoes = sequelize.define('Informacoes', {
