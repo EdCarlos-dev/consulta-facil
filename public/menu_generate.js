@@ -4,9 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Define os itens do menu em um objeto
   const menuItems = [
-    { text: 'Home', link: '/' },
-    {text: 'Login', link:'/login'},
-    { text: 'Cadastro', link: '/cadastro' },
+
     { text: 'Meu Perfil', link: '/perfilPaciente' },
     { text: 'Busca', link: '/busca' },
     { text: 'Medicamentos', link: '/medicamentos' },
@@ -34,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const logoutButton = document.createElement('li');
   const logoutLink = document.createElement('a');
   logoutLink.textContent = 'Sair';
-  logoutLink.href = '/'; // Você pode definir um link '#' para simular o logout
+  logoutLink.href = '/login'; // Você pode definir um link '#' para simular o logout
   logoutButton.appendChild(logoutLink);
   ulElement.appendChild(logoutButton);
 
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Execute a lógica de logout aqui, por exemplo, removendo o token do Local Storage.
     localStorage.removeItem('token');
     // Redirecione o usuário para a página de login
-    window.location.href = '/index.html';
+    window.location.href = '/login.html';
   });
 });
 
