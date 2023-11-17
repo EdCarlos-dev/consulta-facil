@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Adicione os meta e link tags necessários -->
+  <title>Meu Perfil Enfermeiro - Clínica Easy Way</title>
+</head>
+<body>
+  <header>
+    <!-- Conteúdo do cabeçalho -->
+  </header>
+  <main>
+    <section id="perfilEnfermeiro">
+      <h2>Meu Perfil Enfermeiro</h2>
+      <div id="perfilFoto" class="perfil-foto-wrapper">
+        <img id="fotoPerfil" src="avatar.jpg" alt="Foto de Perfil">
+        <button id="trocarImagemButton">Trocar Imagem</button>
+        <input type="file" id="inputImagem" accept="image/*" style="display: none;">
+      </div>
+      <p id="nomeEnfermeiro"><b>Olá, <span id="nomeEnfermeiro"></span></b></p>
+      <!-- Adicione mais campos conforme necessário -->
+      <p><b>Atualize seu cadastro aqui</b></p>
+      <form id="formularioCadastro" action="/atualizar-enfermeiro" method="post">
+
+        <!-- Adicione campos específicos para enfermeiros -->
+        <h3>Informações de Enfermagem:</h3>
+
+        <label for="campo1">Campo 1:</label>
+        <input type="text" id="campo1" name="campo1" placeholder="Campo 1" required>
+
+        <label for="campo2">Campo 2:</label>
+        <input type="text" id="campo2" name="campo2" placeholder="Campo 2" required>
+
+        <!-- Adicione mais campos conforme necessário -->
+
+        <button type="submit" id="atualizarButton">Atualizar</button>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <!-- Conteúdo do rodapé -->
+  </footer>
+  <script src="menu_generate.js"></script>
+  <script src="perfilEnfermeiro.js"></script>
+</body>
+</html>

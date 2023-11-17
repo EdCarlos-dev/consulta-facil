@@ -1,20 +1,26 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
+var mysql = require('mysql')
+var dbConfig = require('dbconfig.js')
+
+// Conecte-se ao banco de dados
+var con = mysql.createConnection(dbConfig);
+
+// Chame o método insertPaciente para inserir o paciente no banco de dados
+con.connect(function(error) {
+  if(error) throw error;
+  var sql = "insert into enfermeiro(nome, email, senha, confirmar-senha, coren) values (?, ?, ?, ?, ?)";
+  var values = [nome, email, senha, confirmar-senha, coren];
   
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-  
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-      const coren = document.getElementById('coren').value;
-      
-     
-      // Faça o tratamento dos dados e envio do formulário para o servidor
-      // Exemplo: você pode criar uma instância de um objeto "Enfermeiro" com os dados fornecidos e enviá-lo para o servidor
-  
-      // Limpar os campos do formulário
-      form.reset();
-    });
+  con.query(sql, values, function (error, result) {
+    if (error) {
+      console.error('Erro ao cadastrar enfermeiro:', error);
+    } else {
+      console.log('Enfermeiro cadastrado com sucesso!', result);
+
+      // Após o cadastro bem-sucedido, redirecione para a página de login do enfermeiro
+setTimeout(function () {
+  window.location.href = '/public/loginEnfermeiro.html'; // Redirecionar para a página de loginEnfermeiro.html
+}, 2000); // Redirecionar após 2 segundos
+    }
   });
-  
+});
+

@@ -200,6 +200,17 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/login.html'));
 });
 
+// Rota para a página de login médico
+app.get('/loginMedico', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/loginMedico.html'));
+});
+
+
+// Rota para a página de login enfermeiro
+app.get('/loginEnfermeiro', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/loginEnfermeiro.html'));
+});
+
 // Rota para a página de recuperação de senha
 app.get('/recuperar-senha', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/recuperar-senha.html'));
@@ -228,6 +239,16 @@ app.get('/marcar-consulta', (req, res) => {
 // Rota para a página de perfil do paciente
 app.get('/perfilPaciente', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
+});
+
+// Rota para a página de perfil do medico
+app.get('/perfil-medico', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/perfilMedico.html'));
+});
+
+// Rota para a página de perfil do enfermeiro
+app.get('/perfil-enfermeiro', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/perfilEnfermeiro.html'));
 });
 
 // Rota de exemplo que requer autenticação
@@ -283,8 +304,8 @@ app.post("/cadastrar-medico", async (req, res) => {
     concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
   });
 
-  // Após o cadastro bem-sucedido, redirecione para a página de login
-  res.redirect('/login');
+  // Após o cadastro bem-sucedido, redirecione para a página de login do médico
+  res.redirect('/public/loginMedico.html');
 } catch (error) {
   console.error("Erro ao cadastrar médico:", error);
 
@@ -312,8 +333,8 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
     concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
   });
 
-  // Após o cadastro bem-sucedido, redirecione para a página de login
-  res.redirect('/login');
+  // Após o cadastro bem-sucedido, redirecione para a página de login do enfermeiro
+  res.redirect('/public/loginEnfermeiro.html');
 } catch (error) {
   console.error("Erro ao cadastrar enfermeiro:", error);
 
@@ -393,6 +414,8 @@ app.post('/login', async (req, res) => {
       });
     }
 
+
+
     // Gere um token de autenticação
     const token = jwt.sign({ pacienteId: paciente.id }, SECRET); // Use o segredo definido
 
@@ -411,11 +434,100 @@ app.post('/login', async (req, res) => {
       erro: true,
       mensagem: "Erro no login. Verifique os dados e tente novamente.",
     
-
-      
     });
   }
 });
+
+// Rota de login para médico
+app.post('/login-medico', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    // Procurar o médico no banco de dados pelo email
+    const medico = await Medico.findOne({
+      where: { email },
+    });
+
+    // Se o médico não for encontrado, retorne um erro
+    if (!medico) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Email não encontrado. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Verifique se a senha corresponde à senha no banco de dados
+    if (medico.senha !== senha) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Senha incorreta. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Gere um token de autenticação
+    const token = jwt.sign({ medicoId: medico.id }, SECRET);
+
+    // Envie o token no corpo da resposta
+    return res.json({
+      erro: false,
+      mensagem: "Login efetuado com sucesso",
+      medico,
+      token,
+    });
+  } catch (error) {
+    console.error("Erro no login médico:", error);
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro no login médico. Verifique os dados e tente novamente.",
+    });
+  }
+});
+
+// Rota de login para enfermeiro
+app.post('/login-enfermeiro', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    // Procurar o enfermeiro no banco de dados pelo email
+    const enfermeiro = await Enfermeiro.findOne({
+      where: { email },
+    });
+
+    // Se o enfermeiro não for encontrado, retorne um erro
+    if (!enfermeiro) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Email não encontrado. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Verifique se a senha corresponde à senha no banco de dados
+    if (enfermeiro.senha !== senha) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: "Senha incorreta. Verifique os dados e tente novamente.",
+      });
+    }
+
+    // Gere um token de autenticação
+    const token = jwt.sign({ enfermeiroId: enfermeiro.id }, SECRET);
+
+    // Envie o token no corpo da resposta
+    return res.json({
+      erro: false,
+      mensagem: "Login efetuado com sucesso",
+      enfermeiro,
+      token,
+    });
+  } catch (error) {
+    console.error("Erro no login enfermeiro:", error);
+    return res.status(400).json({
+      erro: true,
+      mensagem: "Erro no login enfermeiro. Verifique os dados e tente novamente.",
+    });
+  }
+});
+
 
 // Middleware de verificação de token (jwt.verify)
 function verificarToken(req, res, next) {
@@ -432,6 +544,56 @@ function verificarToken(req, res, next) {
 
     // Token válido, o paciente está autenticado
     req.pacienteId = decoded.pacienteId;
+    next();
+  });
+}
+
+// Rota para a página de perfil do médico
+app.get('/perfil-medico', verificarTokenMedico, (req, res) => {
+  // Esta rota requer autenticação; o médico está autenticado
+  res.sendFile(path.join(__dirname, '/public/perfilMedico.html'));
+});
+
+// Rota para a página de perfil do enfermeiro
+app.get('/perfil-enfermeiro', verificarTokenEnfermeiro, (req, res) => {
+  // Esta rota requer autenticação; o enfermeiro está autenticado
+  res.sendFile(path.join(__dirname, '/public/perfilEnfermeiro.html'));
+});
+
+// Middleware de verificação de token para médico (jwt.verify)
+function verificarTokenMedico(req, res, next) {
+  const token = req.headers.authorization; // Recupere o token do cabeçalho
+
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Token não fornecido' });
+  }
+
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ mensagem: 'Token inválido' });
+    }
+
+    // Token válido, o médico está autenticado
+    req.medicoId = decoded.medicoId;
+    next();
+  });
+}
+
+// Middleware de verificação de token para enfermeiro (jwt.verify)
+function verificarTokenEnfermeiro(req, res, next) {
+  const token = req.headers.authorization; // Recupere o token do cabeçalho
+
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Token não fornecido' });
+  }
+
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ mensagem: 'Token inválido' });
+    }
+
+    // Token válido, o enfermeiro está autenticado
+    req.enfermeiroId = decoded.enfermeiroId;
     next();
   });
 }
