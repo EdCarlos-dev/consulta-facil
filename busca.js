@@ -1,75 +1,78 @@
-// Certifique-se de que o DOM está carregado antes de executar o código
+// busca.js
 document.addEventListener('DOMContentLoaded', function () {
-  // Selecione o formulário de pesquisa e o elemento do mapa
-  const searchForm = document.querySelector('#search-form');
-  const mapElement = document.querySelector('#map');
+  const searchForm = document.getElementById('search-form');
+  const mapElement = document.getElementById('map');
+  const trackLocationButton = document.getElementById('track-location');
 
-  // Função para inicializar e exibir o mapa
+  // Function to initialize the map
   function initMap() {
-    // Verifique se o navegador suporta geolocalização
-    if ('geolocation' in navigator) {
-      // Solicitar permissão para acessar a localização do usuário
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
+    const map = new google.maps.Map(mapElement, {
+      center: { lat: -34.397, lng: 150.644 }, // Default center (you can adjust)
+      zoom: 12, // Adjust the initial zoom level
+    });
 
-        // Coordenadas iniciais do mapa (por exemplo, coordenadas do centro da cidade)
-        const initialCoords = userLocation;
+    // Set up a marker for the user's location
+    const userMarker = new google.maps.Marker({
+      map: map,
+      title: 'Your Location',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png', // Customize the marker icon
+    });
 
-        // Opções do mapa
-        const mapOptions = {
-          center: initialCoords,
-          zoom: 15, // Nível de zoom inicial
-        };
+    // Get the user's location and update the marker
+    trackLocationButton.addEventListener('click', function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
 
-        // Crie o mapa usando as opções e vincule-o ao elemento do mapa
-        const map = new google.maps.Map(mapElement, mapOptions);
+            // Update the marker position and map center
+            userMarker.setPosition(userLocation);
+            map.setCenter(userLocation);
 
-        // Adicione um marcador para a localização do usuário
-        new google.maps.Marker({
-          position: userLocation,
-          map: map,
-          title: 'Sua localização',
-        });
-
-        // Adicione um ouvinte de evento ao formulário de pesquisa
-        searchForm.addEventListener('submit', function (event) {
-          event.preventDefault();
-
-          // Obtenha o tipo de lugar (exemplo: hospital, clínica)
-          const placeType = 'hospital'; // Você pode ajustar isso de acordo com sua necessidade
-
-          // Use a API de Places do Google Maps para encontrar lugares próximos
-          const placesService = new google.maps.places.PlacesService(map);
-
-          placesService.nearbySearch(
-            {
-              location: userLocation,
-              radius: 5000, // Raio em metros
-              type: [placeType],
-            },
-            function (results, status) {
-              if (status === google.maps.places.PlacesServiceStatus.OK) {
-                // Limpe qualquer marcador anterior
-                results.forEach(function (place) {
-                  const marker = new google.maps.Marker({
-                    position: place.geometry.location,
-                    map: map,
-                    title: place.name,
-                  });
-                });
-              }
-            }
-          );
-        });
-      });
-    } else {
-      alert('A geolocalização não é suportada neste navegador.');
-    }
+            // Call the function to search for medical facilities
+            searchMedicalFacilities(userLocation);
+          },
+          function (error) {
+            console.error('Error getting user location:', error);
+          }
+        );
+      } else {
+        alert('Geolocation is not supported by this browser.');
+      }
+    });
   }
 
-  // Inicialize o mapa quando o DOM estiver carregado
+  // Function to search for medical facilities using OpenStreetMap Nominatim API
+  function searchMedicalFacilities(userLocation) {
+    const radius = 5; // Radius in kilometers
+    const baseUrl = 'https://nominatim.openstreetmap.org/search';
+    const searchQuery =
+      'clinica OR hospital OR UBS'; // Adjust the query based on your needs
+
+    // Construct the API URL
+    const apiUrl = `${baseUrl}?q=${searchQuery}&format=json&limit=10&dedupe=1&viewbox=${userLocation.lng - 0.05},${userLocation.lat - 0.05},${userLocation.lng + 0.05},${userLocation.lat + 0.05}&bounded=1`;
+
+    // Make a GET request to the API
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // Process the data and display markers on the map
+        data.forEach((result) => {
+          const marker = new google.maps.Marker({
+            position: { lat: parseFloat(result.lat), lng: parseFloat(result.lon) },
+            map: map,
+            title: result.display_name,
+          });
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching medical facilities:', error);
+      });
+  }
+
+  // Initialize the map
   initMap();
 });
