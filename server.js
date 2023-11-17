@@ -241,14 +241,14 @@ app.get('/perfilPaciente', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
 });
 
-// Rota para a página de perfil do medico
+// Rota para a página de atendimento do medico
 app.get('/perfil-medico', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/perfilMedico.html'));
+  res.sendFile(path.join(__dirname, '/public/atendimentoMedico.html'));
 });
 
-// Rota para a página de perfil do enfermeiro
+// Rota para a página de fila de atendimento do enfermeiro
 app.get('/perfil-enfermeiro', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/perfilEnfermeiro.html'));
+  res.sendFile(path.join(__dirname, '/public/filaEnfermeiro.html'));
 });
 
 // Rota de exemplo que requer autenticação
