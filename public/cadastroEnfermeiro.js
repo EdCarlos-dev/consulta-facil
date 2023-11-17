@@ -18,7 +18,7 @@ con.connect(function(error) {
 
       // Após o cadastro bem-sucedido, redirecione para a página de login do enfermeiro
 setTimeout(function () {
-  window.location.href = '/public/loginEnfermeiro.html'; // Redirecionar para a página de loginEnfermeiro.html
+  window.location.href = 'loginEnfermeiro.html'; // Redirecionar para a página de loginEnfermeiro.html
 }, 2000); // Redirecionar após 2 segundos
     }
   });

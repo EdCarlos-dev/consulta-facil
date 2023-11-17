@@ -305,7 +305,7 @@ app.post("/cadastrar-medico", async (req, res) => {
   });
 
   // Após o cadastro bem-sucedido, redirecione para a página de login do médico
-  res.redirect('/public/loginMedico.html');
+  res.redirect('/loginMedico');
 } catch (error) {
   console.error("Erro ao cadastrar médico:", error);
 
@@ -334,7 +334,7 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
   });
 
   // Após o cadastro bem-sucedido, redirecione para a página de login do enfermeiro
-  res.redirect('/public/loginEnfermeiro.html');
+  res.redirect('/loginEnfermeiro');
 } catch (error) {
   console.error("Erro ao cadastrar enfermeiro:", error);
 
