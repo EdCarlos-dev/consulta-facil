@@ -1,4 +1,5 @@
 const express = require('express');
+const configurarRotas = require('./rotas');
 const jwt = require('jsonwebtoken');
 const SECRET = 'secret';
 const path = require('path');
@@ -176,80 +177,80 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/public')));
 
 // Rota para a página inicial
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/index.html'));
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/index.html'));
+// });
 
-// Rota para a página de cadastro
-app.get('/cadastro', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/cadastro.html'));
-});
+// // Rota para a página de cadastro
+// app.get('/cadastro', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/cadastro.html'));
+// });
 
-// Rota para a página de cadastro médico
-app.get('/cadastro-medico', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/cadastromedico.html'));
-});
+// // Rota para a página de cadastro médico
+// app.get('/cadastro-medico', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/cadastromedico.html'));
+// });
 
-// Rota para a página de castro Enfermeiro
-app.get('/cadastro-enfermeiro', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/cadastroenfermeiro.html'));
-});
+// // Rota para a página de castro Enfermeiro
+// app.get('/cadastro-enfermeiro', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/cadastroenfermeiro.html'));
+// });
 
-// Rota para a página de login
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/login.html'));
-});
+// // Rota para a página de login
+// app.get('/login', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/login.html'));
+// });
 
-// Rota para a página de login médico
-app.get('/loginMedico', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/loginMedico.html'));
-});
+// // Rota para a página de login médico
+// app.get('/loginMedico', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/loginMedico.html'));
+// });
 
 
-// Rota para a página de login enfermeiro
-app.get('/loginEnfermeiro', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/loginEnfermeiro.html'));
-});
+// // Rota para a página de login enfermeiro
+// app.get('/loginEnfermeiro', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/loginEnfermeiro.html'));
+// });
 
-// Rota para a página de recuperação de senha
-app.get('/recuperar-senha', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/recuperar-senha.html'));
-});
+// // Rota para a página de recuperação de senha
+// app.get('/recuperar-senha', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/recuperar-senha.html'));
+// });
 
-// Rota para a página de busca
-app.get('/busca', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/busca.html'));
-});
+// // Rota para a página de busca
+// app.get('/busca', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/busca.html'));
+// });
 
-// Rota para a página de medicamentos
-app.get('/medicamentos', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/medicamentos.html'));
-});
+// // Rota para a página de medicamentos
+// app.get('/medicamentos', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/medicamentos.html'));
+// });
 
-// Rota para a página de agendamentos
-app.get('/agendamentos', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/agendamentos.html'));
-});
+// // Rota para a página de agendamentos
+// app.get('/agendamentos', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/agendamentos.html'));
+// });
 
-// Rota para a página de marcar consulta
-app.get('/marcar-consulta', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/marcarconsulta.html'));
-});
+// // Rota para a página de marcar consulta
+// app.get('/marcar-consulta', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/marcarconsulta.html'));
+// });
 
-// Rota para a página de perfil do paciente
-app.get('/perfilPaciente', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
-});
+// // Rota para a página de perfil do paciente
+// app.get('/perfilPaciente', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/perfilPaciente.html'));
+// });
 
-// Rota para a página de atendimento do medico
-app.get('/perfil-medico', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/atendimentoMedico.html'));
-});
+// // Rota para a página de atendimento do medico
+// app.get('/perfil-medico', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/atendimentoMedico.html'));
+// });
 
-// Rota para a página de fila de atendimento do enfermeiro
-app.get('/perfil-enfermeiro', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/filaEnfermeiro.html'));
-});
+// // Rota para a página de fila de atendimento do enfermeiro
+// app.get('/perfil-enfermeiro', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/public/filaEnfermeiro.html'));
+// });
 
 // Rota de exemplo que requer autenticação
 app.get('/rota-protegida', verificarToken, (req, res) => {
