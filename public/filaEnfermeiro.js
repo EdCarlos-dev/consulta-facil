@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Atualize a interface com a fila de atendimento
         // (por exemplo, preencha uma tabela ou outra estrutura HTML)
         const filaAtendimento = document.getElementById('filaAtendimento');
+        filaAtendimento.innerHTML = ''; // Limpa a lista antes de preenchê-la novamente
 
         data.forEach((paciente) => {
           const pacienteItem = document.createElement('li');
@@ -134,3 +135,4 @@ document.addEventListener('DOMContentLoaded', function () {
   // Chame a função para obter a fila de atendimento quando a página for carregada
   obterFilaDeAtendimento();
 });
+
