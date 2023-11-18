@@ -7,6 +7,7 @@ function configurarRotas(app) {
     app.get('/', (req, res) => {
         res.sendFile(path.join(__dirname, '/public/index.html'));
     });
+    
 
     // Rota para a página de cadastro
     app.get('/cadastro', (req, res) => {
