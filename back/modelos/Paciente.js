@@ -1,13 +1,7 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const db = require('./db');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../../front/config/config');
 
-const Paciente = db.define('Paciente', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true,
-  },
+const Paciente = sequelize.define('Paciente', {
   nome: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -29,9 +23,8 @@ const Paciente = db.define('Paciente', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+}, {
+  tableName: 'pacientes',
 });
-
-// Sincronize a tabela com o banco de dados e aplique quaisquer alterações necessárias.
-Paciente.sync({ alter: true });
 
 module.exports = Paciente;

@@ -5,6 +5,13 @@ const SECRET = 'secret';
 const path = require('path');
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('./config/config');
+
+const Paciente = require('../back/modelos/Paciente');
+// const Medico = require('./back/modelos/Medico');
+// const Enfermeiro = require('./back/modelos/Enfermeiro');
+// const Informacoes = require('./back/modelos/Informacoes');
+// const Agendamento = require('./back/modelos/Agendamento');
+
 // const Sequelize  = require('./models/Informacoes');
 
 
@@ -55,32 +62,32 @@ const Informacoes = sequelize.define('Informacoes', {
   tableName: 'informacoes_pacientes',
 });
 
-// Defina o modelo de paciente usando o Sequelize
-const Paciente = sequelize.define('Paciente', {
-  nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  convenio: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  sus: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  tableName: 'pacientes',
-});
+// // Defina o modelo de paciente usando o Sequelize
+// const Paciente = sequelize.define('Paciente', {
+//   nome: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//   },
+//   email: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//     unique: true,
+//   },
+//   senha: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//   },
+//   convenio: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false,
+//   },
+//   sus: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false,
+//   },
+// }, {
+//   tableName: 'pacientes',
+// });
 
 // Adicione o relacionamento com Informacoes
 Paciente.hasOne(Informacoes, { foreignKey: 'id_paciente' });
