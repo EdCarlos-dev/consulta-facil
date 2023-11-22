@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../front/config/config');
 
+// Defina o modelo do paciente usando o Sequelize
 const Paciente = sequelize.define('Paciente', {
   nome: {
     type: DataTypes.STRING,

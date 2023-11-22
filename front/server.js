@@ -7,8 +7,8 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('./config/config');
 
 const Paciente = require('../back/modelos/Paciente');
-// const Medico = require('./back/modelos/Medico');
-// const Enfermeiro = require('./back/modelos/Enfermeiro');
+ const Medico = require('../back/modelos/Medico');
+const Enfermeiro = require('../back/modelos/Enfermeiro');
 // const Informacoes = require('./back/modelos/Informacoes');
 // const Agendamento = require('./back/modelos/Agendamento');
 
@@ -62,87 +62,8 @@ const Informacoes = sequelize.define('Informacoes', {
   tableName: 'informacoes_pacientes',
 });
 
-// // Defina o modelo de paciente usando o Sequelize
-// const Paciente = sequelize.define('Paciente', {
-//   nome: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   },
-//   email: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//     unique: true,
-//   },
-//   senha: {
-//     type: DataTypes.STRING,
-//     allowNull: false,
-//   },
-//   convenio: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false,
-//   },
-//   sus: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false,
-//   },
-// }, {
-//   tableName: 'pacientes',
-// });
-
 // Adicione o relacionamento com Informacoes
 Paciente.hasOne(Informacoes, { foreignKey: 'id_paciente' });
-
-// Defina o modelo de médico usando o Sequelize
-const Medico = sequelize.define('Medico', {
-  nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  crm: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  especialidade: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-
-},{
-  tableName: 'medico',
-});
-
-// Defina o modelo de enfermeiro usando o Sequelize
-const Enfermeiro = sequelize.define('Enfermeiro', {
-  nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  coren: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-
-},{
-  tableName: 'enfermeiro',
-});
 
 // Defina o modelo de agendamentos usando o Sequelize
 const Agendamento = sequelize.define('Agendamento', {
