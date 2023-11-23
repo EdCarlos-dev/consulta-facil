@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Função para carregar os dados do paciente do localStorage
   function loadPatientData() {
     const nomePaciente = document.getElementById('nomePaciente');
+    const emailPaciente = document.getElementById('emailPaciente');
+    const rgPaciente = document.getElementById('rgPaciente');
+    const cpfPaciente = document.getElementById('cpfPaciente');
     const fotoPerfil = document.getElementById('fotoPerfil');
 
      // Aqui, você deve obter o token do localStorage
@@ -19,9 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Se o token estiver disponível, você pode carregar os dados do paciente
     const email = localStorage.getItem('emailPaciente');
     const nome = localStorage.getItem('nomePaciente');
+    const rg = localStorage.getItem('rgPaciente');
+    const cpf = localStorage.getItem('cpfPaciente');
 
      // Atualize os campos na página de perfil com os dados do paciente
      nomePaciente.textContent = nome;
+     emailPaciente.textContent = email;
+     rgPaciente.textContent = rg;
+     cpfPaciente.textContent = cpf;
      // Você pode fazer o mesmo com a imagem de perfil (fotoPerfil) se estiver armazenando a imagem no localStorage.
      
    }
@@ -77,14 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const cep = document.getElementById('cep').value;
     const cidade = document.getElementById('cidade').value;
     const estado = document.getElementById('estado').value;
-    const rg = document.getElementById('rg').value;
-    const cpf = document.getElementById('cpf').value;
+    
 
-    // Realize a validação dos campos RG e CPF
-    if (!/^\d{9}$/.test(rg) || !/^\d{11}$/.test(cpf)) {
-      alert('RG deve ter 9 dígitos e CPF deve ter 11 dígitos.');
-      return;
-    }
+    
 
     // Crie um objeto para enviar ao servidor
     const dadosPaciente = {
@@ -93,8 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
       cep,
       cidade,
       estado,
-      rg,
-      cpf,
+      
     };
 
    // Envie os dados para o servidor usando uma solicitação POST

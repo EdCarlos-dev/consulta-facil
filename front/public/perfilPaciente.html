@@ -44,13 +44,14 @@
         <label for="estado">Estado:</label>
         <input type="text" id="estado" name="estado" placeholder="Estado" required>
 
-        <h3>Documentos:</h3>
+        <p id="perfilEmail"><b>Meu login: <span id="emailPaciente"></span></b></p>
 
-        <label for="rg">RG (Somente números, 9 dígitos):</label>
-        <input type="text" id="rg" name="rg" placeholder="RG" pattern="[0-9]{9}" required>
+        <h3>Meus Documentos:</h3>
+
+        <p id="perfilRg"><b>RG: <span id="rgPaciente"></span></b></p>
+        <p id="perfilCpf"><b>CPF: <span id="cpfPaciente"></span></b></p>
+
         
-        <label for="cpf">CPF (Somente números, 11 dígitos):</label>
-        <input type="text" id="cpf" name="cpf" placeholder="CPF" pattern="[0-9]{11}" required><br><br>
         
         <button type="submit">Atualizar</button>
       </form>

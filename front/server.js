@@ -9,61 +9,14 @@ const sequelize = require('./config/config');
 const Paciente = require('../back/modelos/Paciente');
  const Medico = require('../back/modelos/Medico');
 const Enfermeiro = require('../back/modelos/Enfermeiro');
-// const Informacoes = require('./back/modelos/Informacoes');
+
 // const Agendamento = require('./back/modelos/Agendamento');
-
-// const Sequelize  = require('./models/Informacoes');
-
 
 const app = express();
 const port = 3000;
 
 // Configure a conexão com o banco de dados
 // Configure a conexão com o banco de dados usando o sequelize importado
-
-
-
-// Importe o modelo de Informacoes do paciente no início do arquivo
-const Informacoes = sequelize.define('Informacoes', {
-  rua: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  numero: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  cep: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  cidade: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  estado: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  rg: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  cpf: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  id_paciente: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-}, {
-  tableName: 'informacoes_pacientes',
-});
-
-// Adicione o relacionamento com Informacoes
-Paciente.hasOne(Informacoes, { foreignKey: 'id_paciente' });
 
 // Defina o modelo de agendamentos usando o Sequelize
 const Agendamento = sequelize.define('Agendamento', {
@@ -190,7 +143,7 @@ app.get('/rota-protegida', verificarToken, (req, res) => {
 // Rota para a requisição de novo cadastro de paciente
 app.post("/cadastrar-paciente", async (req, res) => {
   try {
-    const { nome, email, senha, convenio, sus, concordouCheckbox } = req.body;
+    const { nome, email, senha, convenio, sus, rua, numero, cep, cidade, estado, rg, cpf, concordouCheckbox } = req.body;
 
     // Faça as validações necessárias antes de criar o paciente
 
@@ -201,6 +154,13 @@ app.post("/cadastrar-paciente", async (req, res) => {
       senha,
       convenio,
       sus,
+      rua,
+      numero,
+      cep,
+      cidade,
+      estado,
+      rg,
+      cpf,
       concordou: concordouCheckbox === 'on', // checkbox é enviado apenas se marcado
     });
 
@@ -275,48 +235,6 @@ app.post("/cadastrar-enfermeiro", async (req, res) => {
 }
 });
 
-// Rota para a requisição de atualização do perfil do paciente
-app.post('/atualizar-paciente', verificarToken, async (req, res) => {
-  const { rua, numero, cep, cidade, estado, rg, cpf } = req.body;
-
-  // Recupere o ID do paciente do token
-  const pacienteId = req.pacienteId;
-
-  try {
-    // Verifique se as informações do paciente já existem no banco de dados
-    let informacoes = await Informacoes.findOne({ where: { id_paciente: pacienteId } });
-
-    if (!informacoes) {
-      // Se as informações não existem, crie um novo registro
-      informacoes = await Informacoes.create({
-        rua,
-        numero,
-        cep,
-        cidade,
-        estado,
-        rg,
-        cpf,
-        id_paciente: pacienteId,
-      });
-    } else {
-      // As informações já existem, atualize-as
-      informacoes.rua = rua;
-      informacoes.numero = numero;
-      informacoes.cep = cep;
-      informacoes.cidade = cidade;
-      informacoes.estado = estado;
-      informacoes.rg = rg;
-      informacoes.cpf = cpf;
-      await informacoes.save();
-    }
-
-    res.json({ success: true, message: 'Perfil atualizado com sucesso!' });
-  } catch (error) {
-    console.error('Erro ao atualizar perfil do paciente:', error);
-    res.status(500).json({ success: false, message: 'Erro ao atualizar perfil do paciente.' });
-  }
-});
-
 // Rota de login
 app.post('/login', async (req, res) => {
   try {
@@ -342,8 +260,6 @@ app.post('/login', async (req, res) => {
         mensagem: "Senha incorreta. Verifique os dados e tente novamente.",
       });
     }
-
-
 
     // Gere um token de autenticação
     const token = jwt.sign({ pacienteId: paciente.id }, SECRET); // Use o segredo definido

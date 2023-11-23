@@ -7,22 +7,15 @@ CREATE TABLE IF NOT EXISTS pacientes (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE,
     senha VARCHAR(255) NOT NULL,
-    convenio INT(255) NOT NULL, 
-    sus INT NOT NULL
-);
-
--- Crie a tabela informacoes_pacientes
-CREATE TABLE IF NOT EXISTS informacoes_pacientes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    convenio VARCHAR(255) NOT NULL, 
+    sus VARCHAR(255) NOT NULL,
     rua VARCHAR(255) NOT NULL,
-    numero INT NOT NULL,
-    cep VARCHAR(255) NOT NULL,
+    numero VARCHAR(255) NOT NULL, 
+    cep VARCHAR(8) NOT NULL,
     cidade VARCHAR(255) NOT NULL,
     estado VARCHAR(255) NOT NULL,
-    rg VARCHAR(255) NOT NULL,
-    cpf VARCHAR(255) NOT NULL,
-    id_paciente INT NOT NULL,
-    FOREIGN KEY (id_paciente) REFERENCES pacientes(id)
+    rg VARCHAR(255) NOT NULL UNIQUE, 
+    cpf VARCHAR(255) NOT NULL UNIQUE 
 );
 
 SELECT * FROM pacientes;
@@ -86,11 +79,3 @@ CREATE TABLE IF NOT EXISTS receitas (
     FOREIGN KEY (paciente_id) REFERENCES pacientes(id)
 );
 
--- Crie uma tabela de relacionamento para associar medicamentos a receitas
-CREATE TABLE IF NOT EXISTS medicamentos_receitas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    receita_id INT NOT NULL,medico
-    medicamento_id INT NOT NULL,
-    FOREIGN KEY (receita_id) REFERENCES receitas(id),
-    FOREIGN KEY (medicamento_id) REFERENCES medicamentos(id)
-);

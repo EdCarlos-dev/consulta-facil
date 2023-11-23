@@ -1,15 +1,20 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../front/config/config');
 
-// Defina o modelo do paciente usando o Sequelize
+// Define the paciente model using Sequelize
 const Paciente = sequelize.define('Paciente', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false,
+  },
   nome: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false,
     unique: true,
   },
   senha: {
@@ -17,15 +22,44 @@ const Paciente = sequelize.define('Paciente', {
     allowNull: false,
   },
   convenio: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   sus: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
-}, {
-  tableName: 'pacientes',
+  rua: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  numero: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  cep: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  cidade: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  estado: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  rg: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  cpf: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
 });
 
 module.exports = Paciente;
