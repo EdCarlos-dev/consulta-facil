@@ -455,8 +455,31 @@ app.post('/marcar-consulta', verificarToken, async (req, res) => {
     // Combine a data e a hora em um formato de data e hora
     const dataConsulta = new Date(data + ' ' + hora);
 
+    // Validação da data e hora
+    const dataHoraAtual = new Date();
+    if (dataConsulta <= dataHoraAtual) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: 'A data e hora da consulta devem ser futuras.',
+      });
+    } 
+
+    // Verifique a disponibilidade da data e hora
+    const consultaExistente = await Agendamento.findOne({
+      where: {
+        data_consulta: dataConsulta,
+      },
+    });
+
+    if (consultaExistente) {
+      return res.status(400).json({
+        erro: true,
+        mensagem: 'Já existe uma consulta marcada para esta data e hora.',
+      });
+    }
+
     // Inserir os dados da consulta na tabela "Agendamentos"
-    const novoAgendamento = await Agendamentos.create({
+    const novoAgendamento = await Agendamento.create({
       paciente_id: pacienteId,
       data_consulta: dataConsulta,
       especialidade,
@@ -483,6 +506,7 @@ app.get('/consultas-agendadas', verificarToken, async (req, res) => {
     const pacienteId = req.pacienteId;
     const consultasAgendadas = await Agendamento.findAll({
       where: { paciente_id: pacienteId },
+      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
     });
 
     return res.json(consultasAgendadas);
@@ -494,6 +518,28 @@ app.get('/consultas-agendadas', verificarToken, async (req, res) => {
     });
   }
 });
+
+// Rota para buscar todas as consultas agendadas
+app.get('/consultas-agendadas', verificarToken, async (req, res) => {
+  try {
+    const pacienteId = req.pacienteId;
+
+    // Consulte o banco de dados para obter todas as consultas agendadas para o paciente autenticado
+    const consultasAgendadas = await Agendamento.findAll({
+      where: { paciente_id: pacienteId },
+      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+    });
+
+    return res.json(consultasAgendadas);
+  } catch (error) {
+    console.error('Erro ao listar consultas agendadas:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao listar consultas agendadas.',
+    });
+  }
+});
+
 // Inicie o servidor
 app.listen(port, () => {
   console.log(`Servidor em execução na porta ${port}`);

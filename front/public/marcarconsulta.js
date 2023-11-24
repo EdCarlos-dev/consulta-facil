@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Validação da data e hora
     const dataHoraAtual = new Date();
-    const dataAgendada = new Date(data + 'Horário da consulta:' + hora);
+    const dataAgendada = new Date(data + ' ' + hora);
 
     if (dataAgendada <= dataHoraAtual) {
       erroDataHora.textContent = 'A data e hora da consulta devem ser futuras.';
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch('/marcar-consulta', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'), // // Use o token armazenado localmente após o login
+          'Authorization': 'Bearer ' + localStorage.getItem('token'), // Use o token armazenado localmente após o login
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(dadosConsulta),
@@ -47,11 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error('Erro ao marcar consulta:', error);
         erroDataHora.textContent = 'Erro ao marcar consulta. Tente novamente mais tarde.';
       });
-  }
+    }
+  });
 });
-});
-
- // Sincronize a tabela com o banco de dados e aplique quaisquer alterações necessárias.
- Agendamentos.sync({ alter: true });
-
- module.exports = Agendamentos;
