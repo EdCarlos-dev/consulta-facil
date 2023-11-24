@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Validação da data e hora
     const dataHoraAtual = new Date();
-    const dataAgendada = new Date(data + 'T' + hora);
+    const dataAgendada = new Date(data + 'Horário da consulta:' + hora);
 
     if (dataAgendada <= dataHoraAtual) {
       erroDataHora.textContent = 'A data e hora da consulta devem ser futuras.';

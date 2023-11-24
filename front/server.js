@@ -9,6 +9,7 @@ const sequelize = require('./config/config');
 const Paciente = require('../back/modelos/Paciente');
  const Medico = require('../back/modelos/Medico');
 const Enfermeiro = require('../back/modelos/Enfermeiro');
+const Agendamentos = require('../back/modelos/Agendamentos');
 
 // const Agendamento = require('./back/modelos/Agendamento');
 
@@ -382,7 +383,7 @@ function verificarToken(req, res, next) {
     return res.status(401).json({ mensagem: 'Token não fornecido' });
   }
 
-  jwt.verify(token, SECRET, (err, decoded) => { // Use o mesmo segredo aqui
+  jwt.verify(token.split(' ')[1], SECRET, (err, decoded) => { // Use o mesmo segredo aqui
     if (err) {
       return res.status(401).json({ mensagem: 'Token inválido' });
     }
@@ -413,7 +414,7 @@ function verificarTokenMedico(req, res, next) {
     return res.status(401).json({ mensagem: 'Token não fornecido' });
   }
 
-  jwt.verify(token, SECRET, (err, decoded) => {
+  jwt.verify(token.split(' ')[1], SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ mensagem: 'Token inválido' });
     }
@@ -432,7 +433,7 @@ function verificarTokenEnfermeiro(req, res, next) {
     return res.status(401).json({ mensagem: 'Token não fornecido' });
   }
 
-  jwt.verify(token, SECRET, (err, decoded) => {
+  jwt.verify(token.split(' ')[1], SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ mensagem: 'Token inválido' });
     }
