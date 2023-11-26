@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busca de Clínicas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map-container {
+      text-align: center;
+    }
+
+    #map {
+      height: 800px;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    .leaflet-marker-icon {
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    #map-message {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Container para o mapa -->
+<div id="map-container">
+  <div id="map"></div>
+  <p id="map-message">A seguir são mostrados hospitais, UBS e clínicas de saúde próximas à sua localização.</p>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  let map;
+
+  function initMap() {
+    map = L.map('map').setView([0, 0], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Solicita permissão para obter a localização do usuário
+    requestLocationPermission();
+  }
+
+  function requestLocationPermission() {
+    const permission = confirm("Este site deseja usar sua localização para encontrar clínicas próximas. Permitir?");
+    if (permission) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const userLocation = [position.coords.latitude, position.coords.longitude];
+            map.setView(userLocation, 15);
+            searchMedicalFacilities(userLocation);
+          },
+          (error) => {
+            console.error('Erro ao obter a localização do usuário:', error);
+          }
+        );
+      } else {
+        console.error('Geolocalização não suportada neste navegador.');
+      }
+    } else {
+      alert("Permissão negada. A localização não será usada.");
+    }
+  }
+
+  function searchMedicalFacilities(userLocation) {
+    // Código para buscar clínicas, hospitais, etc. usando a localização do usuário
+    // Exemplo: Adicionar um marcador
+    L.marker(userLocation, {
+      icon: L.divIcon({
+        className: 'leaflet-marker-icon',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
+      })
+    }).addTo(map);
+  }
+
+  window.onload = initMap;
+</script>
+
+</body>
+</html>

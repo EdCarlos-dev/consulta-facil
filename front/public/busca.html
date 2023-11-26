@@ -5,8 +5,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clínica Easy Way - Busca</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+ 
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
-  <script src="busca.js"></script>
+  <script></script>
+  <style>
+    #map-container {
+      text-align: center;
+    }
+
+    #map {
+      height: 800px;
+      width: 80%;
+      margin: 20px auto;
+    }
+
+    .leaflet-marker-icon {
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    #map-message {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #333;
+    }
+    #search-container {
+      float: left;
+      width: 40%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #address-input {
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
+    #clinics-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .clinic-item {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .leaflet-marker-icon {
+      width: 60px;
+      height: 60px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .leaflet-popup-content {
+      text-align: center;
+    }
+
+    .clinic-marker {
+      width: 40px;
+      height: 40px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    #web-results {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -19,17 +93,92 @@
     <section id="busca">
       <h2>Buscar Clínicas</h2>
       <form id="search-form">
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco">
-        <button type="submit">Buscar</button>
+        <button type="submit">Rastrear Minha Localização</button>
       </form>
-      <div id="map"></div>
-      <button id="track-location">Rastrear Minha Localização</button>
+            <!-- Container para o mapa -->
+            <div id="map-container">
+              <div id="map"></div>
+              <p id="map-message">A seguir são mostrados hospitais, UBS e clínicas de saúde próximas à sua localização.</p>
+            </div>
+
+<!-- Container para a busca -->
+<div id="search-container">
+  <!-- Campo de endereço -->
+  <label for="address-input">Endereço:</label>
+  <input type="text" id="address-input" placeholder="Digite seu endereço">
+
+  <!-- Botão para buscar clínicas -->
+  <button onclick="searchClinics()">Buscar Clínicas Próximas</button>
+
+  <!-- Lista de clínicas próximas -->
+  <p>Clínicas próximas ao endereço informado:</p>
+  <ul id="clinics-list"></ul>
+
+  <!-- Resultados da pesquisa web -->
+  <div id="web-results"></div>
+</div>
+
+
+
+
     </section>
   </main>
   <footer class="footer">
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
   </footer>
   <script src="menu_generate.js"></script>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    let map;
+  
+    function initMap() {
+      map = L.map('map').setView([0, 0], 15);
+  
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+  
+      // Solicita permissão para obter a localização do usuário
+      requestLocationPermission();
+    }
+  
+    function requestLocationPermission() {
+      const permission = confirm("Este site deseja usar sua localização para encontrar clínicas próximas. Permitir?");
+      if (permission) {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const userLocation = [position.coords.latitude, position.coords.longitude];
+              map.setView(userLocation, 15);
+              searchMedicalFacilities(userLocation);
+            },
+            (error) => {
+              console.error('Erro ao obter a localização do usuário:', error);
+            }
+          );
+        } else {
+          console.error('Geolocalização não suportada neste navegador.');
+        }
+      } else {
+        alert("Permissão negada. A localização não será usada.");
+      }
+    }
+  
+    function searchMedicalFacilities(userLocation) {
+      // Código para buscar clínicas, hospitais, etc. usando a localização do usuário
+      // Exemplo: Adicionar um marcador
+      L.marker(userLocation, {
+        icon: L.divIcon({
+          className: 'leaflet-marker-icon',
+          iconSize: [30, 30],
+          iconAnchor: [15, 30]
+        })
+      }).addTo(map);
+    }
+  
+    window.onload = initMap;
+  </script>
+  
+
 </body>
 </html>

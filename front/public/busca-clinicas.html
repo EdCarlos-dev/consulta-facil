@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Busca de Clínicas</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+  <style>
+    #map {
+      height: 400px;
+      width: 60%;
+      margin-top: 20px;
+      float: left;
+    }
+
+    #search-container {
+      float: left;
+      width: 40%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #address-input {
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
+    #clinics-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    .clinic-item {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .leaflet-marker-icon {
+      width: 60px;
+      height: 60px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .leaflet-popup-content {
+      text-align: center;
+    }
+
+    .clinic-marker {
+      width: 40px;
+      height: 40px;
+      background-color: red;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    #web-results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Container para o mapa -->
+<div id="map"></div>
+
+<!-- Container para a busca -->
+<div id="search-container">
+  <!-- Campo de endereço -->
+  <label for="address-input">Endereço:</label>
+  <input type="text" id="address-input" placeholder="Digite seu endereço">
+
+  <!-- Botão para buscar clínicas -->
+  <button onclick="searchClinics()">Buscar Clínicas Próximas</button>
+
+  <!-- Lista de clínicas próximas -->
+  <p>Clínicas próximas ao endereço informado:</p>
+  <ul id="clinics-list"></ul>
+
+  <!-- Resultados da pesquisa web -->
+  <div id="web-results"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+  let map;
+
+  function initMap() {
+    map = L.map('map').setView([0, 0], 22);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const geocoder = L.Control.Geocoder.nominatim();
+    const control = L.Control.geocoder({
+      geocoder: geocoder
+    }).addTo(map);
+
+    map.on('geocode:result', function (event) {
+      const userLocation = event.geocode.center;
+      map.setView(userLocation, 22);
+    });
+  }
+
+  function searchMedicalFacilities(userLocation) {
+    const radius = 5000;
+    const baseUrl = 'https://nominatim.openstreetmap.org/search';
+    const searchQuery = 'clinica OR hospital OR UBS';
+
+    const apiUrl = `${baseUrl}?q=${searchQuery}&format=json&limit=10&dedupe=1&lat=${userLocation.lat}&lon=${userLocation.lng}&radius=${radius}`;
+
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        clearMarkers();
+        clearClinicsList();
+
+        data.forEach((result) => {
+          const marker = L.marker([parseFloat(result.lat), parseFloat(result.lon)], {
+            icon: L.divIcon({
+              className: 'clinic-marker',
+              iconSize: [60, 60],
+              iconAnchor: [25, 25]
+            })
+          }).addTo(map);
+
+          marker.bindPopup(result.display_name);
+          marker.on('mouseover', function () {
+            this.openPopup();
+          });
+          marker.on('mouseout', function () {
+            this.closePopup();
+          });
+
+          addClinicToList(result.display_name);
+        });
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar clínicas:', error);
+      });
+  }
+
+  function clearMarkers() {
+    const markers = map.getLayers();
+    markers.forEach((marker) => {
+      map.removeLayer(marker);
+    });
+  }
+
+  function clearClinicsList() {
+    const clinicsList = document.getElementById('clinics-list');
+    clinicsList.innerHTML = '';
+  }
+
+  function addClinicToList(name) {
+    const clinicsList = document.getElementById('clinics-list');
+    const listItem = document.createElement('li');
+    listItem.className = 'clinic-item';
+    listItem.textContent = name;
+    clinicsList.appendChild(listItem);
+  }
+
+  function searchWebResults(userAddress) {
+    const webResultsContainer = document.getElementById('web-results');
+    webResultsContainer.innerHTML = '';
+
+    // Substitua esta parte com chamadas reais à API da web com os dados do usuário (userAddress)
+    fetch(`https://api.example.com/search?address=${userAddress}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const webResultsTitle = document.createElement('p');
+        webResultsTitle.textContent = 'Resultados da Pesquisa Web:';
+        webResultsContainer.appendChild(webResultsTitle);
+
+        const webResultsList = document.createElement('ul');
+        webResultsList.style.listStyle = 'none';
+        webResultsList.style.padding = '0';
+
+        data.results.forEach((result) => {
+          const listItem = document.createElement('li');
+          listItem.textContent = result.name;
+          webResultsList.appendChild(listItem);
+        });
+
+        webResultsContainer.appendChild(webResultsList);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar resultados da web:', error);
+      });
+  }
+
+  function searchClinics() {
+    const addressInput = document.getElementById('address-input');
+    const geocoder = new L.Control.Geocoder.Nominatim();
+
+    geocoder.geocode(addressInput.value, (results) => {
+      if (results && results.length > 0) {
+        const userLocation = results[0].center;
+        map.setView(userLocation, 16); // Reduzindo o zoom para 16
+        searchMedicalFacilities(userLocation);
+        searchWebResults(addressInput.value);
+      } else {
+        console.error('Erro ao geocodificar o endereço');
+      }
+    });
+  }
+
+  window.onload = initMap;
+</script>
+
+</body>
+</html>

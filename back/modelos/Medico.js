@@ -17,7 +17,7 @@ const Medico = sequelize.define('Medico', {
       allowNull: false,
     },
     crm: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     especialidade: {
