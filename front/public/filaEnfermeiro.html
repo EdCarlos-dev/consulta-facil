@@ -38,6 +38,32 @@
   </footer>
   <script src="menu_generate_enfermeiro.js"></script>
   <script src="filaEnfermeiro.js"></script>
+  <script>
+    // Função para chamar o método de salvar comentários
+    function salvarComentario(agendamentoId) {
+      const inputComentarios = document.getElementById(`comentarios-${agendamentoId}`);
+      const comentarios = inputComentarios.value;
+  
+      fetch(`/salvar-comentarios/${agendamentoId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ comentarios }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.mensagem); // Exibe um alerta com a mensagem do servidor
+        // Adicione aqui o redirecionamento para a página de atendimento médico
+        window.location.href = '/atendimentoMedico'; // Altere conforme necessário
+      })
+      .catch(error => {
+        console.error('Erro ao salvar comentários:', error);
+        alert('Erro ao salvar comentários. Verifique a console para mais detalhes.');
+      });
+    }
+  </script>
 </body>
 
 </html>

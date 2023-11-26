@@ -47,22 +47,19 @@ document.addEventListener("DOMContentLoaded", function () {
           const inputComentarios = document.createElement('input');
           inputComentarios.type = 'text';
           inputComentarios.placeholder = 'Adicione comentários';
-          // Adicione um evento para salvar os comentários no backend quando o enfermeiro inserir algo
-          inputComentarios.addEventListener('change', async () => {
-            await fetch(`/salvar-comentarios/${pacienteAgendamento.id}`, {
-              method: 'POST',
-              headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ comentarios: inputComentarios.value }),
-            });
-          });
+          inputComentarios.id = `comentarios-${pacienteAgendamento.id}`; // Adiciona um ID único para cada campo
           colunaComentarios.appendChild(inputComentarios);
+
+          // Adiciona um botão para salvar comentários
+          const botaoSalvar = document.createElement('button');
+          botaoSalvar.textContent = 'Salvar Comentário';
+          botaoSalvar.addEventListener('click', () => salvarComentario(pacienteAgendamento.id));
+          colunaComentarios.appendChild(botaoSalvar);
+
           linhaTabela.appendChild(colunaComentarios);
 
           corpoTabelaFila.appendChild(linhaTabela);
-        });
+          });
       } else {
         // Se não houver pacientes na fila, adicione uma linha indicando isso
         const linhaVazia = document.createElement('tr');

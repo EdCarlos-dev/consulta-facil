@@ -14,45 +14,37 @@
     </nav>
   </header>
   <main>
-    <section id="atendimentoMedico">
-      <h2>Atendimento Médico</h2>
-      
-      <div id="perfilFoto" class="perfil-foto-wrapper">
-        <img id="fotoPerfil" src="avatar.jpg" alt="Foto de Perfil">
-        <button id="trocarImagemButton">Trocar Imagem</button>
-        <input type="file" id="inputImagem" accept="image/*" style="display: none;">
-      </div>
+    <div id="historicoAtendimentos">
+      <!-- Exibir histórico de atendimentos -->
+      <h3>Histórico de Atendimentos</h3>
+      <table id="tabelaAtendimentos">
+        <thead>
+          <tr>
+            <th>Data da Consulta</th>
+            <th>Especialidade</th>
+            <th>Status</th>
+            <th>Comentários do Enfermeiro</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabelaAtendimentos"></tbody>
+      </table>
+    </div>
 
-      <p id="nome"><b>Olá Dr(a), <span id="nomeMedico"></span></b></p>
-      
-      <div id="informacoesPaciente">
-        <!-- Aqui serão exibidas as informações do paciente -->
-        <h3>Informações do Paciente</h3>
-        <p><b>Nome:</b> <span id="nomePaciente"></span></p>
-        <p><b>Data de Nascimento:</b> <span id="dataNascimentoPaciente"></span></p>
-        <p><b>Outras informações:</b> <span id="outrasInformacoesPaciente"></span></p>
-      </div>
-
-      <div id="consultasPassadas">
-        <!-- Aqui serão exibidas as consultas passadas do paciente -->
-        <h3>Consultas Passadas</h3>
-        <ul id="listaConsultasPassadas"></ul>
-      </div>
-
-      <div id="quadroClinico">
-        <!-- Aqui será exibido o quadro clínico do paciente -->
-        <h3>Quadro Clínico</h3>
-        <textarea id="quadroClinicoText" rows="4" cols="50" placeholder="Digite o andamento do quadro clínico..."></textarea>
-        <button id="atualizarQuadroClinico">Atualizar Quadro Clínico</button>
-      </div>
-
-      <!-- Adicione outras funcionalidades conforme necessário -->
-
-      <form id="formularioCadastro" action="/atualizar-medico" method="post">
-        <!-- Adicione campos específicos para médicos -->
-        <button type="submit">Atualizar</button>
-      </form>
-    </section>
+    <div id="consultasPassadas">
+      <!-- Aqui serão exibidas as consultas passadas do paciente -->
+      <h3>Consultas Passadas</h3>
+      <table id="tabelaConsultasPassadas">
+        <thead>
+          <tr>
+            <th>Data da Consulta</th>
+            <th>Especialidade</th>
+            <th>Status</th>
+            <th>Comentários do Enfermeiro</th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabelaConsultasPassadas"></tbody>
+      </table>
+    </div>
   </main>
   <footer class="footer">
     <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>

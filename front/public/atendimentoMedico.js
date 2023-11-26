@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // ... (código anterior)
-
+  
   // Função para carregar os dados do médico do localStorage
   function loadMedicoData() {
     const nomeMedico = document.getElementById('nomeMedico');
