@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('token', data.token); // Salve o token
             localStorage.setItem('emailPaciente', email); // Salve o email do paciente
             localStorage.setItem('nomePaciente', data.paciente.nome); // Salve o nome do paciente          
+            localStorage.setItem('rgPaciente', data.paciente.rg); // Salve o nome do paciente          
+            localStorage.setItem('cpfPaciente', data.paciente.cpf);
 
           setTimeout(function () {
             window.location.href = 'perfilPaciente'; // Redirecionar para a página de perfilPaciente.html

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Atualiza o texto dentro do elemento nomePaciente no cabeçalho
   if (perfilNomeElement && nomePaciente) {
-    perfilNomeElement.textContent = `Olá, ${nomePaciente}`;
+    perfilNomeElement.textContent = `${nomePaciente}`;
   } else {
     // Define um valor padrão caso o nome do paciente não seja encontrado no Local Storage ou se o elemento não existir
     perfilNomeElement.textContent = 'Olá, Paciente';
