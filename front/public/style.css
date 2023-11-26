@@ -365,3 +365,42 @@ a:hover {
 #web-results {
   margin-top: 20px;
 }
+
+/* Adicione essas regras de estilo para a tabela */
+#tabela-fila {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#tabela-fila th, #tabela-fila td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Defina larguras específicas para cada coluna */
+#tabela-fila th:nth-child(1),
+#tabela-fila td:nth-child(1) {
+  width: 20%; /* Largura da coluna Paciente */
+}
+
+#tabela-fila th:nth-child(2),
+#tabela-fila td:nth-child(2) {
+  width: 20%; /* Largura da coluna Data da Consulta */
+}
+
+#tabela-fila th:nth-child(3),
+#tabela-fila td:nth-child(3) {
+  width: 15%; /* Largura da coluna Hora da Consulta */
+}
+
+#tabela-fila th:nth-child(4),
+#tabela-fila td:nth-child(4) {
+  width: 25%; /* Largura da coluna Especialidade */
+}
+
+#tabela-fila th:nth-child(5),
+#tabela-fila td:nth-child(5) {
+  width: 20%; /* Largura da coluna Comentários */
+}

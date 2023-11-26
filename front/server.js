@@ -558,6 +558,31 @@ app.get('/fila-enfermeiro', verificarTokenEnfermeiro, async (req, res) => {
   }
 });
 
+// Rota para salvar comentários do enfermeiro
+app.post('/salvar-comentarios/:agendamentoId', verificarTokenEnfermeiro, async (req, res) => {
+  try {
+    const { comentarios } = req.body;
+    const agendamentoId = req.params.agendamentoId;
+
+    // Atualizar o agendamento com os comentários
+    await Agendamento.update(
+      { comentarios: comentarios },
+      { where: { id: agendamentoId } }
+    );
+
+    res.json({
+      erro: false,
+      mensagem: 'Comentários salvos com sucesso.',
+    });
+  } catch (error) {
+    console.error('Erro ao salvar comentários:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao salvar comentários. Verifique os dados e tente novamente.',
+    });
+  }
+});
+
 // Rota para obter informações de um paciente específico
 app.get('/pacientes/:id', verificarToken, async (req, res) => {
   try {

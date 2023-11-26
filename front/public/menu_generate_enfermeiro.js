@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuItems = [
 
     { text: 'Fila de Atendimento', link: '/filaEnfermeiro.html' },
+    { text: 'Triagem', link: '/triagem.html' },
     
   ];
 
