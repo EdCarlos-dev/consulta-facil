@@ -53,13 +53,16 @@ document.addEventListener("DOMContentLoaded", function () {
           // Adiciona um botão para salvar comentários
           const botaoSalvar = document.createElement('button');
           botaoSalvar.textContent = 'Salvar Comentário';
-          botaoSalvar.addEventListener('click', () => salvarComentario(pacienteAgendamento.id));
+          botaoSalvar.addEventListener('click', () => salvarComentario(pacienteAgendamento.id, paciente.id));
           colunaComentarios.appendChild(botaoSalvar);
 
           linhaTabela.appendChild(colunaComentarios);
 
           corpoTabelaFila.appendChild(linhaTabela);
-          });
+        });
+
+        // Ordenar a tabela com base na data da consulta
+        sortTableByDate();
       } else {
         // Se não houver pacientes na fila, adicione uma linha indicando isso
         const linhaVazia = document.createElement('tr');
@@ -75,3 +78,58 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error('Erro ao buscar pacientes na fila:', error);
     });
 });
+
+function sortTableByDate() {
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("tabela-fila");
+  switching = true;
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < rows.length - 1; i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[1].textContent;
+      y = rows[i + 1].getElementsByTagName("td")[1].textContent;
+      x = new Date(x).getTime();
+      y = new Date(y).getTime();
+      if (x > y) {
+        shouldSwitch = true;
+        break;
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
+async function salvarComentario(agendamentoId, pacienteId) {
+  try {
+    const comentarios = document.getElementById(`comentarios-${agendamentoId}`).value;
+
+    // Enviar os comentários para o servidor
+    const response = await fetch(`/salvar-comentarios-prontuario/${pacienteId}/${agendamentoId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({ comentarios }),
+    });
+
+    const data = await response.json();
+
+    if (data.erro) {
+      console.error('Erro ao salvar comentários:', data.mensagem);
+    } else {
+      alert('Comentários salvos com sucesso.');
+
+      // Adicione a linha abaixo para redirecionar para prontuarioMedico.html do paciente
+      window.location.href = `/prontuarioMedico.html?pacienteId=${pacienteId}`;
+    }
+  } catch (error) {
+    console.error('Erro ao salvar comentários:', error);
+    alert('Erro ao salvar comentários. Verifique a conexão e tente novamente.');
+  }
+}

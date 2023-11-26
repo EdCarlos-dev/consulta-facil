@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuItems = [
 
     { text: 'Meu Atendimento', link: '/atendimentoMedico.html' },
+    { text: 'Prontuário Médico', link: '/prontuariomedico.html' },
     
   ];
 

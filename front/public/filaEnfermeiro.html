@@ -39,30 +39,44 @@
   <script src="menu_generate_enfermeiro.js"></script>
   <script src="filaEnfermeiro.js"></script>
   <script>
-    // Função para chamar o método de salvar comentários
-    function salvarComentario(agendamentoId) {
-      const inputComentarios = document.getElementById(`comentarios-${agendamentoId}`);
-      const comentarios = inputComentarios.value;
-  
-      fetch(`/salvar-comentarios/${agendamentoId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'),
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ comentarios }),
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert(data.mensagem); // Exibe um alerta com a mensagem do servidor
-        // Adicione aqui o redirecionamento para a página de atendimento médico
-        window.location.href = '/atendimentoMedico'; // Altere conforme necessário
-      })
-      .catch(error => {
-        console.error('Erro ao salvar comentários:', error);
-        alert('Erro ao salvar comentários. Verifique a console para mais detalhes.');
-      });
+    // Função para chamar o método de buscar pacientes na fila
+    function buscarPacientesNaFila() {
+      // Adicione aqui o código para buscar pacientes na fila e preencher a tabela
     }
+
+    // Função para chamar o método de salvar comentários
+    async function salvarComentario(agendamentoId, pacienteId) {
+      try {
+        const comentarios = document.getElementById(`comentarios-${agendamentoId}`).value;
+
+        // Enviar os comentários para o servidor
+        const response = await fetch(`/salvar-comentarios-prontuario/${pacienteId}/${agendamentoId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+          },
+          body: JSON.stringify({ comentarios }),
+        });
+
+        const data = await response.json();
+
+        if (data.erro) {
+          console.error('Erro ao salvar comentários:', data.mensagem);
+        } else {
+          alert('Comentários salvos com sucesso.');
+
+          // Atualizar a tabela após salvar os comentários
+          buscarPacientesNaFila();
+        }
+      } catch (error) {
+        console.error('Erro ao salvar comentários:', error);
+        alert('Erro ao salvar comentários. Verifique a conexão e tente novamente.');
+      }
+    }
+
+    // Executar a busca de pacientes na fila ao carregar a página
+    document.addEventListener("DOMContentLoaded", buscarPacientesNaFila);
   </script>
 </body>
 

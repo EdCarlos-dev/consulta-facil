@@ -20,7 +20,11 @@ const Agendamentos = sequelize.define('Agendamentos', {
       defaultValue: 'agendada',
       allowNull: false,
     },
-  }, {
+    comentarios: {
+      type: DataTypes.TEXT, 
+    },
+  }, 
+  {
     tableName: 'agendamentos',
   });
 

@@ -608,6 +608,77 @@ app.get('/pacientes/:id', verificarToken, async (req, res) => {
   }
 });
 
+// Rota para obter informações do paciente e histórico de consultas
+app.get('/prontuario-medico/:pacienteId', verificarTokenMedico, async (req, res) => {
+  try {
+      const pacienteId = req.params.pacienteId;
+
+      // Consulte o banco de dados para obter as informações do paciente
+      const paciente = await Paciente.findByPk(pacienteId);
+
+      if (!paciente) {
+          return res.status(404).json({
+              erro: true,
+              mensagem: 'Paciente não encontrado.',
+          });
+      }
+
+      // Consulte o banco de dados para obter o histórico de consultas
+      const historicoConsultas = await Agendamento.findAll({
+          where: { paciente_id: pacienteId, status: 'realizada' },
+          include: [{ model: Enfermeiro, attributes: ['nome'] }],
+          order: [['data_consulta', 'DESC']],
+      });
+
+      const historicoFormatado = historicoConsultas.map(consulta => ({
+          enfermeiro: consulta.Enfermeiro.nome,
+          data_consulta: consulta.data_consulta,
+      }));
+
+      return res.json({
+          paciente,
+          historico: historicoFormatado,
+      });
+  } catch (error) {
+      console.error('Erro ao obter prontuário médico:', error);
+      return res.status(500).json({
+          erro: true,
+          mensagem: 'Erro ao obter prontuário médico.',
+      });
+  }
+});
+
+// Rota para salvar comentários no prontuário médico do paciente
+app.post('/salvar-comentarios-prontuario/:pacienteId/:agendamentoId', verificarTokenEnfermeiro, async (req, res) => {
+  try {
+    const { comentarios } = req.body;
+    const pacienteId = req.params.pacienteId;
+    const agendamentoId = req.params.agendamentoId;
+
+    // Atualize o agendamento com os comentários
+    await Agendamento.update(
+      { comentarios: comentarios },
+      { where: { id: agendamentoId } }
+    );
+
+    res.json({
+      erro: false,
+      mensagem: 'Comentários salvos com sucesso.',
+    });
+  } catch (error) {
+    console.error('Erro ao salvar comentários:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao salvar comentários. Verifique os dados e tente novamente.',
+    });
+  }
+});
+
+// Rota para a página de atendimento do medico
+app.get('/perfil-medico', verificarTokenMedico, (req, res) => {
+  // Esta rota requer autenticação; o médico está autenticado
+  res.sendFile(path.join(__dirname, '/public/atendimentoMedico.html'));
+});
 
 // Inicie o servidor
 app.listen(port, () => {
