@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const tabelaAgendamentos = document.getElementById('tabela-agendamentos');
   const listaAgendamentos = document.getElementById('lista-agendamentos');
 
   // Limpe a lista de agendamentos
@@ -18,14 +19,22 @@ document.addEventListener("DOMContentLoaded", function () {
       const consultasOrdenadas = data.sort((a, b) => new Date(a.data_consulta) - new Date(b.data_consulta));
 
       consultasOrdenadas.forEach((consulta) => {
-        const consultaItem = document.createElement('li');
-        consultaItem.textContent = `Consulta com ${consulta.especialidade} em ${new Date(consulta.data_consulta).toLocaleString()}`;
-        listaAgendamentos.appendChild(consultaItem);
+        const row = listaAgendamentos.insertRow();
+        const cellDataHora = row.insertCell(0);
+        const cellEspecialidade = row.insertCell(1);
+
+        cellDataHora.textContent = new Date(consulta.data_consulta).toLocaleString();
+        cellEspecialidade.textContent = consulta.especialidade;
       });
+
+      // Adicionar a tabela ao DOM
+      tabelaAgendamentos.style.display = 'table';
     } else {
-      const consultaItem = document.createElement('li');
-      consultaItem.textContent = 'Nenhuma consulta agendada.';
-      listaAgendamentos.appendChild(consultaItem);
+      const row = listaAgendamentos.insertRow();
+      const cellMensagem = row.insertCell(0);
+
+      cellMensagem.colSpan = 2;
+      cellMensagem.textContent = 'Nenhuma consulta agendada.';
     }
   })
   .catch((error) => {

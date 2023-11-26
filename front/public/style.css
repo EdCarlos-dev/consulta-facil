@@ -404,3 +404,31 @@ a:hover {
 #tabela-fila td:nth-child(5) {
   width: 20%; /* Largura da coluna Comentários */
 }
+
+/* Estilos específicos para a tabela de agendamentos */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Adicione um espaço entre a seção anterior e a tabela */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #2e856e; /* Cor de fundo para cabeçalhos da tabela */
+  color: white;
+}
+
+/* Estilize as linhas ímpares da tabela */
+tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Adicione um hover nas linhas da tabela para destacar quando o mouse passa por cima */
+tr:hover {
+  background-color: #ddd;
+}
