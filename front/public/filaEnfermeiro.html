@@ -18,21 +18,7 @@
   <main>
     <section id="filaEnfermeiro">
       <h2>Fila de atendimento - Enfermagem</h2>
-      <div id="perfilFoto" class="perfil-foto-wrapper">
-        <img id="fotoPerfil" src="avatar.jpg" alt="Foto de Perfil">
-        <button id="trocarImagemButton">Trocar Imagem</button>
-        <input type="file" id="inputImagem" accept="image/*" style="display: none;">
-      </div>
-      <p id="nome"><b>Olá, <span id="nomeEnfermeiro"></span></b></p>
-      <!-- Adicione mais campos conforme necessário -->
-
-      <form id="formularioCadastro" action="/atualizar-enfermeiro" method="post">
-        <!-- Adicione campos específicos para enfermeiros -->
-        <button id="atualizarButton" type="submit">Atualizar</button>
-      </form>
-
-      <h3>Fila de Atendimento para o Dia Atual:</h3>
-      <ul id="filaAtendimento">
+      <ul id="lista-fila">
         <!-- Aqui serão exibidos os pacientes na fila de atendimento -->
       </ul>
     </section>

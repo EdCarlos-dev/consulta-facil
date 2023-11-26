@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Triagem - Clínica Easy Way</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Clínica Easy Way</h1>
+    <nav>
+      
+    </nav>
+  </header>
+  <main>
+    <section id="triagem">
+        <h2>Triagem - Enfermagem</h2>
+        <div id="perfilFoto" class="perfil-foto-wrapper">
+          <img id="fotoPerfil" src="avatar.jpg" alt="Foto de Perfil">
+          <button id="trocarImagemButton">Trocar Imagem</button>
+          <input type="file" id="inputImagem" accept="image/*" style="display: none;">
+        </div>
+        <p id="nome"><b>Olá, <span id="nomeEnfermeiro"></span></b></p>
+        <!-- Adicione mais campos conforme necessário -->
+  
+        <!-- Mostrar os dados do paciente em triagem -->
+        <h3>Dados do Paciente:</h3>
+        <p><b>Nome:</b> <span id="nomePacienteTriagem"></span></p>
+        <p><b>E-mail:</b> <span id="emailPacienteTriagem"></span></p>
+        <p><b>Número do SUS:</b> <span id="numeroSUSPacienteTriagem"></span></p>
+  
+        <!-- Adicione esta seção para exibir dados da triagem e botão de conclusão -->
+        
+        <h3>Dados da Triagem:</h3>
+        <p><b>Data da Triagem:</b> <span id="dataTriagem"></span></p>
+        <p><b>Triagem Realizada:</b> <span id="triagemRealizada"></span></p>
+
+        <!-- Adicione este botão para concluir a triagem -->
+        <button id="concluirTriagemButton">Concluir Triagem</button>
+
+      </section>
+  </main>
+  <footer class="footer">
+    <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+  </footer>
+  <script src="menu_generate_enfermeiro.js"></script>
+  <script src="triagem.js"></script>
+</body>
+
+</html>

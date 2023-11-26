@@ -540,6 +540,50 @@ app.get('/consultas-agendadas', verificarToken, async (req, res) => {
   }
 });
 
+// Rota para obter a fila de pacientes para o enfermeiro
+app.get('/fila-enfermeiro', verificarTokenEnfermeiro, async (req, res) => {
+  try {
+    // Consulte o banco de dados para obter todas as consultas agendadas
+    const consultasAgendadas = await Agendamento.findAll({
+      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+    });
+
+    return res.json(consultasAgendadas);
+  } catch (error) {
+    console.error('Erro ao listar consultas agendadas:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao listar consultas agendadas.',
+    });
+  }
+});
+
+// Rota para obter informações de um paciente específico
+app.get('/pacientes/:id', verificarToken, async (req, res) => {
+  try {
+    const pacienteId = req.params.id;
+
+    // Consulte o banco de dados para obter as informações do paciente
+    const paciente = await Paciente.findByPk(pacienteId);
+
+    if (!paciente) {
+      return res.status(404).json({
+        erro: true,
+        mensagem: 'Paciente não encontrado.',
+      });
+    }
+
+    return res.json(paciente);
+  } catch (error) {
+    console.error('Erro ao obter informações do paciente:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao obter informações do paciente.',
+    });
+  }
+});
+
+
 // Inicie o servidor
 app.listen(port, () => {
   console.log(`Servidor em execução na porta ${port}`);
