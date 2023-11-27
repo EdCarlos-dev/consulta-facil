@@ -56,6 +56,11 @@ document.addEventListener('DOMContentLoaded', function () {
             localStorage.setItem('nomePaciente', data.paciente.nome); // Salve o nome do paciente          
             localStorage.setItem('rgPaciente', data.paciente.rg); // Salve o nome do paciente          
             localStorage.setItem('cpfPaciente', data.paciente.cpf);
+            localStorage.setItem('ruaPaciente', data.paciente.rua);
+            localStorage.setItem('numeroPaciente', data.paciente.numero);
+            localStorage.setItem('cepPaciente', data.paciente.cep);
+            localStorage.setItem('cidadePaciente', data.paciente.cidade);
+            localStorage.setItem('estadoPaciente', data.paciente.estado);
 
           setTimeout(function () {
             window.location.href = 'perfilPaciente'; // Redirecionar para a página de perfilPaciente.html

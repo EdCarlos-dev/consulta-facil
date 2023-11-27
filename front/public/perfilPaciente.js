@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const emailPaciente = document.getElementById('emailPaciente');
     const rgPaciente = document.getElementById('rgPaciente');
     const cpfPaciente = document.getElementById('cpfPaciente');
+    const ruaPaciente = document.getElementById('ruaPaciente');
+    const numeroPaciente = document.getElementById('numeroPaciente');
+    const cepPaciente = document.getElementById('cepPaciente');
+    const cidadePaciente = document.getElementById('cidadePaciente');
+    const estadoPaciente = document.getElementById('estadoPaciente');
     const fotoPerfil = document.getElementById('fotoPerfil');
 
      // Aqui, você deve obter o token do localStorage
@@ -24,12 +29,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const nome = localStorage.getItem('nomePaciente');
     const rg = localStorage.getItem('rgPaciente');
     const cpf = localStorage.getItem('cpfPaciente');
-
+    const rua = localStorage.getItem('ruaPaciente');
+    const numero = localStorage.getItem('numeroPaciente');
+    const cep = localStorage.getItem('cepPaciente');
+    const cidade = localStorage.getItem('cidadePaciente');
+    const estado = localStorage.getItem('estadoPaciente');
+    
      // Atualize os campos na página de perfil com os dados do paciente
      nomePaciente.textContent = nome;
      emailPaciente.textContent = email;
      rgPaciente.textContent = rg;
      cpfPaciente.textContent = cpf;
+     ruaPaciente.textContent = rua;
+     numeroPaciente.textContent = numero;
+     cepPaciente.textContent = cep;
+     cidadePaciente.textContent = cidade;
+     estadoPaciente.textContent = estado;
      // Você pode fazer o mesmo com a imagem de perfil (fotoPerfil) se estiver armazenando a imagem no localStorage.
      
    }
