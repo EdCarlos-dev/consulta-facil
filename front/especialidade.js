@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "Cardiologia",
       "Dermatologia",
       "Ortopedia",
+      "Clínico",
       "Pediatria",
       "Ginecologia",
       "Neurologia",
