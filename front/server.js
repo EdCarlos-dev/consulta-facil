@@ -38,6 +38,9 @@ const Agendamento = sequelize.define('Agendamento', {
     defaultValue: 'agendada',
     allowNull: false,
   },
+  comentarios: {
+    type: DataTypes.TEXT, 
+  },
 }, {
   tableName: 'agendamentos',
 });
@@ -504,10 +507,18 @@ app.get('/consultas-agendadas', verificarToken, async (req, res) => {
   try {
     // Consulte o banco de dados para obter todas as consultas agendadas para o paciente autenticado
     const pacienteId = req.pacienteId;
-    const consultasAgendadas = await Agendamento.findAll({
-      where: { paciente_id: pacienteId },
-      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
-    });
+    let consultasAgendadas;
+    if (!pacienteId){
+      consultasAgendadas = await Agendamento.findAll({
+        order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+      });
+    }else{
+      consultasAgendadas = await Agendamento.findAll({
+       where: { paciente_id: pacienteId },
+       order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+     });
+    }
+    console.log(consultasAgendadas);
 
     return res.json(consultasAgendadas);
   } catch (error) {
@@ -557,6 +568,25 @@ app.get('/fila-enfermeiro', verificarTokenEnfermeiro, async (req, res) => {
     });
   }
 });
+
+// Rota para obter a comentário da fila do enfermeiro
+app.get('/buscar-comentarios', verificarTokenMedico, async (req, res) => {
+  try {
+    // Consulte o banco de dados para obter todas as consultas agendadas
+    const consultasAgendadas = await Agendamento.findAll({
+      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+    });
+
+    return res.json(consultasAgendadas);
+  } catch (error) {
+    console.error('Erro ao listar consultas agendadas:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao listar consultas agendadas.',
+    });
+  }
+});
+
 
 // Rota para salvar comentários do enfermeiro
 app.post('/salvar-comentarios/:agendamentoId', verificarTokenEnfermeiro, async (req, res) => {

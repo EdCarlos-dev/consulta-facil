@@ -432,3 +432,47 @@ tr:nth-child(odd) {
 tr:hover {
   background-color: #ddd;
 }
+
+/* Adicione essas regras de estilo para a tabela do prontuário médico */
+#tabelaPaciente {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#tabelaPaciente th, #tabelaPaciente td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Defina larguras específicas para cada coluna */
+#tabelaPaciente th:nth-child(1),
+#tabelaPaciente td:nth-child(1) {
+  width: 30%; /* Largura da coluna Nome do Paciente */
+}
+
+#tabelaPaciente th:nth-child(2),
+#tabelaPaciente td:nth-child(2) {
+  width: 20%; /* Largura da coluna Data da Consulta */
+}
+
+#tabelaPaciente th:nth-child(3),
+#tabelaPaciente td:nth-child(3) {
+  width: 15%; /* Largura da coluna Hora da Consulta */
+}
+
+#tabelaPaciente th:nth-child(4),
+#tabelaPaciente td:nth-child(4) {
+  width: 35%; /* Largura da coluna Especialidade */
+}
+
+/* Estilize as linhas ímpares da tabela */
+#tabelaPaciente tr:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+/* Adicione um hover nas linhas da tabela para destacar quando o mouse passa por cima */
+#tabelaPaciente tr:hover {
+  background-color: #ddd;
+}
