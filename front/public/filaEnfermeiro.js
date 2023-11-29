@@ -104,7 +104,7 @@ function sortTableByDate() {
   }
 }
 
-async function salvarComentario(agendamentoId, pacienteId) {
+async function salvarComentario(agendamentoId, pacienteId, nomeEnfermeiro) {
   try {
     const comentarios = document.getElementById(`comentarios-${agendamentoId}`).value;
 
@@ -115,7 +115,7 @@ async function salvarComentario(agendamentoId, pacienteId) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + localStorage.getItem('token'),
       },
-      body: JSON.stringify({ comentarios }),
+      body: JSON.stringify({ comentarios, nomeEnfermeiro }),
     });
 
     const data = await response.json();
@@ -124,8 +124,6 @@ async function salvarComentario(agendamentoId, pacienteId) {
       console.error('Erro ao salvar comentários:', data.mensagem);
     } else {
       alert('Comentários salvos com sucesso.');
-
-      // Adicione a linha abaixo para redirecionar para prontuarioMedico.html do paciente
       window.location.href = `/prontuarioMedico.html?pacienteId=${pacienteId}`;
     }
   } catch (error) {
