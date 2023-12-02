@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const pacienteId = 'all';
+  const pacienteId = obterPacienteIdDaURL();
 
   // Obter informações do paciente e histórico de consultas
   const response = await fetch(`/consultas-agendadas`, {
@@ -19,9 +19,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 function obterPacienteIdDaURL() {
-  // Implemente a lógica para obter o ID do paciente da URL
-  // Retornaremos 'all' por enquanto, você precisará ajustar isso conforme sua lógica
-  return 'all';
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get('pacienteId');
 }
 
 function formatarData(data) {
@@ -34,10 +34,10 @@ function exibirInformacoesPaciente(data) {
 
   if (data && data.length > 0) {
     const rows = data.map(consulta => {
-      const { paciente_id, nome, data_consulta, especialidade, comentarios, status } = consulta;
+      const { paciente_id, nome_paciente, data_consulta, especialidade, comentarios, status } = consulta;
       return `<tr>
                 <td>${paciente_id}</td>
-                <td>${nome}</td>
+                <td>${nome_paciente}</td>
                 <td>${formatarData(data_consulta)}</td>
                 <td>${especialidade}</td>
                 <td>${comentarios}</td>

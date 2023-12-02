@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   const consultaForm = document.getElementById('consulta-form');
   const erroDataHora = document.getElementById('erro-data-hora');
+  
+
 
   consultaForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -29,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fetch('/marcar-consulta', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('token'), // Use o token armazenado localmente após o login
+          'Authorization': 'Bearer ' + localStorage.getItem('token'),
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(dadosConsulta),

@@ -1,11 +1,16 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../../front/config/config');
+const Paciente = require('../../back/modelos/Paciente');
 
 // Defina o modelo de agendamentos usando o Sequelize
 const Agendamentos = sequelize.define('Agendamentos', {
     paciente_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    nome_paciente:{
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     data_consulta: {
       type: DataTypes.DATE,
@@ -28,4 +33,6 @@ const Agendamentos = sequelize.define('Agendamentos', {
     tableName: 'agendamentos',
   });
 
-  module.exports = Agendamentos;
+  Agendamentos.belongsTo(Paciente, { foreignKey: 'paciente_id' });
+
+module.exports = Agendamentos;

@@ -1,6 +1,6 @@
-<!-- prontuarioMedico.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,52 +8,55 @@
     <title>Clínica Easy Way - Prontuário Médico</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
 
-      <h1>Clínica Easy Way</h1>
+        <h1>Clínica Easy Way</h1>
 
-      <nav>
+        <nav>
 
-      </nav>
+        </nav>
     </header>
 
     <section id="login">
         <h2>
-          <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="#2e856e"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-            <path d="M48 0C21.5 0 0 21.5 0 48V256H144c8.8 0 16 7.2 16 16s-7.2 16-16 16H0v64H144c8.8 0 16 7.2 16 16s-7.2 16-16 16H0v80c0 26.5 21.5 48 48 48H265.9c-6.3-10.2-9.9-22.2-9.9-35.1c0-46.9 25.8-87.8 64-109.2V271.8 48c0-26.5-21.5-48-48-48H48zM152 64h16c8.8 0 16 7.2 16 16v24h24c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H184v24c0 8.8-7.2 16-16 16H152c-8.8 0-16-7.2-16-16V152H112c-8.8 0-16-7.2-16-16V120c0-8.8 7.2-16 16-16h24V80c0-8.8 7.2-16 16-16zM512 272a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM288 477.1c0 19.3 15.6 34.9 34.9 34.9H541.1c19.3 0 34.9-15.6 34.9-34.9c0-51.4-41.7-93.1-93.1-93.1H381.1c-51.4 0-93.1 41.7-93.1 93.1z"/>
-          </svg>
-          
-          Prontuário Médico</h2>
-    
-    <!-- Exiba as informações do paciente e o histórico de consultas aqui -->
-        <div id="informacoesPaciente">
-          <h2>Informações do Paciente</h2>
-          <table id="tabelaPaciente">
-            <thead>
-              <tr>
-                <th>ID do Paciente</th>
-                <th>Nome do Paciente</th>
-                <th>Data da Consulta</th>
-                <th>Especialidade</th>
-                <th>Triagem do Enfermeiro</th>
-                <th>Status da Consulta</th>
-              </tr>
-            </thead>
-            <tbody id="corpo-tabela-paciente">
-              <!-- Aqui serão exibidas as informações do paciente -->
-            </tbody>
-          </table>
-        </div>
-    <div id="historicoConsultas"></div>
-    <div id="comentariosEnfermeiro"></div>
-    
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="#2e856e">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M48 0C21.5 0 0 21.5 0 48V256H144c8.8 0 16 7.2 16 16s-7.2 16-16 16H0v64H144c8.8 0 16 7.2 16 16s-7.2 16-16 16H0v80c0 26.5 21.5 48 48 48H265.9c-6.3-10.2-9.9-22.2-9.9-35.1c0-46.9 25.8-87.8 64-109.2V271.8 48c0-26.5-21.5-48-48-48H48zM152 64h16c8.8 0 16 7.2 16 16v24h24c8.8 0 16 7.2 16 16v16c0 8.8-7.2 16-16 16H184v24c0 8.8-7.2 16-16 16H152c-8.8 0-16-7.2-16-16V152H112c-8.8 0-16-7.2-16-16V120c0-8.8 7.2-16 16-16h24V80c0-8.8 7.2-16 16-16zM512 272a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM288 477.1c0 19.3 15.6 34.9 34.9 34.9H541.1c19.3 0 34.9-15.6 34.9-34.9c0-51.4-41.7-93.1-93.1-93.1H381.1c-51.4 0-93.1 41.7-93.1 93.1z" />
+            </svg>
 
-    <footer class="footer">
-        <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
-      </footer>
-      <script src="prontuarioMedico.js"></script>
-      <script src="menu_generate_medico.js"></script>
-    </body>
-    </html>
-    
+            Prontuário Médico</h2>
+
+        <!-- Exiba as informações do paciente e o histórico de consultas aqui -->
+        <div id="informacoesPaciente">
+            <h2>Informações do Paciente</h2>
+            <table id="tabelaPaciente">
+                <thead>
+                    <tr>
+                        <th>ID do Paciente</th>
+                        <th>Nome do Paciente</th>
+                        <th>Data da Consulta</th>
+                        <th>Especialidade</th>
+                        <th>Triagem do Enfermeiro</th>
+                        <th>Status da Consulta</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-tabela-paciente">
+                    <!-- Aqui serão exibidas as informações do paciente -->
+                </tbody>
+            </table>
+        </div>
+        <div id="historicoConsultas"></div>
+        <div id="comentariosEnfermeiro"></div>
+
+
+        <footer class="footer">
+            <p>&copy; 2023 Clínica Easy Way. Todos os direitos reservados.</p>
+        </footer>
+        <script src="prontuarioMedico.js"></script>
+        <script src="menu_generate_medico.js"></script>
+</body>
+
+</html>

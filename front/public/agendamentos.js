@@ -22,9 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const row = listaAgendamentos.insertRow();
         const cellDataHora = row.insertCell(0);
         const cellEspecialidade = row.insertCell(1);
+        const cellNomePaciente = row.insertCell(2); // Adicionando a célula para o nome do paciente
 
         cellDataHora.textContent = new Date(consulta.data_consulta).toLocaleString();
         cellEspecialidade.textContent = consulta.especialidade;
+        cellNomePaciente.textContent = consulta.Paciente.nome; // Exibindo o nome do paciente
       });
 
       // Adicionar a tabela ao DOM
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const row = listaAgendamentos.insertRow();
       const cellMensagem = row.insertCell(0);
 
-      cellMensagem.colSpan = 2;
+      cellMensagem.colSpan = 3;
       cellMensagem.textContent = 'Nenhuma consulta agendada.';
     }
   })

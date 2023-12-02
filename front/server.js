@@ -3,12 +3,12 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const SECRET = 'secret';
 const path = require('path');
-const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('./config/config');
 
 const Paciente = require('../back/modelos/Paciente');
  const Medico = require('../back/modelos/Medico');
 const Enfermeiro = require('../back/modelos/Enfermeiro');
+const Agendamento = require('../back/modelos/Agendamentos');
 const Agendamentos = require('../back/modelos/Agendamentos');
 
 // const Agendamento = require('./back/modelos/Agendamento');
@@ -20,30 +20,7 @@ const port = 3000;
 // Configure a conexão com o banco de dados usando o sequelize importado
 
 // Defina o modelo de agendamentos usando o Sequelize
-const Agendamento = sequelize.define('Agendamento', {
-  paciente_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  data_consulta: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  especialidade: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  status: {
-    type: DataTypes.ENUM('agendada', 'realizada', 'cancelada'),
-    defaultValue: 'agendada',
-    allowNull: false,
-  },
-  comentarios: {
-    type: DataTypes.TEXT, 
-  },
-}, {
-  tableName: 'agendamentos',
-});
+
 
 // Sincronize o modelo com o banco de dados e aplique quaisquer alterações necessárias
 sequelize.sync({ alter: true })
@@ -450,10 +427,12 @@ function verificarTokenEnfermeiro(req, res, next) {
 // Rota para marcar uma nova consulta
 app.post('/marcar-consulta', verificarToken, async (req, res) => {
   try {
+    const pacienteId = req.pacienteId;
     const { data, hora, especialidade } = req.body;
 
-    // Recupere o ID do paciente do token
-    const pacienteId = req.pacienteId;
+    
+    // Busque o paciente pelo ID
+    const paciente = await Paciente.findByPk(pacienteId);
 
     // Combine a data e a hora em um formato de data e hora
     const dataConsulta = new Date(data + ' ' + hora);
@@ -484,62 +463,36 @@ app.post('/marcar-consulta', verificarToken, async (req, res) => {
     // Inserir os dados da consulta na tabela "Agendamentos"
     const novoAgendamento = await Agendamento.create({
       paciente_id: pacienteId,
-      data_consulta: dataConsulta,
+      nome_paciente: paciente.nome, // Adicione o nome do paciente
+      data_consulta: new Date(`${data} ${hora}`),
       especialidade,
+      status: 'Agendada', // ou outro status padrão
     });
 
-    return res.json({
-      erro: false,
-      mensagem: 'Consulta marcada com sucesso',
-      agendamento: novoAgendamento,
-    });
+    res.json({ erro: false, mensagem: 'Consulta marcada com sucesso!' });
   } catch (error) {
     console.error('Erro ao marcar consulta:', error);
-    return res.status(500).json({
-      erro: true,
-      mensagem: 'Erro ao marcar consulta. Verifique os dados e tente novamente.',
-    });
+    res.status(500).json({ erro: true, mensagem: 'Erro ao marcar consulta. Tente novamente mais tarde.' });
   }
 });
 
 // Rota para listar todas as consultas agendadas
 app.get('/consultas-agendadas', verificarToken, async (req, res) => {
   try {
-    // Consulte o banco de dados para obter todas as consultas agendadas para o paciente autenticado
     const pacienteId = req.pacienteId;
     let consultasAgendadas;
-    if (!pacienteId){
-      consultasAgendadas = await Agendamento.findAll({
-        order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
+    if (!pacienteId) {
+      consultasAgendadas = await Agendamentos.findAll({
+        include: [{ model: Paciente, attributes: ['nome'] }], // Inclua o nome do paciente
+        order: [['data_consulta', 'ASC']],
       });
-    }else{
-      consultasAgendadas = await Agendamento.findAll({
-       where: { paciente_id: pacienteId },
-       order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
-     });
+    } else {
+      consultasAgendadas = await Agendamentos.findAll({
+        where: { paciente_id: pacienteId },
+        include: [{ model: Paciente, attributes: ['nome'] }], // Inclua o nome do paciente
+        order: [['data_consulta', 'ASC']],
+      });
     }
-    console.log(consultasAgendadas);
-
-    return res.json(consultasAgendadas);
-  } catch (error) {
-    console.error('Erro ao listar consultas agendadas:', error);
-    return res.status(500).json({
-      erro: true,
-      mensagem: 'Erro ao listar consultas agendadas.',
-    });
-  }
-});
-
-// Rota para buscar todas as consultas agendadas
-app.get('/consultas-agendadas', verificarToken, async (req, res) => {
-  try {
-    const pacienteId = req.pacienteId;
-
-    // Consulte o banco de dados para obter todas as consultas agendadas para o paciente autenticado
-    const consultasAgendadas = await Agendamento.findAll({
-      where: { paciente_id: pacienteId },
-      order: [['data_consulta', 'ASC']], // Ordenar por data da consulta em ordem ascendente
-    });
 
     return res.json(consultasAgendadas);
   } catch (error) {
