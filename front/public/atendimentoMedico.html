@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atendimento Médico - Clínica Easy Way</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <header>
     <h1>Clínica Easy Way</h1>
@@ -14,36 +16,44 @@
     </nav>
   </header>
   <main>
-    <div id="historicoAtendimentos">
-      <!-- Exibir histórico de atendimentos -->
-      <h3>Histórico de Atendimentos</h3>
-      <table id="tabelaAtendimentos">
-        <thead>
-          <tr>
-            <th>Data da Consulta</th>
-            <th>Especialidade</th>
-            <th>Status</th>
-            <th>Comentários do Enfermeiro</th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabelaAtendimentos"></tbody>
-      </table>
-    </div>
+    <div id="informacoesPaciente">
+      <!-- Exibir informações do paciente -->
+      <h2>Informações do Paciente</h2>
+      <p>Nome: <span id="nomePaciente"></span></p>
+      <p>Data de Nascimento: <span id="dataNascimentoPaciente"></span></p>
+      <!-- Adicione mais informações conforme necessário -->
 
-    <div id="consultasPassadas">
-      <!-- Aqui serão exibidas as consultas passadas do paciente -->
-      <h3>Consultas Passadas</h3>
-      <table id="tabelaConsultasPassadas">
-        <thead>
-          <tr>
-            <th>Data da Consulta</th>
-            <th>Especialidade</th>
-            <th>Status</th>
-            <th>Comentários do Enfermeiro</th>
-          </tr>
-        </thead>
-        <tbody id="corpoTabelaConsultasPassadas"></tbody>
-      </table>
+      <!-- Adicione o histórico de atendimentos e consultas passadas aqui -->
+      <div id="historicoAtendimentos">
+        <h3>Histórico de Atendimentos</h3>
+        <table id="tabelaAtendimentos">
+          <thead>
+            <tr>
+              <th>Data da Consulta</th>
+              <th>Especialidade</th>
+              <th>Status</th>
+              <th>Comentários do Enfermeiro</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaAtendimentos"></tbody>
+        </table>
+      </div>
+
+      <div id="consultasPassadas">
+        <h3>Consultas Passadas</h3>
+        <table id="tabelaConsultasPassadas">
+          <thead>
+            <tr>
+              <th>Data da Consulta</th>
+              <th>Especialidade</th>
+              <th>Status</th>
+              <th>Comentários do Enfermeiro</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabelaConsultasPassadas"></tbody>
+        </table>
+      </div>
+
     </div>
   </main>
   <footer class="footer">
@@ -52,4 +62,5 @@
   <script src="menu_generate_medico.js"></script>
   <script src="atendimentoMedico.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  const pacienteId = obterPacienteIdDaURL();
-
   // Obter informações do paciente e histórico de consultas
   const response = await fetch(`/consultas-agendadas`, {
     method: 'GET',
@@ -42,11 +40,12 @@ function exibirInformacoesPaciente(data) {
                 <td>${especialidade}</td>
                 <td>${comentarios}</td>
                 <td>${status}</td>
+                <td><a href="atendimentoMedico.html?pacienteId=${paciente_id}">Atendimento Médico</a></td>
               </tr>`;
     }).join('');
     tabelaPaciente.innerHTML = rows;
   } else {
-    tabelaPaciente.innerHTML = '<tr><td colspan="6">Nenhuma informação do paciente disponível.</td></tr>';
+    tabelaPaciente.innerHTML = '<tr><td colspan="7">Nenhuma informação do paciente disponível.</td></tr>';
   }
 }
   
