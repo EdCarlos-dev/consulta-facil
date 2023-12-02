@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Define os itens do menu em um objeto
   const menuItems = [
 
-    { text: 'Meu Atendimento', link: '/atendimentoMedico.html' },
     { text: 'Prontuário Médico', link: '/prontuariomedico.html' },
+    { text: 'Meu Atendimento', link: '/atendimentoMedico.html' },
     
   ];
 

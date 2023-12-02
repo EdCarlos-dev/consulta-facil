@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
           verificarTokenExpirado();
 
           setTimeout(function () {
-            window.location.href = 'perfil-medico';
+            window.location.href = 'prontuarioMedico.html';
           }, 2000);
         }
       })
