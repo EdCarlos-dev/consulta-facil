@@ -659,11 +659,52 @@ app.post('/salvar-comentarios-prontuario/:pacienteId/:agendamentoId', verificarT
 
 // Rota para a página de atendimento do medico
 app.get('/perfil-medico', verificarTokenMedico, (req, res) => {
-  // Esta rota requer autenticação; o médico está autenticado
   res.sendFile(path.join(__dirname, '/public/atendimentoMedico.html'));
+});
+
+app.post('/salvar-comentarios-prontuario/:pacienteId/:agendamentoId', verificarTokenEnfermeiro, async (req, res) => {
+  try {
+    const { comentarios } = req.body;
+    const pacienteId = req.params.pacienteId;
+    const agendamentoId = req.params.agendamentoId;
+
+    await Agendamento.update(
+      { comentarios: comentarios },
+      { where: { id: agendamentoId } }
+    );
+
+    res.json({
+      erro: false,
+      mensagem: 'Comentários salvos com sucesso.',
+    });
+  } catch (error) {
+    console.error('Erro ao salvar comentários:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao salvar comentários. Verifique os dados e tente novamente.',
+    });
+  }
 });
 
 // Inicie o servidor
 app.listen(port, () => {
   console.log(`Servidor em execução na porta ${port}`);
 });
+
+// Middleware de verificação de token para médico (jwt.verify)
+function verificarTokenMedico(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ mensagem: 'Token não fornecido' });
+  }
+
+  jwt.verify(token.split(' ')[1], SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ mensagem: 'Token inválido' });
+    }
+
+    req.medicoId = decoded.medicoId;
+    next();
+  });
+}

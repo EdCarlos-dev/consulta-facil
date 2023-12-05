@@ -1,26 +1,23 @@
 document.addEventListener("DOMContentLoaded", async function () {
-  // Obter informações do paciente e histórico de consultas
-  const response = await fetch(`/consultas-agendadas`, {
-    method: 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + localStorage.getItem('token'),
-    },
-  });
+  try {
+    // Obter informações do paciente e histórico de consultas
+    const response = await fetch(`/consultas-agendadas`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  // Exibir as informações na página
-  exibirInformacoesPaciente(data);
-  exibirHistoricoConsultas(data.historico);
-  console.log(data);
-  exibirComentariosEnfermeiro(data);
+    // Exibir as informações na página
+    exibirInformacoesPaciente(data);
+    exibirHistoricoConsultas(data.historico);
+    console.log(data);
+  } catch (error) {
+    console.error('Erro ao carregar informações do paciente:', error);
+  }
 });
-
-function obterPacienteIdDaURL() {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  return urlParams.get('pacienteId');
-}
 
 function formatarData(data) {
   const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' };
@@ -48,17 +45,22 @@ function exibirInformacoesPaciente(data) {
     tabelaPaciente.innerHTML = '<tr><td colspan="7">Nenhuma informação do paciente disponível.</td></tr>';
   }
 }
-  
-// function exibirComentariosEnfermeiro(comentariosEnfermeiro) {
-//     console.log(comentariosEnfermeiro);
-//     const comentariosEnfermeiroDiv = document.getElementById('comentariosEnfermeiro');
-    
-//     if (comentariosEnfermeiro && comentariosEnfermeiro.length > 0) {
-//       const comentariosHTML = comentariosEnfermeiro.map(comentario => `<p>${comentario.comentarios}</p>`).join('');
-//       comentariosEnfermeiroDiv.innerHTML = `<h2>Comentários do Enfermeiro</h2>${comentariosHTML}`;
-//     } else {
-//       comentariosEnfermeiroDiv.innerHTML = '<p>Sem comentários do enfermeiro disponíveis.</p>';
-//     }
-//   }
 
-  
+function exibirHistoricoConsultas(historico) {
+  const tabelaHistorico = document.getElementById('corpo-tabela-historico');
+
+  if (historico && historico.length > 0) {
+    const rows = historico.map(consulta => {
+      const { data_consulta, especialidade, comentarios, status } = consulta;
+      return `<tr>
+                <td>${formatarData(data_consulta)}</td>
+                <td>${especialidade}</td>
+                <td>${comentarios}</td>
+                <td>${status}</td>
+              </tr>`;
+    }).join('');
+    tabelaHistorico.innerHTML = rows;
+  } else {
+    tabelaHistorico.innerHTML = '<tr><td colspan="4">Nenhum histórico de consultas disponível.</td></tr>';
+  }
+}
