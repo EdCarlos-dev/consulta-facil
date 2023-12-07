@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
@@ -17,15 +17,14 @@
   </header>
   <main>
     <div id="informacoesPaciente">
-      <!-- Exibir informações do paciente -->
       <h2>Informações do Paciente</h2>
       <p>Nome: <span id="nomePaciente"></span></p>
       <p>Data da Consulta: <span id="data_consulta"></span></p>
       <p>Especialidade: <span id="especialidade"></span></p>
-      <p>Triagem do Enfermeiro: <span id="comentarios"></span></p>
-      <!-- Adicione mais informações conforme necessário -->
+      <p>Triagem do Enfermeiro: <span id="comentarios" data-agendamento-id=""></span>
+        <button onclick="editarComentarios()">Editar</button>
+      </p>
 
-      <!-- Adicione o histórico de atendimentos e consultas passadas aqui -->
       <div id="historicoAtendimentos">
         <h3>Histórico de Atendimentos</h3>
         <table id="tabelaAtendimentos">
@@ -34,7 +33,7 @@
               <th>Data da Consulta</th>
               <th>Especialidade</th>
               <th>Status</th>
-              <th>Comentários do Enfermeiro</th>
+              <th>Quadro Clinico</th>
             </tr>
           </thead>
           <tbody id="corpoTabelaAtendimentos"></tbody>
@@ -49,13 +48,12 @@
               <th>Data da Consulta</th>
               <th>Especialidade</th>
               <th>Status</th>
-              <th>Comentários do Enfermeiro</th>
+              <th>Quadro Clinico</th>
             </tr>
           </thead>
           <tbody id="corpoTabelaConsultasPassadas"></tbody>
         </table>
       </div>
-
     </div>
   </main>
   <footer class="footer">

@@ -614,8 +614,9 @@ app.get('/prontuario-medico/:pacienteId', verificarTokenMedico, async (req, res)
       });
 
       const historicoFormatado = historicoConsultas.map(consulta => ({
-          enfermeiro: consulta.Enfermeiro.nome,
+          enfermeiro: consulta.Enfermeiro ? consulta.Enfermeiro.nome : 'N/A',
           data_consulta: consulta.data_consulta,
+          comentarios: consulta.comentarios || 'N/A',
       }));
 
       return res.json({
@@ -682,6 +683,37 @@ app.post('/salvar-comentarios-prontuario/:pacienteId/:agendamentoId', verificarT
     return res.status(500).json({
       erro: true,
       mensagem: 'Erro ao salvar comentários. Verifique os dados e tente novamente.',
+    });
+  }
+});
+
+// Rota para atualizar os comentários de uma consulta
+app.put('/atualizar-comentarios/:agendamentoId', verificarTokenMedico, async (req, res) => {
+  try {
+    const { comentarios } = req.body;
+    const agendamentoId = req.params.agendamentoId;
+
+    // Atualize os comentários na tabela "Agendamentos"
+    await Agendamento.update(
+      { comentarios: comentarios },
+      { where: { id: agendamentoId } }
+    );
+
+    // Obtém o paciente associado ao agendamento
+    const agendamento = await Agendamento.findByPk(agendamentoId, { include: Paciente });
+
+    // Atualize os comentários no prontuário médico do paciente
+    await atualizarComentariosProntuario(agendamento.paciente_id, agendamentoId, comentarios);
+
+    res.json({
+      erro: false,
+      mensagem: 'Comentários atualizados com sucesso.',
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar comentários:', error);
+    return res.status(500).json({
+      erro: true,
+      mensagem: 'Erro ao atualizar comentários. Verifique os dados e tente novamente.',
     });
   }
 });
